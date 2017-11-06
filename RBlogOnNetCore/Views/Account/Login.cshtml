@@ -1,0 +1,18 @@
+﻿@model LoginModel
+@using RBlogOnNetCore.Models;
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+@using (Html.BeginForm())
+{
+<div>@Html.TextBoxFor(m => m.Name)</div>
+<div>@Html.TextBoxFor(m => m.password)</div>
+<div>@Html.CheckBoxFor(m => m.RememberMe)</div>
+<div></div>
+<div class="buttons">
+    <input class="button-1 login-button" type="submit" value="登录" />
+</div>
+  }
+
