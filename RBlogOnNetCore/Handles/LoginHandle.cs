@@ -7,6 +7,7 @@ using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using RBlogOnNetCore.Utils;
 
 namespace RBlogOnNetCore.Handles
 {
@@ -18,6 +19,29 @@ namespace RBlogOnNetCore.Handles
         {
             this._context = context;
             this._customerRepository = new EfRepository<Customer>(this._context);
+        }
+        public virtual bool LoginByPassword(string username, string password)
+        {
+
+            var customer =  _customerRepository.Table.Where(u => u.name == username).First();
+            if (customer != null)
+            {
+                string pwd_org = customer.password;
+                string pwd_input = SecurityTools.MD5Hash(password + customer.salt);
+                if (pwd_input == pwd_org)
+                {
+                    SignIn(customer, true);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
         public virtual void SignIn(Customer customer, bool createPersistentCookie)
         {

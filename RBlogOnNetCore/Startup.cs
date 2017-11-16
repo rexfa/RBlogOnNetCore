@@ -32,7 +32,7 @@ namespace RBlogOnNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MysqlContext>(options => options.UseMySql(Configuration.GetSection("ConnectionStrings")["MysqlConnection"]));
-            services.AddAuthentication(this._authenticationSchemeSetting)
+            services.AddAuthentication(this._authenticationSchemeSetting).AddCookie
             services.AddMvc();
         }
 
