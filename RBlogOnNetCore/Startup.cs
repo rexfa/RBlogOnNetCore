@@ -6,12 +6,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.Utils;
+using Microsoft.AspNetCore.Http;
 
 namespace RBlogOnNetCore
 {
@@ -20,6 +24,7 @@ namespace RBlogOnNetCore
         private string _authenticationSchemeSetting = null;
         public Startup(IConfiguration configuration)
         {
+            //https://www.cnblogs.com/axzxs2001/p/7482771.html
             Configuration = configuration;
             var EFSetting = Configuration.GetSection("ConnectionStrings")["MysqlConnection"];
             this._authenticationSchemeSetting = Configuration.GetSection("AuthenticationSetting")["DefaultScheme"];
@@ -32,7 +37,13 @@ namespace RBlogOnNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MysqlContext>(options => options.UseMySql(Configuration.GetSection("ConnectionStrings")["MysqlConnection"]));
-            services.AddAuthentication(this._authenticationSchemeSetting).AddCookie
+            //services.AddAuthentication(this._authenticationSchemeSetting).AddCookie
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options=>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                    options.AccessDeniedPath = new PathString("/Account/Login");
+                });
             services.AddMvc();
         }
 
@@ -50,6 +61,20 @@ namespace RBlogOnNetCore
             }
 
             app.UseStaticFiles();
+            //添加权限中间件, 一定要放在app.UseAuthentication后
+            app.UsePermission(new PermissionMiddlewareOption()
+            {
+                LoginAction = new PathString("/Account/Login"),
+                NoPermissionAction = new PathString("/Account/Login"),
+                //这个集合从数据库中查出所有用户的全部权限
+                //UserPerssions = new List<UserPermission>()
+                //{
+                //    new UserPermission { Url = "/", UserName = "gsw" },
+                //    new UserPermission { Url = "/home/contact", UserName = "gsw" },
+                //    new UserPermission { Url = "/home/about", UserName = "aaa" },
+                //    new UserPermission { Url = "/", UserName = "aaa" }
+                //}
+            });
 
             app.UseMvc(routes =>
             {

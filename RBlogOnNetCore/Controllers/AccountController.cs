@@ -34,7 +34,8 @@ namespace RBlogOnNetCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result =  await 
+                HttpContext.Session.Set("s",)
+                //var result =  await 
             }
             return View();
         }

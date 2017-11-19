@@ -6,8 +6,10 @@ using RBlogOnNetCore.Models;
 using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using RBlogOnNetCore.Utils;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace RBlogOnNetCore.Handles
 {
@@ -15,9 +17,11 @@ namespace RBlogOnNetCore.Handles
     {
         private readonly MysqlContext _context;
         private readonly IRepository<Customer> _customerRepository;
-        public LoginHandle(MysqlContext context)
+        private readonly HttpContext _httpContext;
+        public LoginHandle(MysqlContext context, HttpContext httpContext)
         {
             this._context = context;
+            this._httpContext = httpContext;
             this._customerRepository = new EfRepository<Customer>(this._context);
         }
         public virtual bool LoginByPassword(string username, string password)
@@ -60,6 +64,9 @@ namespace RBlogOnNetCore.Handles
                 ExpiresUtc = nowUtc.AddDays(30)
             };
             var ticket = new AuthenticationTicket(claimsPrincipal, "Basic");
+            JsonHelper jh = new JsonHelper();
+
+            _httpContext.Session.Set("CustomerAT",);
 
         }
     }
