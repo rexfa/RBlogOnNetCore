@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using RBlogOnNetCore.Utils;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Threading.Tasks;
 
 namespace RBlogOnNetCore.Handles
 {
@@ -24,7 +25,7 @@ namespace RBlogOnNetCore.Handles
             this._httpContext = httpContext;
             this._customerRepository = new EfRepository<Customer>(this._context);
         }
-        public virtual bool LoginByPassword(string username, string password)
+        public virtual async bool LoginByPassword(string username, string password)
         {
 
             var customer =  _customerRepository.Table.Where(u => u.name == username).First();
@@ -34,7 +35,7 @@ namespace RBlogOnNetCore.Handles
                 string pwd_input = SecurityTools.MD5Hash(password + customer.salt);
                 if (pwd_input == pwd_org)
                 {
-                    SignIn(customer, true);
+                    Login(customer, true);
                     return true;
                 }
                 else
@@ -47,7 +48,7 @@ namespace RBlogOnNetCore.Handles
                 return false;
             }
         }
-        public virtual void SignIn(Customer customer, bool createPersistentCookie)
+        public virtual async void Login(Customer customer, bool createPersistentCookie)
         {
             var nowUtc = DateTime.UtcNow;
             List<Claim> customerClaims = new List<Claim>()
@@ -64,10 +65,13 @@ namespace RBlogOnNetCore.Handles
                 ExpiresUtc = nowUtc.AddDays(30)
             };
             var ticket = new AuthenticationTicket(claimsPrincipal, "Basic");
-            JsonHelper jh = new JsonHelper();
+            //JsonHelper jh = new JsonHelper();
 
-            _httpContext.Session.Set("CustomerAT",);
-
+            await _httpContext.SignInAsync(claimsPrincipal);
+        }
+        public virtual async void Logout()
+        {
+            await _httpContext.SignOutAsync();
         }
     }
 }
