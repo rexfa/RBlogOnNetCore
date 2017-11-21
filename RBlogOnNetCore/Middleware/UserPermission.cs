@@ -7,5 +7,7 @@ namespace RBlogOnNetCore.Middleware
 {
     public class UserPermission
     {
+        public string UserName { get; set; }
+        public string Url { get; set; }
     }
 }

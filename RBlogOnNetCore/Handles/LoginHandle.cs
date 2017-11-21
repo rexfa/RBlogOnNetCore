@@ -25,7 +25,7 @@ namespace RBlogOnNetCore.Handles
             this._httpContext = httpContext;
             this._customerRepository = new EfRepository<Customer>(this._context);
         }
-        public virtual async bool LoginByPassword(string username, string password)
+        public virtual async Task<bool> LoginByPassword(string username, string password)
         {
 
             var customer =  _customerRepository.Table.Where(u => u.name == username).First();
@@ -35,7 +35,7 @@ namespace RBlogOnNetCore.Handles
                 string pwd_input = SecurityTools.MD5Hash(password + customer.salt);
                 if (pwd_input == pwd_org)
                 {
-                    Login(customer, true);
+                    await Login(customer, true);
                     return true;
                 }
                 else
@@ -48,7 +48,7 @@ namespace RBlogOnNetCore.Handles
                 return false;
             }
         }
-        public virtual async void Login(Customer customer, bool createPersistentCookie)
+        public virtual async Task<bool> Login(Customer customer, bool createPersistentCookie)
         {
             var nowUtc = DateTime.UtcNow;
             List<Claim> customerClaims = new List<Claim>()
@@ -68,6 +68,7 @@ namespace RBlogOnNetCore.Handles
             //JsonHelper jh = new JsonHelper();
 
             await _httpContext.SignInAsync(claimsPrincipal);
+            return true;
         }
         public virtual async void Logout()
         {

@@ -8,6 +8,7 @@ using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.Models;
 using Microsoft.AspNetCore.Authorization;
+using RBlogOnNetCore.Handles;
 
 namespace RBlogOnNetCore.Controllers
 {
@@ -34,8 +35,10 @@ namespace RBlogOnNetCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                HttpContext.Session.Set("s",)
+                //HttpContext.Session.Set("s",)
                 //var result =  await 
+                LoginHandle loginHandle = new LoginHandle(_context, this.HttpContext);
+                await loginHandle.LoginByPassword(model.Name, model.password);
             }
             return View();
         }

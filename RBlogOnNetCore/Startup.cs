@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.Utils;
+using RBlogOnNetCore.Middleware;
 using Microsoft.AspNetCore.Http;
 
 namespace RBlogOnNetCore
@@ -67,13 +68,14 @@ namespace RBlogOnNetCore
                 LoginAction = new PathString("/Account/Login"),
                 NoPermissionAction = new PathString("/Account/Login"),
                 //这个集合从数据库中查出所有用户的全部权限
-                //UserPerssions = new List<UserPermission>()
-                //{
-                //    new UserPermission { Url = "/", UserName = "gsw" },
-                //    new UserPermission { Url = "/home/contact", UserName = "gsw" },
-                //    new UserPermission { Url = "/home/about", UserName = "aaa" },
-                //    new UserPermission { Url = "/", UserName = "aaa" }
-                //}
+                UserPerssions = new List<UserPermission>()
+                {
+                    new UserPermission { Url = "/blog/add", UserName = "Blogowner" },
+                    new UserPermission { Url = "/blog/edit",UserName = "Blogowner"}
+                    //new UserPermission { Url = "/home/contact", UserName = "gsw" },
+                    //new UserPermission { Url = "/home/about", UserName = "aaa" },
+                    //new UserPermission { Url = "/", UserName = "aaa" }
+                }
             });
 
             app.UseMvc(routes =>
