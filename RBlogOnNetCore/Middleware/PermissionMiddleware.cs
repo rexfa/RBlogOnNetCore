@@ -51,7 +51,7 @@ namespace RBlogOnNetCore.Middleware
                 if (_userPermissions.GroupBy(g => g.Url).Where(w => w.Key.ToLower() == questUrl).Count() > 0)
                 {
                     //用户名
-                    var userName = context.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
+                    var userName = context.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Name).Value;
                     if (_userPermissions.Where(w => w.UserName == userName && w.Url.ToLower() == questUrl).Count() > 0)
                     {
                         return this._next(context);

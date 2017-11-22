@@ -38,7 +38,10 @@ namespace RBlogOnNetCore.Controllers
                 //HttpContext.Session.Set("s",)
                 //var result =  await 
                 LoginHandle loginHandle = new LoginHandle(_context, this.HttpContext);
-                await loginHandle.LoginByPassword(model.Name, model.password);
+                if (await loginHandle.LoginByPassword(model.Name, model.password))
+                {
+                    return Redirect("/blog/add");
+                }
             }
             return View();
         }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using RBlogOnNetCore.Utils;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace RBlogOnNetCore.Handles
 {
@@ -57,22 +58,22 @@ namespace RBlogOnNetCore.Handles
                 new Claim(ClaimTypes.Sid, customer.id.ToString()),
                 new Claim(ClaimTypes.Role, "Admin")
             };
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims,"Basic");
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
             {
                 IssuedUtc = nowUtc,
                 ExpiresUtc = nowUtc.AddDays(30)
             };
-            var ticket = new AuthenticationTicket(claimsPrincipal, "Basic");
+            var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
             //JsonHelper jh = new JsonHelper();
 
-            await _httpContext.SignInAsync(claimsPrincipal);
+            await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,claimsPrincipal);
             return true;
         }
         public virtual async void Logout()
         {
-            await _httpContext.SignOutAsync();
+            await _httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }
