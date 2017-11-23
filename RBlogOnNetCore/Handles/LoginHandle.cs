@@ -59,6 +59,7 @@ namespace RBlogOnNetCore.Handles
                 new Claim(ClaimTypes.Role, "Admin")
             };
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+<<<<<<< HEAD
             //claimsIdentity
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             //var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
@@ -67,6 +68,15 @@ namespace RBlogOnNetCore.Handles
             //    ExpiresUtc = nowUtc.AddDays(30)
             //};
             //var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
+=======
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
+            {
+                IssuedUtc = nowUtc,
+                ExpiresUtc = nowUtc.AddDays(30)
+            };
+            var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
+>>>>>>> 5a22cffee452521e7d16a68f4ca752f1e480642a
             //JsonHelper jh = new JsonHelper();
 
             await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,claimsPrincipal);
