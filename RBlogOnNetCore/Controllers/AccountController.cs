@@ -50,5 +50,10 @@ namespace RBlogOnNetCore.Controllers
         {
             return View();
         }
+        [HttpGet("denied")]
+        public ActionResult Denied()
+        {
+            return View();
+        }
     }
 }

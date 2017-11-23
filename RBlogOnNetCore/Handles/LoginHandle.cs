@@ -59,13 +59,14 @@ namespace RBlogOnNetCore.Handles
                 new Claim(ClaimTypes.Role, "Admin")
             };
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+            //claimsIdentity
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
-            {
-                IssuedUtc = nowUtc,
-                ExpiresUtc = nowUtc.AddDays(30)
-            };
-            var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
+            //var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
+            //{
+            //    IssuedUtc = nowUtc,
+            //    ExpiresUtc = nowUtc.AddDays(30)
+            //};
+            //var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
             //JsonHelper jh = new JsonHelper();
 
             await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,claimsPrincipal);

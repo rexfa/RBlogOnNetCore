@@ -9,8 +9,15 @@ using RBlogOnNetCore.Models;
 using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+
+
 namespace RBlogOnNetCore.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly MysqlContext _context;

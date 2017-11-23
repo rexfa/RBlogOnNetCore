@@ -22,13 +22,13 @@ namespace RBlogOnNetCore
 {
     public class Startup
     {
-        private string _authenticationSchemeSetting = null;
+        //private string _authenticationSchemeSetting = null;
         public Startup(IConfiguration configuration)
         {
             //https://www.cnblogs.com/axzxs2001/p/7482771.html
             Configuration = configuration;
             var EFSetting = Configuration.GetSection("ConnectionStrings")["MysqlConnection"];
-            this._authenticationSchemeSetting = Configuration.GetSection("AuthenticationSetting")["DefaultScheme"];
+            //this._authenticationSchemeSetting = Configuration.GetSection("AuthenticationSetting")["DefaultScheme"];
             //CheckBaseData();
         }
 
@@ -42,8 +42,8 @@ namespace RBlogOnNetCore
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options=>
                 {
-                    options.LoginPath = new PathString("/Account/Login");
-                    options.AccessDeniedPath = new PathString("/Account/Login");
+                    options.LoginPath = new PathString("/login");
+                    options.AccessDeniedPath = new PathString("/denied");
                 });
             services.AddMvc();
         }
@@ -65,8 +65,8 @@ namespace RBlogOnNetCore
             //添加权限中间件, 一定要放在app.UseAuthentication后
             app.UsePermission(new PermissionMiddlewareOption()
             {
-                LoginAction = new PathString("/Account/Login"),
-                NoPermissionAction = new PathString("/Account/Login"),
+                LoginAction = new PathString("/login"),
+                NoPermissionAction = new PathString("/denied"),
                 //这个集合从数据库中查出所有用户的全部权限
                 UserPerssions = new List<UserPermission>()
                 {
