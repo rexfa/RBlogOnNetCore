@@ -40,7 +40,7 @@ namespace RBlogOnNetCore
             services.AddDbContext<MysqlContext>(options => options.UseMySql(Configuration.GetSection("ConnectionStrings")["MysqlConnection"]));
             //services.AddAuthentication(this._authenticationSchemeSetting).AddCookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options=>
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,options=>
                 {
                     options.LoginPath = new PathString("/login");
                     options.AccessDeniedPath = new PathString("/denied");
@@ -63,6 +63,7 @@ namespace RBlogOnNetCore
 
             app.UseStaticFiles();
             //添加权限中间件, 一定要放在app.UseAuthentication后
+            app.UseAuthentication();
             app.UsePermission(new PermissionMiddlewareOption()
             {
                 LoginAction = new PathString("/login"),

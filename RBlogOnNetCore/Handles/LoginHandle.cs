@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using RBlogOnNetCore.Utils;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace RBlogOnNetCore.Handles
@@ -58,8 +57,9 @@ namespace RBlogOnNetCore.Handles
                 new Claim(ClaimTypes.Sid, customer.id.ToString()),
                 new Claim(ClaimTypes.Role, "Admin")
             };
+            //ClaimsIdentity claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            //ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims,"identityCookies");
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-<<<<<<< HEAD
             //claimsIdentity
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             //var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
@@ -68,18 +68,14 @@ namespace RBlogOnNetCore.Handles
             //    ExpiresUtc = nowUtc.AddDays(30)
             //};
             //var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
-=======
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
+            //Cookies 登录 20分钟过期 ，非持久，不可刷新
+            await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,claimsPrincipal, new AuthenticationProperties
             {
-                IssuedUtc = nowUtc,
-                ExpiresUtc = nowUtc.AddDays(30)
-            };
-            var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
->>>>>>> 5a22cffee452521e7d16a68f4ca752f1e480642a
-            //JsonHelper jh = new JsonHelper();
-
-            await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,claimsPrincipal);
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                IsPersistent = false,
+                AllowRefresh = false
+            });
+            var user =  _httpContext.User;
             return true;
         }
         public virtual async void Logout()
