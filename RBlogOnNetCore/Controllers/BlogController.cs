@@ -52,6 +52,7 @@ namespace RBlogOnNetCore.Controllers
         [HttpGet,HttpPost]
         public ActionResult BlogList()
         {
+            //http://www.cnblogs.com/sanshi/p/7750497.html
             List<Blog> blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).TakeLast(10).ToList();
             if (blogs.Count > 0)
             {
@@ -69,7 +70,7 @@ namespace RBlogOnNetCore.Controllers
                     };
                     model.Blogs.Add(blogModel);
                 }
-                return PartialView(model);
+                return PartialView("_BlogList", model);
             }
             else
             {
