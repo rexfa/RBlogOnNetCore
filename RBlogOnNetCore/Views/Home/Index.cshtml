@@ -67,7 +67,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @{Html.Partial("BlogList", "Blog");}
-        @{Html.Partial("");}
+        Bolgs
+        @{await Component.InvokeAsync("BlogList"); }
     </div>   
 </div>
