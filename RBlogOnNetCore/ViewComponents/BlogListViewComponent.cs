@@ -21,7 +21,7 @@ namespace RBlogOnNetCore.ViewComponents
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._blogRepository = new EfRepository<Blog>(this._context);
         }
-        public IViewComponentResult Invoke(int userId)
+        public IViewComponentResult Invoke()
         {
             // async Task<IViewComponentResult> 
             //ContentViewComponentResult
