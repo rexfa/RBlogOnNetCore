@@ -9,6 +9,7 @@ using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.Handles;
 using RBlogOnNetCore.Utils;
+using System.Security.Claims;
 
 namespace RBlogOnNetCore.Controllers
 {
@@ -37,6 +38,26 @@ namespace RBlogOnNetCore.Controllers
         [HttpPost]
         public ActionResult Add(BlogModel model)
         {
+            var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+            if (isAuthenticated)
+            {
+                string content = Request.Form["content"].ToString();
+                var now = DateTime.Now;
+                //用户Id
+                var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
+                var blog = new Blog()
+                {
+                    tilte = model.tilte,
+                    customerId = int.Parse(CustomerId),
+                    content = model.content,
+                    createdOn = now,
+                    updatedOn = now,
+                    releasedOn = now,
+                    isDeleted = false,
+                    isReleased = true
+                };
+
+            }
             return View();
         }
         [HttpGet]
