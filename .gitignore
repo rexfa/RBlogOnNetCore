@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 /RBlogOnNetCore/bin/Debug
 /RBlogOnNetCore/obj
+/RBlogOnNetCore/appsettings.json
+/RBlogOnNetCore/appsettings.json

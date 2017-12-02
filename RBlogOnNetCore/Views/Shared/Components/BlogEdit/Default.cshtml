@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="content" class="control-label"></label>
-                <input asp-for="content" class="form-control"  id="content" name="content"/>
+                @Html.TextAreaFor(model => model.content)
                 <span asp-validation-for="content" class="text-danger"></span>
             </div>
             <div class="form-group">
