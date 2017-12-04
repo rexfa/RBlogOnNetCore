@@ -47,7 +47,7 @@ namespace RBlogOnNetCore.Controllers
                 var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
                 var blog = new Blog()
                 {
-                    tilte = model.tilte,
+                    title = model.title,
                     customerId = int.Parse(CustomerId),
                     content = model.content,
                     createdOn = now,
@@ -56,9 +56,17 @@ namespace RBlogOnNetCore.Controllers
                     isDeleted = false,
                     isReleased = true
                 };
-
+                _blogRepository.Insert(blog);
+                _context.SaveChanges();
+                model.id = blog.id;
+                model.createdOnString = blog.createdOn.ToString();
+                model.releasedOnString = blog.releasedOn.ToString();
             }
-            return View();
+            else
+            {
+                Redirect("/login");
+            }            
+            return View(model);
         }
         [HttpGet]
         public ActionResult Edit(int id)

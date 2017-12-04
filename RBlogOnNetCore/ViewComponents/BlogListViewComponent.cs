@@ -34,7 +34,7 @@ namespace RBlogOnNetCore.ViewComponents
             List<Blog> blogs = null;
             try
             {
-                blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).TakeLast(10).ToList();
+                blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).Take(10).ToList();
             }
             catch (Exception ex)
             {

@@ -32,10 +32,10 @@
                     @Html.DisplayFor(modelItem => item.id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.tilte)
+                    @Html.DisplayFor(modelItem => item.title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.content)
+                    @Html.Raw(item.content)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.releasedOnString)

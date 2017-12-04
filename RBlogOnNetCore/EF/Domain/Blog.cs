@@ -7,7 +7,7 @@ namespace RBlogOnNetCore.EF.Domain
 {
     public class Blog:BaseEntity
     {
-        public string tilte { set; get; }
+        public string title { set; get; }
         public string content { set; get; }
         public int customerId { set; get; }
         public bool isDeleted { get; set; }
