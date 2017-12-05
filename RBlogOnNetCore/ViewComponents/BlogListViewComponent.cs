@@ -7,6 +7,7 @@ using RBlogOnNetCore.Models;
 using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using System.Security.Claims;
 
 namespace RBlogOnNetCore.ViewComponents
 {
@@ -56,6 +57,16 @@ namespace RBlogOnNetCore.ViewComponents
                         customerName = b.Customer.name
                     };
                     model.Blogs.Add(blogModel);
+                }
+                var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+                if (isAuthenticated)
+                {
+                    var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
+                    int id = int.Parse(CustomerId);
+                    if (id == 1)
+                    {
+                        model.editable = true;
+                    }
                 }
                 return View(model);
             }

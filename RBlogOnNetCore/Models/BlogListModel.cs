@@ -13,5 +13,6 @@ namespace RBlogOnNetCore.Models
         public string searchKeyword { get; set; }
         public string beginTime { get; set; }
         public string endTime { get; set; }
+        public bool editable { get; set; }
     }
 }
