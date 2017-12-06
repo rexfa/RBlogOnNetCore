@@ -14,5 +14,6 @@ namespace RBlogOnNetCore.EF.Domain
         public DateTime createdOn { set; get; }
 
         public List<Blog> Blogs { set; get; }
+        public List<Picture> Pictures { set; get; }
     }
 }
