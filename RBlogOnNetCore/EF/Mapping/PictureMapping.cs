@@ -13,6 +13,7 @@ namespace RBlogOnNetCore.EF.Mapping
             builder.Property(x => x.localName).IsRequired().HasMaxLength(255);
             builder.Property(x => x.updateName).IsRequired().HasMaxLength(255);
             builder.Property(x => x.originalName).IsRequired().HasMaxLength(255);
+            builder.Property(x => x.picType).IsRequired().HasMaxLength(50);
             builder.Ignore(x => x.Customer);
         }
     }

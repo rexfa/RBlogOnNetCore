@@ -22,7 +22,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
-		{ name: 'colors' },
+        { name: 'colors' },
 		{ name: 'about' }
 	];
 
@@ -34,5 +34,10 @@ CKEDITOR.editorConfig = function( config ) {
 	config.format_tags = 'p;h1;h2;h3;pre';
 
 	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
+    config.removeDialogTabs = 'image:advanced;link:advanced';
+    //upload
+    //config.baseHref = "http://" + location.host;
+    //config.extraPlugins = 'uploadimage,uploadwidget,picuploader';
+    config.extraPlugins = 'picuploader';
+    //config.language = 'zh-cn';
 };

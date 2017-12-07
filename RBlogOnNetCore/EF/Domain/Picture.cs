@@ -13,6 +13,7 @@ namespace RBlogOnNetCore.EF.Domain
         public int customerId { get; set; }
         public DateTime updatedOn { get; set; }
         public bool isDeleted { get; set; }
+        public string picType { get; set; }
         public Customer Customer { set; get; }
     }
 }
