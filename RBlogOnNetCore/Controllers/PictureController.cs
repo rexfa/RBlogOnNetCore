@@ -12,6 +12,7 @@ using RBlogOnNetCore.Utils;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using RBlogOnNetCore.Models;
 
 namespace RBlogOnNetCore.Controllers
 {
@@ -34,21 +35,40 @@ namespace RBlogOnNetCore.Controllers
         {
             return View();
         }
-        public IActionResult PicList()
+        /// <summary>
+        /// 用户图片列表
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult CustomerPicList()
         {
             var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
                 var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
                 int customerId = int.Parse(CustomerId);
-
+                var customer = _customerRepository.GetById(customerId);
+                List<Picture> pictures = customer.Pictures.Where(x => x.isDeleted == false).OrderByDescending(x => x.updatedOn).ToList();
+                PictureListModel picList = new PictureListModel();
+                picList.pictures = new List<PictureModel>();
+                foreach (var p in pictures)
+                {
+                    var picmodel = new PictureModel()
+                    {
+                        id = p.id,
+                        customName = p.customName,
+                        url = p.localName
+                    };
+                    picList.pictures.Add(picmodel);
+                }
+                return View(picList);
             }
+            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> UploadPicture()
         {
-            string callback = Request.Query["CKEditorFuncNum"];//要求返回值
+            //string callback = Request.Query["CKEditorFuncNum"];//要求返回值
             var upload = Request.Form.Files[0];
-            string tpl = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(\"{1}\", \"{0}\", \"{2}\");</script>";
+            //string tpl = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(\"{1}\", \"{0}\", \"{2}\");</script>";
             if (upload == null)
                 return Content(string.Format(tpl, "", callback, "请选择一张图片！"), "text/html");
             //判断是否是图片类型
@@ -72,7 +92,7 @@ namespace RBlogOnNetCore.Controllers
                     {
                         using (FileStream fs = new FileStream(fullpath, FileMode.Create))
                         {
-                            //data.CopyTo(fs);
+                            //data.CopyTo(fs);//写硬盘
                         }
                     });
                 }

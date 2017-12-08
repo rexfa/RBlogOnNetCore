@@ -26,7 +26,6 @@
                 }
             ],
             onOk: function () {
-
                 //插入富文本编辑器内容 window.frames["img_browser"].document.getElementById("hf_imgsrc");//
                 var hf = document.getElementById('img_browser').contentWindow.document.getElementById("hf_imgsrc");
                 if (hf != null) {
