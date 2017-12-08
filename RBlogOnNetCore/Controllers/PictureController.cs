@@ -66,9 +66,9 @@ namespace RBlogOnNetCore.Controllers
         }
         public async Task<IActionResult> UploadPicture()
         {
-            string callback = Request.Query["CKEditorFuncNum"];//要求返回值
+            //string callback = Request.Query["CKEditorFuncNum"];//要求返回值
             var upload = Request.Form.Files[0];
-            string tpl = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(\"{1}\", \"{0}\", \"{2}\");</script>";
+            //string tpl = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(\"{1}\", \"{0}\", \"{2}\");</script>";
             if (upload == null)
                 return Content(string.Format(tpl, "", callback, "请选择一张图片！"), "text/html");
             //判断是否是图片类型
