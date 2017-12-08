@@ -12,6 +12,7 @@ using RBlogOnNetCore.Utils;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using RBlogOnNetCore.Models;
 
 namespace RBlogOnNetCore.Controllers
 {
@@ -34,15 +35,34 @@ namespace RBlogOnNetCore.Controllers
         {
             return View();
         }
-        public IActionResult PicList()
+        /// <summary>
+        /// 用户图片列表
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult CustomerPicList()
         {
             var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
                 var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
                 int customerId = int.Parse(CustomerId);
-
+                var customer = _customerRepository.GetById(customerId);
+                List<Picture> pictures = customer.Pictures.Where(x => x.isDeleted == false).OrderByDescending(x => x.updatedOn).ToList();
+                PictureListModel picList = new PictureListModel();
+                picList.pictures = new List<PictureModel>();
+                foreach (var p in pictures)
+                {
+                    var picmodel = new PictureModel()
+                    {
+                        id = p.id,
+                        customName = p.customName,
+                        url = p.localName
+                    };
+                    picList.pictures.Add(picmodel);
+                }
+                return View(picList);
             }
+            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> UploadPicture()
         {
@@ -72,7 +92,7 @@ namespace RBlogOnNetCore.Controllers
                     {
                         using (FileStream fs = new FileStream(fullpath, FileMode.Create))
                         {
-                            //data.CopyTo(fs);
+                            //data.CopyTo(fs);//写硬盘
                         }
                     });
                 }

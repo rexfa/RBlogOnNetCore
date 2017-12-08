@@ -11,7 +11,7 @@ namespace RBlogOnNetCore.EF.Mapping
             builder.ToTable("Picture");
             builder.HasKey(x => x.id);
             builder.Property(x => x.localName).IsRequired().HasMaxLength(255);
-            builder.Property(x => x.updateName).IsRequired().HasMaxLength(255);
+            builder.Property(x => x.customName).IsRequired().HasMaxLength(255);
             builder.Property(x => x.originalName).IsRequired().HasMaxLength(255);
             builder.Property(x => x.picType).IsRequired().HasMaxLength(50);
             builder.Ignore(x => x.Customer);

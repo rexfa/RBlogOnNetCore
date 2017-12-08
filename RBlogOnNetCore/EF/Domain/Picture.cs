@@ -8,7 +8,7 @@ namespace RBlogOnNetCore.EF.Domain
     public class Picture : BaseEntity
     {
         public string localName { get; set; }
-        public string updateName { get; set; }
+        public string customName { get; set; }
         public string originalName { get; set; }
         public int customerId { get; set; }
         public DateTime updatedOn { get; set; }
