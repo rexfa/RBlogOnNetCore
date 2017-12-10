@@ -5,7 +5,8 @@
 }
 
 <h2>CustomerPicListView</h2>
-
+@if(Model!=null)
+{
 <div>
     <h4>PictureListModel</h4>
     <hr />
@@ -37,6 +38,7 @@
         <img height="200" src="@Html.Raw(m.url)" />
     }
 </div>
+}
 <div>
     @Html.BeginForm("UploadPicture", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" })
     {

@@ -53,20 +53,30 @@ namespace RBlogOnNetCore.Controllers
                 var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
                 int customerId = int.Parse(CustomerId);
                 var customer = _customerRepository.GetById(customerId);
-                List<Picture> pictures = customer.Pictures.Where(x => x.isDeleted == false).OrderByDescending(x => x.updatedOn).ToList();
-                PictureListModel picList = new PictureListModel();
-                picList.pictures = new List<PictureModel>();
-                foreach (var p in pictures)
+                try
                 {
-                    var picmodel = new PictureModel()
+                    List<Picture> pictures = customer.Pictures.Where(x => x.isDeleted == false).OrderByDescending(x => x.updatedOn).ToList();
+
+                    PictureListModel picList = new PictureListModel();
+                    picList.pictures = new List<PictureModel>();
+                    foreach (var p in pictures)
                     {
-                        id = p.id,
-                        customName = p.customName,
-                        url = p.localName
-                    };
-                    picList.pictures.Add(picmodel);
+                        var picmodel = new PictureModel()
+                        {
+                            id = p.id,
+                            customName = p.customName,
+                            url = p.localName
+                        };
+                        picList.pictures.Add(picmodel);
+                    }
+                    return View(picList);
                 }
-                return View(picList);
+                catch (Exception ex)
+                {
+                    return View(null);
+                }
+                
+                
             }
             return RedirectToAction(nameof(Index));
         }
@@ -80,7 +90,7 @@ namespace RBlogOnNetCore.Controllers
                 return Content(string.Format(tpl, "", callback, "请选择一张图片！"), "text/html");
                     
             //判断是否是图片类型
-            List<string> imgtypelist = new List<string> { "image/pjpeg", "image/png", "image/x-png", "image/gif", "image/bmp" };
+            List<string> imgtypelist = new List<string> { "image/pjpeg","image/jpeg", "image/png", "image/x-png", "image/gif", "image/bmp" };
             if (imgtypelist.FindIndex(x => x == upload.ContentType) == -1)
             {
                 return Content(string.Format(tpl, "", callback, "请上传一张图片！"), "text/html");
@@ -88,7 +98,7 @@ namespace RBlogOnNetCore.Controllers
             var data = Request.Form.Files["upload"];
             
 
-            string filepath = _localFile.PictureLocalDir;
+            string filepath = _localDir.PictureLocalDir;
             //string imgname = Utils.GetOrderNum() + Utils.GetFileExtName(upload.FileName);
             string imgname = upload.FileName;
             string fullpath = Path.Combine(filepath, imgname);
