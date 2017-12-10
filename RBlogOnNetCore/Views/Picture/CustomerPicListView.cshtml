@@ -41,6 +41,7 @@
     @Html.BeginForm("UploadPicture", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" })
     {
         <input type="file" id="pic" name="pic" />
-        <input type="submit" value="Upload Picture" /> 
+        <input type="text" id="customName" name="customName">
+        <input type="submit" id="submit" name="submit" value="Upload Picture" /> 
     }
 </div>

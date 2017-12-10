@@ -17,6 +17,7 @@ using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.Utils;
 using RBlogOnNetCore.Middleware;
 using Microsoft.AspNetCore.Http;
+using RBlogOnNetCore.Configuration;
 
 namespace RBlogOnNetCore
 {
@@ -46,6 +47,8 @@ namespace RBlogOnNetCore
                     options.AccessDeniedPath = new PathString("/denied");
                 });
             services.AddMvc();
+            services.AddOptions();
+            services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

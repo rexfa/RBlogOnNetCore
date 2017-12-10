@@ -21,6 +21,7 @@
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\ckeditor\plugins\picuploader\images\" />
+    <Folder Include="wwwroot\images\contents\" />
   </ItemGroup>
 
 </Project>
