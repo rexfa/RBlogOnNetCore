@@ -13,6 +13,9 @@ using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using RBlogOnNetCore.Models;
+using RBlogOnNetCore.Utils;
+using RBlogOnNetCore.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace RBlogOnNetCore.Controllers
 {
@@ -24,12 +27,15 @@ namespace RBlogOnNetCore.Controllers
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Picture> _pictureRepository;
 
-        public PictureController(MysqlContext context, IHostingEnvironment env)
+        private readonly LocalDir _localDir;
+
+        public PictureController(MysqlContext context, IHostingEnvironment env, IOptions<LocalDir> option)
         {
             _context = context;
             _env = env;
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._pictureRepository = new EfRepository<Picture>(this._context);
+            _localDir = option.Value;
         }
         public IActionResult Index()
         {
@@ -66,11 +72,13 @@ namespace RBlogOnNetCore.Controllers
         }
         public async Task<IActionResult> UploadPicture()
         {
-            //string callback = Request.Query["CKEditorFuncNum"];//要求返回值
+
+            string callback = Request.Query["CKEditorFuncNum"];//要求返回值
             var upload = Request.Form.Files[0];
-            //string tpl = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(\"{1}\", \"{0}\", \"{2}\");</script>";
+            string tpl = "<script type=\"text/javascript\">window.parent.CKEDITOR.tools.callFunction(\"{1}\", \"{0}\", \"{2}\");</script>";
             if (upload == null)
                 return Content(string.Format(tpl, "", callback, "请选择一张图片！"), "text/html");
+                    
             //判断是否是图片类型
             List<string> imgtypelist = new List<string> { "image/pjpeg", "image/png", "image/x-png", "image/gif", "image/bmp" };
             if (imgtypelist.FindIndex(x => x == upload.ContentType) == -1)
@@ -78,7 +86,9 @@ namespace RBlogOnNetCore.Controllers
                 return Content(string.Format(tpl, "", callback, "请上传一张图片！"), "text/html");
             }
             var data = Request.Form.Files["upload"];
-            string filepath = _env.WebRootPath + "\\userfile\\images";
+            
+
+            string filepath = _localFile.PictureLocalDir;
             //string imgname = Utils.GetOrderNum() + Utils.GetFileExtName(upload.FileName);
             string imgname = upload.FileName;
             string fullpath = Path.Combine(filepath, imgname);
