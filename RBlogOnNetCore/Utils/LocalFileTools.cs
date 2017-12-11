@@ -14,25 +14,26 @@ namespace RBlogOnNetCore.Utils
             "PictureLocalDir": "/images/contents/"
             },
          */
-        private readonly string pictureLocalDir;
-        public LocalFileTools(IConfiguration configuration)
+        public LocalFileTools()
         {
-            string pictureLocalDir = configuration.GetSection("LocalDir")["PictureLocalDir"];
-        }
-
-        public string GetPictureURL(string picName,int customerId)
-        {
-            string localString = PictureLocalDir+customerId.ToString()+"/";
-            string url = localString + picName;
-            return url;
 
         }
-        public string PictureLocalDir
+
+        /// <summary>
+        /// 获取指定文件的扩展名 例:  .txt
+        /// </summary>
+        /// <param name="fileName">指定文件名</param>
+        /// <returns>扩展名</returns>
+        public static string GetFileExtName(string fileName)
         {
-            get
-            {
-                return pictureLocalDir; 
-            }
+            if (string.IsNullOrEmpty(fileName) || fileName.IndexOf('.') <= 0)
+                return "";
+
+            fileName = fileName.ToLower().Trim();
+
+
+            return fileName.Substring(fileName.LastIndexOf('.'), fileName.Length - fileName.LastIndexOf('.'));
         }
+
     }
 }

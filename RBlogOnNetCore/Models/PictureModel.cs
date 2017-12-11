@@ -10,5 +10,6 @@ namespace RBlogOnNetCore.Models
         public int id { get; set; }
         public string customName { get; set; }
         public string url { get; set; }
+        public DateTime updatedOn { get; set; }
     }
 }

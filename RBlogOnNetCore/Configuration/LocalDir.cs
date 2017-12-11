@@ -8,5 +8,6 @@ namespace RBlogOnNetCore.Configuration
     public class LocalDir
     {
         public string PictureLocalDir { get; set; }
+        public string PictureUrlDir { get; set; }
     }
 }

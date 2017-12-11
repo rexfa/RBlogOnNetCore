@@ -7,13 +7,20 @@ namespace RBlogOnNetCore.EF.Domain
 {
     public class Customer:BaseEntity
     {
+        private ICollection<Picture> _pictures;
         public byte[] guid { set; get; }
         public string name { set; get; }
         public string password { set; get; }
         public string salt { set; get; }
         public DateTime createdOn { set; get; }
 
+        #region Navigation properties
         public List<Blog> Blogs { set; get; }
-        public List<Picture> Pictures { set; get; }
+        public virtual ICollection<Picture> Pictures
+        {
+            get { return _pictures ?? (_pictures = new List<Picture>()); }
+            protected set { _pictures = value; }
+        }
+        #endregion
     }
 }

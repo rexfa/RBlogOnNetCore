@@ -40,7 +40,7 @@
 </div>
 }
 <div>
-    @Html.BeginForm("UploadPicture", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" })
+    @using (Html.BeginForm("UploadPicture", "Picture", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <input type="file" id="pic" name="pic" />
         <input type="text" id="customName" name="customName">
