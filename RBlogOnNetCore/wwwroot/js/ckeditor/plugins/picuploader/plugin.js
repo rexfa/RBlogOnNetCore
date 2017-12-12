@@ -2,7 +2,7 @@
     "picuploader",
     {
         requires: ["dialog"],
-        lang: ["en"],
+        //lang: ["zh-cn"],
         init: function (editor) {
             editor.addCommand("picuploader", new CKEDITOR.dialogCommand("picuploader"));
             editor.ui.addButton(

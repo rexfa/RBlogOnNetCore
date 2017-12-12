@@ -14,7 +14,6 @@ namespace RBlogOnNetCore.EF
 {
     public class MysqlContext : DbContext
     {
-
         //public DbSet<Customer> Customers { set; get; }
         //public DbSet<Blog> Blog { set; get; }
         public new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
@@ -31,16 +30,30 @@ namespace RBlogOnNetCore.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             var typesToRegister = GetType().GetTypeInfo().Assembly.GetTypes()
                 .Where(x => x.GetInterfaces().Any(y => y.GetTypeInfo().IsGenericType))
                 .Where(z => { return z.GetInterfaces().Where(q => q.Name.Contains("IEntityTypeConfigura")).Count() > 0 ? true : false; })
                 .ToArray();
-            foreach (var type in typesToRegister)
-            {
-                dynamic configurationInstance = Activator.CreateInstance(type);
-                modelBuilder.ApplyConfiguration(configurationInstance);
-            }
-            base.OnModelCreating(modelBuilder);
+            var entityMethod = typeof(ModelBuilder).GetMethods().Single(x => x.Name == "Entity" &&
+                         x.IsGenericMethod &&
+                         x.ReturnType.Name == "EntityTypeBuilder`1");
+           foreach (var mappingType in typesToRegister)
+           {
+                var genericTypeArg = mappingType.GetInterfaces().Single().GenericTypeArguments.Single();
+                var genericEntityMethod = entityMethod.MakeGenericMethod(genericTypeArg);
+                var entityBuilder = genericEntityMethod.Invoke(modelBuilder, null);
+
+                dynamic configurationInstance = Activator.CreateInstance(mappingType);
+                configurationInstance.GetType().GetMethod("Configure").Invoke(configurationInstance, new[] { entityBuilder });
+                //modelBuilder.ApplyConfiguration(configurationInstance);
+           }
+           //删除动作在 mapping里做设置了，这里不统一强调
+           //foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+           //{
+           //    relationship.DeleteBehavior = DeleteBehavior.Restrict;
+           //}
+
         }
         protected virtual TEntity AttachEntityToContext<TEntity>(TEntity entity) where TEntity : BaseEntity, new()
         {
@@ -55,7 +68,7 @@ namespace RBlogOnNetCore.EF
                 return alreadyAttached;
             }
         }
-        public DbSet<RBlogOnNetCore.EF.Domain.Customer> Customer { get; set; }
+        //public DbSet<RBlogOnNetCore.EF.Domain.Customer> Customer { get; set; }
         #region Methods
         //public string CreateDatabaseScript()
         //{

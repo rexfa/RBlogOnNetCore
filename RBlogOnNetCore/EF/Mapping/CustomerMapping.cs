@@ -15,10 +15,10 @@ namespace RBlogOnNetCore.EF.Mapping
             builder.Property(x => x.password).IsRequired().HasMaxLength(50);
             builder.Property(x => x.salt).HasMaxLength(10);
             builder.Property(x => x.createdOn).IsRequired();
-            builder.Ignore(x => x.Blogs);
-            builder.HasMany(x => x.Blogs).WithOne(x => x.Customer).HasForeignKey(x => x.customerId);
+            //builder.Ignore(x => x.Blogs);
+            builder.HasMany(x => x.Blogs).WithOne(x => x.Customer).HasForeignKey(x => x.customerId).OnDelete(DeleteBehavior.Restrict);
             //builder.Ignore(x => x.Pictures);
-            builder.HasMany(x => x.Pictures).WithOne(x => x.Customer).HasForeignKey(x => x.customerId);
+            builder.HasMany(x => x.Pictures).WithOne(x => x.Customer).HasForeignKey(x => x.customerId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

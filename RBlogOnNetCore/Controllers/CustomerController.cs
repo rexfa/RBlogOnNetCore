@@ -22,7 +22,8 @@ namespace RBlogOnNetCore.Controllers
         // GET: Account
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customer.ToListAsync());
+            //return View(await _context.Customer.ToListAsync());
+            return View();
         }
 
         // GET: Account/Details/5
@@ -33,14 +34,14 @@ namespace RBlogOnNetCore.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .SingleOrDefaultAsync(m => m.id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
+            //var customer = await _context.Customer.SingleOrDefaultAsync(m => m.id == id);
+            //if (customer == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(customer);
+            //return View(customer);
+            return View();
         }
 
         // GET: Account/Create
@@ -73,12 +74,13 @@ namespace RBlogOnNetCore.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            return View(customer);
+            //var customer = await _context.Customer.SingleOrDefaultAsync(m => m.id == id);
+            //if (customer == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(customer);
+            return View();
         }
 
         // POST: Account/Edit/5
@@ -124,14 +126,15 @@ namespace RBlogOnNetCore.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customer
-                .SingleOrDefaultAsync(m => m.id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
+            //var customer = await _context.Customer
+            //    .SingleOrDefaultAsync(m => m.id == id);
+            //if (customer == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(customer);
+            //return View(customer);
+            return View();
         }
 
         // POST: Account/Delete/5
@@ -139,15 +142,16 @@ namespace RBlogOnNetCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.id == id);
-            _context.Customer.Remove(customer);
-            await _context.SaveChangesAsync();
+            //var customer = await _context.Customer.SingleOrDefaultAsync(m => m.id == id);
+            //_context.Customer.Remove(customer);
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.Customer.Any(e => e.id == id);
+            //return _context.Customer.Any(e => e.id == id);
+            return false;
         }
     }
 }

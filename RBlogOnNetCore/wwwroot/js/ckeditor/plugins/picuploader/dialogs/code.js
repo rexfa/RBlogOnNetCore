@@ -2,7 +2,7 @@
     "picuploader",
     function (editor) {
         var timestamp = Math.round(new Date().getTime() / 1000);
-        var ckeditorPage = '/blog/add?from=ckeditor&timestamp=' + timestamp;
+        var ckeditorPage = '/picture/CustomerPicList?from=ckeditor&timestamp=' + timestamp;
         return {
             title: "插入代码",
             minWidth: 800,
@@ -27,7 +27,7 @@
             ],
             onOk: function () {
                 //插入富文本编辑器内容 window.frames["img_browser"].document.getElementById("hf_imgsrc");//
-                var hf = document.getElementById('img_browser').contentWindow.document.getElementById("hf_imgsrc");
+                var hf = document.getElementById('img_browser').contentWindow.document.getElementByClassName("selected_imgsrc");
                 if (hf != null) {
                     var imgSrc = hf.value;
                     editor.insertHtml("<img src='" + imgSrc + "' />"); //将select插入编辑器

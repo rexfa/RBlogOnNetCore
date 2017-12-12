@@ -31,12 +31,11 @@
         </dd>
     </dl>
 </div>
-<div>
-    
-    @foreach (var m in Model.pictures)
-    { 
-        <img height="200" src="@Html.Raw(m.url)" />
-    }
+<div id="mainboard">
+        @foreach (var m in Model.pictures)
+        {
+            <img height="200" src="@Html.Raw(m.url)" class="imgsrc" />
+        }
 </div>
 }
 <div>
@@ -47,3 +46,21 @@
         <input type="submit" id="submit" name="submit" value="Upload Picture" /> 
     }
 </div>
+<style type="text/css">
+    selected_imgsrc {
+        border: 3px solid red;
+    }
+    imgsrc {
+        border: 1px solid #cccccc;
+    }
+</style>
+<script language="javascript" type="text/javascript" src="~/js/jquery-3.2.1.min.js"></script> 
+<script language="javascript" type="text/javascript">
+    $(function () {
+        $("#mainboard img").bind("click", function () {
+            $(this).css("border", "3px solid red").siblings().css("border", "1px solid #cccccc");
+            $(this).removeClass("imgsrc").addClass("selected_imgsrc").siblings().removeClass("selected_imgsrc").addClass("imgsrc");
+        })
+    })
+</script>
+

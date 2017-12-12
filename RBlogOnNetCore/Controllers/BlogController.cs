@@ -33,6 +33,8 @@ namespace RBlogOnNetCore.Controllers
         [HttpGet]
         public ActionResult Add()
         {
+            this.HttpContext.Response.Headers.Add("cache-control", new[] { "public,no-cache" });
+            this.HttpContext.Response.Headers.Add("Expires", new[] { DateTime.UtcNow.AddYears(1).ToString("R") }); // Format RFC1123        }
             return View();
         }
         [HttpPost]

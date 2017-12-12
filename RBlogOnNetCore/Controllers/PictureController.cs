@@ -55,7 +55,10 @@ namespace RBlogOnNetCore.Controllers
                 var customer = _customerRepository.GetById(customerId);
                 try
                 {
-                    List<Picture> pictures = customer.Pictures.Where(x => x.isDeleted == false).OrderByDescending(x => x.updatedOn).ToList();
+                    //Core到现在还不支持延迟加载所以手写
+                    //List<Picture> pictures = customer.Pictures.Where(x => x.isDeleted == false).OrderByDescending(x => x.updatedOn).ToList();
+                    List<Picture> pictures = _pictureRepository.Table.Where(x=>x.customerId == customerId)
+                        .OrderByDescending(x => x.updatedOn).ToList();
 
                     PictureListModel picList = new PictureListModel();
                     picList.pictures = new List<PictureModel>();
@@ -65,7 +68,7 @@ namespace RBlogOnNetCore.Controllers
                         {
                             id = p.id,
                             customName = p.customName,
-                            url = p.localName
+                            url = _localDir.PictureUrlDir + p.localName
                         };
                         picList.pictures.Add(picmodel);
                     }
