@@ -27,13 +27,13 @@
             ],
             onOk: function () {
                 //插入富文本编辑器内容 window.frames["img_browser"].document.getElementById("hf_imgsrc");//
-                var hf = document.getElementById('img_browser').contentWindow.document.getElementByClassName("selected_imgsrc");
-                if (hf != null) {
-                    var imgSrc = hf.value;
+                var selected_imgsrc = document.getElementById('img_browser').contentWindow.document.getElementsByClassName("selected_imgsrc");
+                if (selected_imgsrc != null) {
+                    var imgSrc = selected_imgsrc[0].currentSrc;
                     editor.insertHtml("<img src='" + imgSrc + "' />"); //将select插入编辑器
 
                 } else {
-                    alert("hf is null");
+                    alert("selected_imgsrc is null");
                 }
 
             },

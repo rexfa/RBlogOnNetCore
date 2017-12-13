@@ -16,6 +16,7 @@ namespace RBlogOnNetCore.EF.Domain
         public DateTime releasedOn { get; set; }
         public DateTime updatedOn { get; set; }
         public string imageIds { get; set; }
+        public string tagIds { get; set; }
         public Customer Customer { set; get; }
     }
 }

@@ -66,9 +66,9 @@
 </div>
 
 <div class="row">
-    <div class="col-md-3">
-        Bolgs        
+    <div>
+        @await Component.InvokeAsync("BlogList")      
     </div>   
 </div>
-@await Component.InvokeAsync("BlogList")
+
 

@@ -13,6 +13,7 @@ namespace RBlogOnNetCore.EF.Domain
         public string password { set; get; }
         public string salt { set; get; }
         public DateTime createdOn { set; get; }
+        public string customerName { set; get; }
 
         #region Navigation properties
         public virtual ICollection<Blog> Blogs { set; get; }

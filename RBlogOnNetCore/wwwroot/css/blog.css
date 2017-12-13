@@ -1,0 +1,21 @@
+﻿blog {
+}
+.title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-family:'Microsoft YaHei';
+    font-weight:500;
+}
+.content {
+    display: table;
+    vertical-align: middle;
+}
+.publishedOn{
+    display:inline;
+    width:200px;
+}
+.author {
+    display: inline;
+    width: 200px;
+}

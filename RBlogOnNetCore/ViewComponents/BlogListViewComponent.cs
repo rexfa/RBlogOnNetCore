@@ -51,6 +51,7 @@ namespace RBlogOnNetCore.ViewComponents
                     var blogModel = new BlogModel()
                     {
                         id = b.id,
+                        title = b.title,
                         content = b.content,
                         createdOnString = b.createdOn.ToString("yyyy-MM-dd HH:mm:ss"),
                         releasedOnString = b.releasedOn.ToString("yyyy-MM-dd HH:mm:ss"),
