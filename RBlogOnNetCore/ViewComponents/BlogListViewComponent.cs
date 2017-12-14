@@ -44,7 +44,7 @@ namespace RBlogOnNetCore.ViewComponents
             }
             if (blogs.Count>0)
             {
-
+                var cs = _customerRepository.Table.FirstOrDefault();//执行过一次就可以在以下b.Customer里呼出了，奇怪
                 BlogPagingModel model = new BlogPagingModel();
                 model.Blogs = new List<BlogModel>();
                 foreach (Blog b in blogs)
@@ -56,7 +56,7 @@ namespace RBlogOnNetCore.ViewComponents
                         Content = b.Content,
                         CreatedOn = b.CreatedOn,
                         ReleasedOn = b.ReleasedOn,
-                        //customerName = b.Customer.name
+                        CustomerName = b.Customer.CustomerName
                     };
                     model.Blogs.Add(blogModel);
                 }

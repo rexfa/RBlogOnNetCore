@@ -52,10 +52,10 @@ namespace RBlogOnNetCore.Controllers
             }
             */
             //var firstCustomer = _customerRepository.Table.FirstOrDefault();
-            //var firstCustomer = this._context.Customers.FirstOrDefault();
+            
             //if (firstCustomer != null)
             //{
-            //    ViewData["fristCustomerName"] = firstCustomer.name;
+            //    ViewData["fristCustomerName"] = firstCustomer.Name;
             //}
             return View();
         }
