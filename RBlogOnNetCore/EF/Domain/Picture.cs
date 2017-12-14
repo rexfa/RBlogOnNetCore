@@ -7,13 +7,13 @@ namespace RBlogOnNetCore.EF.Domain
 {
     public class Picture : BaseEntity
     {
-        public string localName { get; set; }
-        public string customName { get; set; }
-        public string originalName { get; set; }
-        public int customerId { get; set; }
-        public DateTime updatedOn { get; set; }
-        public bool isDeleted { get; set; }
-        public string picType { get; set; }
+        public string LocalName { get; set; }
+        public string CustomName { get; set; }
+        public string OriginalName { get; set; }
+        public int CustomerId { get; set; }
+        public DateTime UpdatedOn { get; set; }
+        public bool IsDeleted { get; set; }
+        public string PicType { get; set; }
         public Customer Customer { set; get; }
     }
 }

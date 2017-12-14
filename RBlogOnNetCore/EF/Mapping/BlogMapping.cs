@@ -9,16 +9,16 @@ namespace RBlogOnNetCore.EF.Mapping
         public void Configure(EntityTypeBuilder<Blog> builder)
         {
             builder.ToTable("Blog");
-            builder.HasKey(x => x.id);
-            builder.Property(x => x.title).IsRequired().HasMaxLength(200);
-            builder.Property(x => x.imageIds).IsRequired().HasMaxLength(300);
-            builder.Property(x => x.tagIds).IsRequired().HasMaxLength(300);
-            builder.Property(x => x.content).IsRequired();
-            builder.Property(x => x.customerId).IsRequired();
-            builder.Property(x => x.isDeleted).IsRequired();
-            builder.Property(x => x.isReleased).IsRequired();
-            builder.Property(x => x.createdOn).IsRequired();
-            builder.Property(x => x.updatedOn).IsRequired();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
+            builder.Property(x => x.ImageIds).IsRequired().HasMaxLength(300);
+            builder.Property(x => x.TagIds).IsRequired().HasMaxLength(300);
+            builder.Property(x => x.Content).IsRequired();
+            builder.Property(x => x.CustomerId).IsRequired();
+            builder.Property(x => x.IsDeleted).IsRequired();
+            builder.Property(x => x.IsReleased).IsRequired();
+            builder.Property(x => x.CreatedOn).IsRequired();
+            builder.Property(x => x.UpdatedOn).IsRequired();
             builder.Ignore(x =>x.Customer);
         }
     }

@@ -51,27 +51,28 @@ namespace RBlogOnNetCore.Controllers
                 //modelBuilder.ApplyConfiguration(configurationInstance);
             }
             */
-            var firstCustomer = _customerRepository.Table.FirstOrDefault();
+            //var firstCustomer = _customerRepository.Table.FirstOrDefault();
             //var firstCustomer = this._context.Customers.FirstOrDefault();
-            if (firstCustomer != null)
-            {
-                ViewData["fristCustomerName"] = firstCustomer.name;
-            }
+            //if (firstCustomer != null)
+            //{
+            //    ViewData["fristCustomerName"] = firstCustomer.name;
+            //}
             return View();
         }
 
         public IActionResult About()
         {
             ViewData["Message"] = "RBlogOnNetCore 是一个基于ASP.net Core 2.0的练习项目，从零开始部署开发。"
-                +"运行环境在CentOS 7.3 Docker 1.12.6上，数据库使用Mysql 5.6。"+
-                "因为是工作之外的练习工程，代码略粗糙。";
+                +"运行环境在CentOS 7.3 Docker 1.12.6上，数据库使用Mysql 5.6。"
+                +"引用了一些开源代码和工程，比如CKEditor开源。"
+                +"因为是工作之外的练习工程，代码略粗糙。";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "编码慢的开发能当产品经理么？";
+            ViewData["Message"] = "开发当个产品经理怎么样？";
 
             return View();
         }

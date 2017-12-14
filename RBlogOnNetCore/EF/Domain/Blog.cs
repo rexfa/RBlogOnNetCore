@@ -7,16 +7,16 @@ namespace RBlogOnNetCore.EF.Domain
 {
     public class Blog:BaseEntity
     {
-        public string title { set; get; }
-        public string content { set; get; }
-        public int customerId { set; get; }
-        public bool isDeleted { get; set; }
-        public bool isReleased { get; set; }
-        public DateTime createdOn { get; set; }
-        public DateTime releasedOn { get; set; }
-        public DateTime updatedOn { get; set; }
-        public string imageIds { get; set; }
-        public string tagIds { get; set; }
+        public string Title { set; get; }
+        public string Content { set; get; }
+        public int CustomerId { set; get; }
+        public bool IsDeleted { get; set; }
+        public bool IsReleased { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ReleasedOn { get; set; }
+        public DateTime UpdatedOn { get; set; }
+        public string ImageIds { get; set; }
+        public string TagIds { get; set; }
         public Customer Customer { set; get; }
     }
 }

@@ -7,11 +7,12 @@ namespace RBlogOnNetCore.Models
 {
     public class BlogModel
     {
-        public int id { get; set; }
-        public string title { set; get; }
-        public string content { set; get; }
-        public string createdOnString { get; set; }
-        public string releasedOnString { get; set; }
-        public string customerName { set; get; }
+        public int Id { get; set; }
+        public string Title { set; get; }
+        public string Content { set; get; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ReleasedOn { get; set; }
+        public int CustomerId { get; set; }
+        public string CustomerName { set; get; }
     }
 }

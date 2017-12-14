@@ -7,13 +7,13 @@ namespace RBlogOnNetCore.EF.Domain
 {
     public class Perform : BaseEntity
     {
-        public string name { get; set; }
-        public string bigPicture { get; set; }
-        public string smallPicture { get; set; }
-        public string webUrl { get; set; }
-        public string description { get; set; }
-        public int groupId { get; set; }
-        public int sort { get; set; }
-        public DateTime createdOn { get; set; }
+        public string Name { get; set; }
+        public string BigPicture { get; set; }
+        public string SmallPicture { get; set; }
+        public string WebUrl { get; set; }
+        public string Description { get; set; }
+        public int GroupId { get; set; }
+        public int Sort { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

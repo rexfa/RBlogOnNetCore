@@ -9,15 +9,15 @@ namespace RBlogOnNetCore.EF.Mapping
         public void Configure(EntityTypeBuilder<Perform> builder)
         {
             builder.ToTable("Perform");
-            builder.HasKey(x => x.id);
-            builder.Property(x => x.bigPicture).IsRequired().HasMaxLength(300);
-            builder.Property(x => x.smallPicture).IsRequired().HasMaxLength(300);
-            builder.Property(x => x.createdOn).IsRequired();
-            builder.Property(x => x.description).IsRequired().HasMaxLength(300);
-            builder.Property(x => x.name).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.webUrl).IsRequired().HasMaxLength(300);
-            builder.Property(x => x.sort).IsRequired();
-            builder.Property(x => x.groupId).IsRequired();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.BigPicture).IsRequired().HasMaxLength(300);
+            builder.Property(x => x.SmallPicture).IsRequired().HasMaxLength(300);
+            builder.Property(x => x.CreatedOn).IsRequired();
+            builder.Property(x => x.Description).IsRequired().HasMaxLength(300);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.WebUrl).IsRequired().HasMaxLength(300);
+            builder.Property(x => x.Sort).IsRequired();
+            builder.Property(x => x.GroupId).IsRequired();
         }
     }
 }

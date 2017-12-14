@@ -8,6 +8,7 @@ using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using System.Security.Claims;
+using RBlogOnNetCore.Infrastructures;
 
 namespace RBlogOnNetCore.ViewComponents
 {
@@ -35,7 +36,7 @@ namespace RBlogOnNetCore.ViewComponents
             List<Blog> blogs = null;
             try
             {
-                blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).Take(10).ToList();
+                blogs = _blogRepository.Table.OrderByDescending(b => b.ReleasedOn).Take(10).ToList();
             }
             catch (Exception ex)
             {
@@ -44,18 +45,18 @@ namespace RBlogOnNetCore.ViewComponents
             if (blogs.Count>0)
             {
 
-                BlogListModel model = new BlogListModel();
+                BlogPagingModel model = new BlogPagingModel();
                 model.Blogs = new List<BlogModel>();
                 foreach (Blog b in blogs)
                 {
                     var blogModel = new BlogModel()
                     {
-                        id = b.id,
-                        title = b.title,
-                        content = b.content,
-                        createdOnString = b.createdOn.ToString("yyyy-MM-dd HH:mm:ss"),
-                        releasedOnString = b.releasedOn.ToString("yyyy-MM-dd HH:mm:ss"),
-                        customerName = b.Customer.name
+                        Id = b.Id,
+                        Title = b.Title,
+                        Content = b.Content,
+                        CreatedOn = b.CreatedOn,
+                        ReleasedOn = b.ReleasedOn,
+                        //customerName = b.Customer.name
                     };
                     model.Blogs.Add(blogModel);
                 }
@@ -66,7 +67,7 @@ namespace RBlogOnNetCore.ViewComponents
                     int id = int.Parse(CustomerId);
                     if (id == 1)
                     {
-                        model.editable = true;
+                        model.Editable = true;
                     }
                 }
                 return View(model);
@@ -76,6 +77,37 @@ namespace RBlogOnNetCore.ViewComponents
                 return View("NoData","0数据");
 
             }
+        }
+        [NonAction]
+        protected virtual IPagedList<Blog> GetBlogs(int pageIndex, int pageSize, bool showNotReleased = false )
+        {
+            try
+            {
+                var query = _blogRepository.Table;
+                if (!showNotReleased)
+                    query = query.Where(b=>b.IsReleased == true);
+                query = query.Where(b => b.IsDeleted == false);
+                query = query.OrderByDescending(b => b.ReleasedOn);
+                var blogs = new PagedList<Blog>(query, pageIndex, pageSize);
+                return blogs;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [NonAction]
+        protected virtual void PrepareBlogModel(BlogModel model,Blog blog)
+        {
+            if (model == null)
+                throw new Exception("model is null!");
+            model.Id = blog.Id;
+            model.Content = blog.Content;
+            model.CreatedOn = blog.CreatedOn;
+            model.CustomerId = blog.CustomerId;
+            model.CustomerName = blog.Customer.CustomerName;
+            model.ReleasedOn = blog.ReleasedOn;
+            model.Title = blog.Title;
         }
     }
 }

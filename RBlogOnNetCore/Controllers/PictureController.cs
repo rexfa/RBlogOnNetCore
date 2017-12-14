@@ -57,8 +57,8 @@ namespace RBlogOnNetCore.Controllers
                 {
                     //Core到现在还不支持延迟加载所以手写
                     //List<Picture> pictures = customer.Pictures.Where(x => x.isDeleted == false).OrderByDescending(x => x.updatedOn).ToList();
-                    List<Picture> pictures = _pictureRepository.Table.Where(x=>x.customerId == customerId)
-                        .OrderByDescending(x => x.updatedOn).ToList();
+                    List<Picture> pictures = _pictureRepository.Table.Where(x=>x.CustomerId == customerId)
+                        .OrderByDescending(x => x.UpdatedOn).ToList();
 
                     PictureListModel picList = new PictureListModel();
                     picList.pictures = new List<PictureModel>();
@@ -66,9 +66,9 @@ namespace RBlogOnNetCore.Controllers
                     {
                         var picmodel = new PictureModel()
                         {
-                            id = p.id,
-                            customName = p.customName,
-                            url = _localDir.PictureUrlDir + p.localName
+                            id = p.Id,
+                            customName = p.CustomName,
+                            url = _localDir.PictureUrlDir + p.LocalName
                         };
                         picList.pictures.Add(picmodel);
                     }
@@ -117,18 +117,18 @@ namespace RBlogOnNetCore.Controllers
                     Directory.CreateDirectory(filepath);
                 Picture pic = new Picture()
                 {
-                    customerId = customerId,
-                    customName = customName,
-                    isDeleted = false,
-                    originalName = imgname,
-                    picType = data.ContentType,
-                    updatedOn = now,
-                    localName = Guid.NewGuid().ToString("N") + LocalFileTools.GetFileExtName(imgname)
+                    CustomerId = customerId,
+                    CustomName = customName,
+                    IsDeleted = false,
+                    OriginalName = imgname,
+                    PicType = data.ContentType,
+                    UpdatedOn = now,
+                    LocalName = Guid.NewGuid().ToString("N") + LocalFileTools.GetFileExtName(imgname)
 
                 };
                 _pictureRepository.Insert(pic);
                 _context.SaveChanges();
-                string fullpath = Path.Combine(filepath, pic.localName);
+                string fullpath = Path.Combine(filepath, pic.LocalName);
                 if (data != null)
                 {
                     await Task.Run(() =>
@@ -139,7 +139,7 @@ namespace RBlogOnNetCore.Controllers
                         }
                     });
                 }
-                return Redirect("\\Picture\\CustomerPicView\\" + pic.id);
+                return Redirect("\\Picture\\CustomerPicView\\" + pic.Id);
             }
             catch (Exception ex)
             {
@@ -152,10 +152,10 @@ namespace RBlogOnNetCore.Controllers
             var pic = _pictureRepository.GetById(id);
             PictureModel model = new PictureModel()
             {
-                id = pic.id,
-                customName = pic.customName,
-                url = _localDir.PictureUrlDir+pic.localName,
-                updatedOn = pic.updatedOn
+                id = pic.Id,
+                customName = pic.CustomName,
+                url = _localDir.PictureUrlDir+pic.LocalName,
+                updatedOn = pic.UpdatedOn
             };
             return View(model);
         }

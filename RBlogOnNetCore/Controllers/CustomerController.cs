@@ -90,7 +90,7 @@ namespace RBlogOnNetCore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("guid,name,password,salt,createdOn,id")] Customer customer)
         {
-            if (id != customer.id)
+            if (id != customer.Id)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace RBlogOnNetCore.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.id))
+                    if (!CustomerExists(customer.Id))
                     {
                         return NotFound();
                     }

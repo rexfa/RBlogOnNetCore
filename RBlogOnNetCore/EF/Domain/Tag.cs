@@ -7,9 +7,9 @@ namespace RBlogOnNetCore.EF.Domain
 {
     public class Tag : BaseEntity
     {
-        public string tag { get; set; }
-        public int referenceNum { get; set; }
-        public DateTime createdOn { get; set; }
-        public DateTime lastReferencedOn { get; set; }
+        public string TagName { get; set; }
+        public int ReferenceNum { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime LastReferencedOn { get; set; }
     }
 }

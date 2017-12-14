@@ -6,7 +6,7 @@ namespace RBlogOnNetCore.EF
         /// <summary>
         /// 自加型id
         /// </summary>
-        public int id { set; get; }
+        public int Id { set; get; }
         /// <summary>
         /// 实现等式算法
         /// </summary>
@@ -18,7 +18,7 @@ namespace RBlogOnNetCore.EF
         }
         private static bool IsTransient(BaseEntity obj)
         {
-            return obj != null && Equals(obj.id, default(int));
+            return obj != null && Equals(obj.Id, default(int));
         }
         /// <summary>
         /// 获取非代理类型
@@ -38,7 +38,7 @@ namespace RBlogOnNetCore.EF
 
             if (!IsTransient(this) &&
                 !IsTransient(other) &&
-                Equals(id, other.id))
+                Equals(Id, other.Id))
             {
                 var otherType = other.GetUnproxiedType();
                 var thisType = GetUnproxiedType();
@@ -54,9 +54,9 @@ namespace RBlogOnNetCore.EF
         /// <returns></returns>
         public override int GetHashCode()
         {
-            if (Equals(id, default(int)))
+            if (Equals(Id, default(int)))
                 return base.GetHashCode();
-            return id.GetHashCode();
+            return Id.GetHashCode();
         }
         public static bool operator ==(BaseEntity x, BaseEntity y)
         {

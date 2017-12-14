@@ -9,12 +9,12 @@ namespace RBlogOnNetCore.EF.Mapping
         public void Configure(EntityTypeBuilder<Picture> builder)
         {
             builder.ToTable("Picture");
-            builder.HasKey(x => x.id);
-            builder.Property(x => x.localName).IsRequired().HasMaxLength(255);
-            builder.Property(x => x.customName).IsRequired().HasMaxLength(255);
-            builder.Property(x => x.originalName).IsRequired().HasMaxLength(255);
-            builder.Property(x => x.picType).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.updatedOn).IsRequired();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.LocalName).IsRequired().HasMaxLength(255);
+            builder.Property(x => x.CustomName).IsRequired().HasMaxLength(255);
+            builder.Property(x => x.OriginalName).IsRequired().HasMaxLength(255);
+            builder.Property(x => x.PicType).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.UpdatedOn).IsRequired();
             builder.Ignore(x => x.Customer);
         }
     }

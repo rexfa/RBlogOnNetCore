@@ -57,7 +57,7 @@ namespace RBlogOnNetCore.EF
         }
         protected virtual TEntity AttachEntityToContext<TEntity>(TEntity entity) where TEntity : BaseEntity, new()
         {
-            var alreadyAttached = Set<TEntity>().Local.FirstOrDefault(x => x.id == entity.id);
+            var alreadyAttached = Set<TEntity>().Local.FirstOrDefault(x => x.Id == entity.Id);
             if (alreadyAttached == null)
             {
                 Set<TEntity>().Attach(entity);

@@ -45,17 +45,17 @@ namespace RBlogOnNetCore.Controllers
                 //LoginHandle loginHandle = new LoginHandle(_context, this.HttpContext);
                 //bool isLogin = await loginHandle.LoginByPassword(model.Name, model.password);
                 //
-                var customer = _customerRepository.Table.Where(u => u.name == model.Name).First();
+                var customer = _customerRepository.Table.Where(u => u.Name == model.Name).First();
                 if (customer != null)
                 {
-                    string pwd_org = customer.password;
-                    string pwd_input = SecurityTools.MD5Hash(model.password + customer.salt);
+                    string pwd_org = customer.Password;
+                    string pwd_input = SecurityTools.MD5Hash(model.password + customer.Salt);
                     if (pwd_input == pwd_org)
                     {
                         List<Claim> customerClaims = new List<Claim>()
                         {
-                            new Claim(ClaimTypes.Name, customer.name),
-                            new Claim(ClaimTypes.Sid, customer.id.ToString()),
+                            new Claim(ClaimTypes.Name, customer.Name),
+                            new Claim(ClaimTypes.Sid, customer.Id.ToString()),
                             new Claim(ClaimTypes.Role, "Admin")
                         };
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);

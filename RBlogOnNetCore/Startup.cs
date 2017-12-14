@@ -100,7 +100,7 @@ namespace RBlogOnNetCore
                 Guid guid = new Guid();
                 string salt = "1234";
                 string password = SecurityTools.MD5Hash("123qwe" + salt);
-                Customer customer = new Customer() { name = "Blogowner", createdOn = DateTime.Now,password = password,salt =salt,guid = guid.ToByteArray() };
+                Customer customer = new Customer() { Name = "Blogowner", CreatedOn = DateTime.Now,Password = password,Salt =salt,Guid = guid.ToByteArray() };
                 _customerRepository.Insert(customer);
                 _context.SaveChanges();
             }

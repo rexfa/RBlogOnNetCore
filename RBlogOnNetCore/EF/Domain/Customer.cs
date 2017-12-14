@@ -8,12 +8,12 @@ namespace RBlogOnNetCore.EF.Domain
     public class Customer:BaseEntity
     {
         //private ICollection<Picture> _pictures;
-        public byte[] guid { set; get; }
-        public string name { set; get; }
-        public string password { set; get; }
-        public string salt { set; get; }
-        public DateTime createdOn { set; get; }
-        public string customerName { set; get; }
+        public byte[] Guid { set; get; }
+        public string Name { set; get; }
+        public string Password { set; get; }
+        public string Salt { set; get; }
+        public DateTime CreatedOn { set; get; }
+        public string CustomerName { set; get; }
 
         #region Navigation properties
         public virtual ICollection<Blog> Blogs { set; get; }

@@ -9,11 +9,11 @@ namespace RBlogOnNetCore.EF.Mapping
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
             builder.ToTable("Tag");
-            builder.HasKey(x => x.id);
-            builder.Property(x => x.tag).IsRequired().HasMaxLength(30);
-            builder.Property(x => x.referenceNum).IsRequired();
-            builder.Property(x => x.createdOn).IsRequired();
-            builder.Property(x => x.lastReferencedOn).IsRequired();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.TagName).IsRequired().HasMaxLength(30);
+            builder.Property(x => x.ReferenceNum).IsRequired();
+            builder.Property(x => x.CreatedOn).IsRequired();
+            builder.Property(x => x.LastReferencedOn).IsRequired();
         }
     }
 }

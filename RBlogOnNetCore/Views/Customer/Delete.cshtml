@@ -12,39 +12,39 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.guid)
+            @Html.DisplayNameFor(model => model.Guid)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.guid)
+            @Html.DisplayFor(model => model.Guid)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.name)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.password)
+            @Html.DisplayNameFor(model => model.Password)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.password)
+            @Html.DisplayFor(model => model.Password)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.salt)
+            @Html.DisplayNameFor(model => model.Salt)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.salt)
+            @Html.DisplayFor(model => model.Salt)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.createdOn)
+            @Html.DisplayNameFor(model => model.CreatedOn)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.createdOn)
+            @Html.DisplayFor(model => model.CreatedOn)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="id" />
+        <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

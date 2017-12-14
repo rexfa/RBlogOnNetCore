@@ -49,20 +49,20 @@ namespace RBlogOnNetCore.Controllers
                 var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
                 var blog = new Blog()
                 {
-                    title = model.title,
-                    customerId = int.Parse(CustomerId),
-                    content = model.content,
-                    createdOn = now,
-                    updatedOn = now,
-                    releasedOn = now,
-                    isDeleted = false,
-                    isReleased = true
+                    Title = model.Title,
+                    CustomerId = int.Parse(CustomerId),
+                    Content = model.Content,
+                    CreatedOn = now,
+                    UpdatedOn = now,
+                    ReleasedOn = now,
+                    IsDeleted = false,
+                    IsReleased = true
                 };
                 _blogRepository.Insert(blog);
                 _context.SaveChanges();
-                model.id = blog.id;
-                model.createdOnString = blog.createdOn.ToString();
-                model.releasedOnString = blog.releasedOn.ToString();
+                model.Id = blog.Id;
+                model.CreatedOn = blog.CreatedOn;
+                model.ReleasedOn = blog.ReleasedOn;
             }
             else
             {
@@ -84,29 +84,30 @@ namespace RBlogOnNetCore.Controllers
         public ActionResult BlogList()
         {
             //http://www.cnblogs.com/sanshi/p/7750497.html
-            List<Blog> blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).TakeLast(10).ToList();
-            if (blogs.Count > 0)
-            {
-                BlogListModel model = new BlogListModel();
-                model.Blogs = new List<BlogModel>();
-                foreach (Blog b in blogs)
-                {
-                    var blogModel = new BlogModel()
-                    {
-                        id = b.id,
-                        content = b.content,
-                        createdOnString = b.createdOn.ToString("yyyy-MM-dd HH:mm:ss"),
-                        releasedOnString = b.releasedOn.ToString("yyyy-MM-dd HH:mm:ss"),
-                        customerName = b.Customer.name
-                    };
-                    model.Blogs.Add(blogModel);
-                }
-                return PartialView("_BlogList", model);
-            }
-            else
-            {
-                return Content("还没有博客");
-            }
+            List<Blog> blogs = _blogRepository.Table.OrderByDescending(b => b.ReleasedOn).TakeLast(10).ToList();
+            //if (blogs.Count > 0)
+            //{
+            //    BasePageableModel model = new BasePageableModel();
+            //    model.Blogs = new List<BlogModel>();
+            //    foreach (Blog b in blogs)
+            //    {
+            //        var blogModel = new BlogModel()
+            //        {
+            //            id = b.id,
+            //            content = b.content,
+            //            createdOn = b.createdOn,
+            //            releasedOn = b.releasedOn,
+            //            customerName = b.Customer.name
+            //        };
+            //        model.Blogs.Add(blogModel);
+            //    }
+            //    return PartialView("_BlogList", model);
+            //}
+            //else
+            //{
+            //    return Content("还没有博客");
+            //}
+            return Content("还没有博客");
         }
     }
 }

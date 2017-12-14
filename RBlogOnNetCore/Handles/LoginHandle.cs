@@ -28,11 +28,11 @@ namespace RBlogOnNetCore.Handles
         public virtual async Task<bool> LoginByPassword(string username, string password)
         {
 
-            var customer =  _customerRepository.Table.Where(u => u.name == username).First();
+            var customer =  _customerRepository.Table.Where(u => u.Name == username).First();
             if (customer != null)
             {
-                string pwd_org = customer.password;
-                string pwd_input = SecurityTools.MD5Hash(password + customer.salt);
+                string pwd_org = customer.Password;
+                string pwd_input = SecurityTools.MD5Hash(password + customer.Salt);
                 if (pwd_input == pwd_org)
                 {
                     await Login(customer, true);
@@ -53,8 +53,8 @@ namespace RBlogOnNetCore.Handles
             var nowUtc = DateTime.UtcNow;
             List<Claim> customerClaims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, customer.name),
-                new Claim(ClaimTypes.Sid, customer.id.ToString()),
+                new Claim(ClaimTypes.Name, customer.Name),
+                new Claim(ClaimTypes.Sid, customer.Id.ToString()),
                 new Claim(ClaimTypes.Role, "Admin")
             };
             //ClaimsIdentity claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);

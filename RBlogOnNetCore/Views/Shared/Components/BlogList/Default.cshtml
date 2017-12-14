@@ -1,5 +1,5 @@
-﻿@model RBlogOnNetCore.Models.BlogListModel
-@if (Model.editable)
+﻿@model RBlogOnNetCore.Models.BlogPagingModel
+@if (Model.Editable)
 {
 <p>
     <a asp-action="Create">Create New</a>
@@ -10,21 +10,21 @@
     {
         <div>
             <div class="title">
-                    @Html.DisplayFor(modelItem => item.title)
+                    @Html.DisplayFor(modelItem => item.Title)
             </div>
             <div class="content">
-                @Html.Raw(item.content)
+                @Html.Raw(item.Content)
             </div>
             <div>
                 <div class="author">
-                    @Html.DisplayFor(modelItem => item.customerName)
+                    @Html.DisplayFor(modelItem => item.CustomerName)
                 </div>
                 <div class="publishedOn">
-                    @Html.DisplayFor(modelItem => item.releasedOnString)
+                    @Html.DisplayFor(modelItem => item.ReleasedOn)
                 </div>
             </div>
-            @if (Model.editable)
-                {
+            @if (Model.Editable)
+            {
                 <div>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
@@ -38,19 +38,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.pageSize)
+                @Html.DisplayNameFor(model => model.PageSize)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.index)
+                @Html.DisplayNameFor(model => model.Index)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.searchKeyword)
+                @Html.DisplayNameFor(model => model.SearchKeyword)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.beginTime)
+                @Html.DisplayNameFor(model => model.BeginTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.endTime)
+                @Html.DisplayNameFor(model => model.EndTime)
             </th>
             <th></th>
         </tr>
