@@ -7,9 +7,9 @@ namespace RBlogOnNetCore.Models
 {
     public class PictureModel
     {
-        public int id { get; set; }
-        public string customName { get; set; }
-        public string url { get; set; }
-        public DateTime updatedOn { get; set; }
+        public int Id { get; set; }
+        public string CustomName { get; set; }
+        public string Url { get; set; }
+        public DateTime UpdatedOn { get; set; }
     }
 }

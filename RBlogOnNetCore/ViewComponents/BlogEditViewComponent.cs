@@ -12,6 +12,7 @@ namespace RBlogOnNetCore.ViewComponents
 {
     public class BlogEditViewComponent:ViewComponent
     {
+        //https://github.com/xoxco/jQuery-Tags-Input 考虑加入这个插件
         private readonly MysqlContext _context;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Blog> _blogRepository;

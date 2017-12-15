@@ -46,30 +46,31 @@ namespace RBlogOnNetCore.ViewComponents
             {
                 var cs = _customerRepository.Table.FirstOrDefault();//执行过一次就可以在以下b.Customer里呼出了，奇怪
                 BlogPagingModel model = new BlogPagingModel();
-                model.Blogs = new List<BlogModel>();
-                foreach (Blog b in blogs)
-                {
-                    var blogModel = new BlogModel()
-                    {
-                        Id = b.Id,
-                        Title = b.Title,
-                        Content = b.Content,
-                        CreatedOn = b.CreatedOn,
-                        ReleasedOn = b.ReleasedOn,
-                        CustomerName = b.Customer.CustomerName
-                    };
-                    model.Blogs.Add(blogModel);
-                }
-                var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
-                if (isAuthenticated)
-                {
-                    var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
-                    int id = int.Parse(CustomerId);
-                    if (id == 1)
-                    {
-                        model.Editable = true;
-                    }
-                }
+                PrepareBlogPagingModel(model);
+                //model.Blogs = new List<BlogModel>();
+                //foreach (Blog b in blogs)
+                //{
+                //    var blogModel = new BlogModel()
+                //    {
+                //        Id = b.Id,
+                //        Title = b.Title,
+                //        Content = b.Content,
+                //        CreatedOn = b.CreatedOn,
+                //        ReleasedOn = b.ReleasedOn,
+                //        CustomerName = b.Customer.CustomerName
+                //    };
+                //    model.Blogs.Add(blogModel);
+                //}
+                //var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+                //if (isAuthenticated)
+                //{
+                //    var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
+                //    int id = int.Parse(CustomerId);
+                //    if (id == 1)
+                //    {
+                //        model.Editable = true;
+                //    }
+                //}
                 return View(model);
             }
             else
@@ -108,6 +109,33 @@ namespace RBlogOnNetCore.ViewComponents
             model.CustomerName = blog.Customer.CustomerName;
             model.ReleasedOn = blog.ReleasedOn;
             model.Title = blog.Title;
+        }
+        protected virtual void PrepareBlogPagingModel(BlogPagingModel model,int pageIndex = 0)
+        {
+            if(model == null)
+                throw new Exception("model is null!");
+            IPagedList<Blog> blogs = GetBlogs(pageIndex,10);
+            model.TotalPages = blogs.TotalPages;
+            model.Index = blogs.PageIndex;
+            model.PageSize = blogs.PageSize;
+            model.TotalPages = blogs.TotalCount;
+            model.Blogs = model.Blogs ?? new List<BlogModel>();
+            foreach (var blog in blogs)
+            {
+                var m = new BlogModel();
+                PrepareBlogModel(m, blog);
+                model.Blogs.Add(m);
+            }
+            var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+            if (isAuthenticated)
+            {
+                var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
+                int id = int.Parse(CustomerId);
+                if (id == 1)
+                {
+                    model.Editable = true;
+                }
+            }
         }
     }
 }

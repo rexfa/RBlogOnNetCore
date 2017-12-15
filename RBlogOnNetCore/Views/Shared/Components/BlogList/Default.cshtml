@@ -34,28 +34,10 @@
         </div>
     }
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PageSize)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Index)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SearchKeyword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BeginTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-
-    </tbody>
-</table>
+<div>
+    @Html.Raw(Model.PageIndex)--
+    @Html.Raw(Model.Index)--
+    @Html.Raw(Model.SearchKeyword)--
+    @Html.Raw(Model.BeginTime)--
+    @Html.Raw(Model.EndTime)
+</div>

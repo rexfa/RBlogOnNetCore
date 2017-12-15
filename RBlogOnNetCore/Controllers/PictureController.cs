@@ -12,8 +12,6 @@ using RBlogOnNetCore.Utils;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using RBlogOnNetCore.Models;
-using RBlogOnNetCore.Utils;
 using RBlogOnNetCore.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -61,16 +59,16 @@ namespace RBlogOnNetCore.Controllers
                         .OrderByDescending(x => x.UpdatedOn).ToList();
 
                     PictureListModel picList = new PictureListModel();
-                    picList.pictures = new List<PictureModel>();
+                    picList.Pictures = new List<PictureModel>();
                     foreach (var p in pictures)
                     {
                         var picmodel = new PictureModel()
                         {
-                            id = p.Id,
-                            customName = p.CustomName,
-                            url = _localDir.PictureUrlDir + p.LocalName
+                            Id = p.Id,
+                            CustomName = p.CustomName,
+                            Url = _localDir.PictureUrlDir + p.LocalName
                         };
-                        picList.pictures.Add(picmodel);
+                        picList.Pictures.Add(picmodel);
                     }
                     return View(picList);
                 }
@@ -152,10 +150,10 @@ namespace RBlogOnNetCore.Controllers
             var pic = _pictureRepository.GetById(id);
             PictureModel model = new PictureModel()
             {
-                id = pic.Id,
-                customName = pic.CustomName,
-                url = _localDir.PictureUrlDir+pic.LocalName,
-                updatedOn = pic.UpdatedOn
+                Id = pic.Id,
+                CustomName = pic.CustomName,
+                Url = _localDir.PictureUrlDir+pic.LocalName,
+                UpdatedOn = pic.UpdatedOn
             };
             return View(model);
         }

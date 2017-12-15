@@ -12,29 +12,29 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.pageIndex)
+            @Html.DisplayNameFor(model => model.PageIndex)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.pageIndex)
+            @Html.DisplayFor(model => model.PageIndex)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.pageSize)
+            @Html.DisplayNameFor(model => model.PageSize)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.pageSize)
+            @Html.DisplayFor(model => model.PageSize)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.pageCount)
+            @Html.DisplayNameFor(model => model.PageCount)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.pageCount)
+            @Html.DisplayFor(model => model.PageCount)
         </dd>
     </dl>
 </div>
 <div id="mainboard">
-        @foreach (var m in Model.pictures)
+        @foreach (var m in Model.Pictures)
         {
-            <img height="200" src="@Html.Raw(m.url)" class="imgsrc" />
+            <img height="200" src="@Html.Raw(m.Url)" class="imgsrc" />
         }
 </div>
 }
