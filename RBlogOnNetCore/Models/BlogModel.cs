@@ -14,5 +14,6 @@ namespace RBlogOnNetCore.Models
         public DateTime ReleasedOn { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { set; get; }
+        public string Tags { set; get; }
     }
 }

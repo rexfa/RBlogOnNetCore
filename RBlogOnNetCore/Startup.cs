@@ -48,6 +48,8 @@ namespace RBlogOnNetCore
                 });
             services.AddMvc();
             services.AddOptions();
+            //services.AddScoped
+            //services.Add
             services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
         }
 

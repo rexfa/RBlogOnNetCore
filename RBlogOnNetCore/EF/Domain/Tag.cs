@@ -11,5 +11,7 @@ namespace RBlogOnNetCore.EF.Domain
         public int ReferenceNum { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime LastReferencedOn { get; set; }
+
+        public virtual ICollection<BlogTagMapper> BlogTagMappers { get; set; }
     }
 }

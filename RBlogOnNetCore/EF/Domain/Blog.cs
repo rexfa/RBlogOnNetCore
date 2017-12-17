@@ -18,5 +18,6 @@ namespace RBlogOnNetCore.EF.Domain
         public string ImageIds { get; set; }
         public string TagIds { get; set; }
         public Customer Customer { set; get; }
+        public virtual ICollection<BlogTagMapper> BlogTagMappers { get; set; }
     }
 }
