@@ -50,6 +50,7 @@ namespace RBlogOnNetCore
             services.AddOptions();
             //services.AddScoped
             //services.Add
+            services.AddSingleton()
             services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
         }
 
