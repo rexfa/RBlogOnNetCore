@@ -112,6 +112,30 @@ namespace RBlogOnNetCore.EF
                 throw fail;
             }
         }
+        public virtual void DeleteList(IList<T> entitys)
+        {
+            try
+            {
+                if (entitys == null)
+                    throw new ArgumentNullException("entity");
+
+                this.Entities.RemoveRange(entitys);
+
+                this._context.SaveChanges();
+            }
+            catch (Exception dbEx)
+            {
+                var msg = string.Empty;
+
+                //foreach (var validationErrors in dbEx.EntityValidationErrors)
+                //    foreach (var validationError in validationErrors.ValidationErrors)
+                //        msg += Environment.NewLine + string.Format("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+
+                var fail = new Exception(msg, dbEx);
+                //Debug.WriteLine(fail.Message, fail);
+                throw fail;
+            }
+        }
         public virtual IQueryable<T> Table
         {
             get

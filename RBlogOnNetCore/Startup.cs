@@ -18,6 +18,7 @@ using RBlogOnNetCore.Utils;
 using RBlogOnNetCore.Middleware;
 using Microsoft.AspNetCore.Http;
 using RBlogOnNetCore.Configuration;
+using RBlogOnNetCore.Services;
 
 namespace RBlogOnNetCore
 {
@@ -50,7 +51,7 @@ namespace RBlogOnNetCore
             services.AddOptions();
             //services.AddScoped
             //services.Add
-            services.AddSingleton()
+            services.AddSingleton<ITagService, TagService>();
             services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
         }
 

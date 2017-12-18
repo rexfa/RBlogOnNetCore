@@ -10,6 +10,7 @@ namespace RBlogOnNetCore.EF
         void InsertList(IList<T> entitys);
         void Update(T entity);
         void Delete(T entity);
+        void DeleteList(IList<T> entitys);
         IQueryable<T> Table { get; }
         IQueryable<T> TableNoTracking { get; }
     }

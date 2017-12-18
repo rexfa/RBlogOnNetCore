@@ -9,7 +9,9 @@ using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.Handles;
 using RBlogOnNetCore.Utils;
+using RBlogOnNetCore.Services;
 using System.Security.Claims;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RBlogOnNetCore.Controllers
 {
@@ -19,12 +21,19 @@ namespace RBlogOnNetCore.Controllers
         private readonly MysqlContext _context;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Blog> _blogRepository;
+        private readonly ITagService _tagService;
 
         public BlogController(MysqlContext context)
         {
             this._context = context;
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._blogRepository = new EfRepository<Blog>(this._context);
+            var services = new ServiceCollection();
+            var provider = services.BuildServiceProvider();
+            this._tagService = provider.GetService<ITagService>();
+            var ts = _tagService.GetBlogTags(1);
+            if (ts == null)
+                return;
         }
         public IActionResult Index()
         {

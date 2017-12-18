@@ -51,14 +51,49 @@ namespace RBlogOnNetCore.Services
 
         public void SetTagsToBlog(int blogId, string tagNameString)
         {
+            if (string.IsNullOrEmpty(tagNameString.Trim()))
+                return;
+
             var tagNames = tagNameString.Split(',');
+
             var existenceTags = _tagEfRepository.Table.Where(t => tagNames.Contains(t.TagName)).ToList();
             var exitebceTagNames = existenceTags.Select(t => { return t.TagName; }).ToArray();
             var non_existentTagNames = tagNames.Where(name => !exitebceTagNames.Contains(name)).ToArray();
 
-            List<BlogTagMapper> bts = new List<BlogTagMapper>();
-            //foreach()
-
+            List<BlogTagMapper> newBts = new List<BlogTagMapper>();
+            int sort = 100;
+            foreach (var newTag in non_existentTagNames)
+            {
+                var tag = CreatTag(newTag);
+                if (tag.TagName == tagNames[0])
+                    sort = 10;
+                else
+                    sort = 100;
+                var bt = new BlogTagMapper()
+                {
+                    BlogId = blogId,
+                    Sort = sort,
+                    TagId = tag.Id
+                };
+                newBts.Add(bt);
+            }
+            foreach (var tag in existenceTags)
+            {
+                if (tag.TagName == tagNames[0])
+                    sort = 10;
+                else
+                    sort = 100;
+                var bt = new BlogTagMapper()
+                {
+                    BlogId = blogId,
+                    Sort = sort,
+                    TagId = tag.Id
+                };
+                newBts.Add(bt);
+            }
+            DeleteBlogTagByBlogId(blogId);
+            _blogTagMapperEfRepository.InsertList(newBts);
+            _mysqlContext.SaveChanges();
         }
         public Tag CreatTag(string tagName)
         {
@@ -77,6 +112,19 @@ namespace RBlogOnNetCore.Services
                 _mysqlContext.SaveChanges();
             }
             return tag;
+        }
+        public void DeleteBlogTagByBlogId(int blogId)
+        {
+            try
+            {
+                var bts = _blogTagMapperEfRepository.Table.Where(bt => bt.BlogId == blogId).ToList();
+                _blogTagMapperEfRepository.DeleteList(bts);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+            
         }
     }
 }
