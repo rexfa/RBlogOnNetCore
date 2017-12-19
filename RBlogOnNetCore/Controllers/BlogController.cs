@@ -23,14 +23,15 @@ namespace RBlogOnNetCore.Controllers
         private readonly IRepository<Blog> _blogRepository;
         private readonly ITagService _tagService;
 
-        public BlogController(MysqlContext context)
+        public BlogController(MysqlContext context,ITagService tagService)
         {
             this._context = context;
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._blogRepository = new EfRepository<Blog>(this._context);
-            var services = new ServiceCollection();
-            var provider = services.BuildServiceProvider();
-            this._tagService = provider.GetService<ITagService>();
+            this._tagService = tagService;
+            //var services = new ServiceCollection();
+            //var provider = services.BuildServiceProvider();
+            //this._tagService = provider.GetService<ITagService>();
             var ts = _tagService.GetBlogTags(1);
             if (ts == null)
                 return;
@@ -82,7 +83,23 @@ namespace RBlogOnNetCore.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View();
+            var blog = _blogRepository.Table.Where(b => b.Id == id).First();
+            if (blog != null)
+                return View();
+            var tagList = _tagService.GetBlogTags(blog.Id);
+            string tags = string.Join(",", tagList.Select(t => { return t.TagName; }).ToArray());
+            var model = new BlogModel()
+            {
+                Content = blog.Content,
+                CreatedOn = blog.CreatedOn,
+                CustomerId = blog.CustomerId,
+                CustomerName = "",
+                Id = blog.Id,
+                ReleasedOn = blog.ReleasedOn,
+                Title = blog.Title,
+                Tags = tags
+            };
+            return View(model);
         }
         [HttpPost]
         public ActionResult Edit(BlogModel model)

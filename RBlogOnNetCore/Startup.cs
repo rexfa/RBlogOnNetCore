@@ -51,8 +51,10 @@ namespace RBlogOnNetCore
             services.AddOptions();
             //services.AddScoped
             //services.Add
-            services.AddSingleton<ITagService, TagService>();
+
             services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
+            services.AddScoped<ITagService, TagService>();
+            //services.AddScoped<IRepository<T>where T:BaseEnt,EfRepository<T>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,9 @@
+﻿@model RBlogOnNetCore.Models.BlogModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<h2>编辑博客</h2>
+<form asp-action="Edit">
+    @await Component.InvokeAsync("BlogEdit", Model)
+</form>

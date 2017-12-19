@@ -7,7 +7,7 @@ using RBlogOnNetCore.EF;
 
 namespace RBlogOnNetCore.Services
 {
-    interface ITagService
+    public interface ITagService
     {
         IList<Tag> GetHotTags();
         IList<Tag> GetBlogTags(int blogId);

@@ -22,6 +22,12 @@ namespace RBlogOnNetCore.Services
             _tagEfRepository = new EfRepository<Tag>(this._mysqlContext);
             _blogTagMapperEfRepository = new EfRepository<BlogTagMapper>(this._mysqlContext);
         }
+        //public void DBInitialization(MysqlContext mysqlContext)
+        //{
+        //    _mysqlContext = mysqlContext;
+        //    _tagEfRepository = new EfRepository<Tag>(this._mysqlContext);
+        //    _blogTagMapperEfRepository = new EfRepository<BlogTagMapper>(this._mysqlContext);
+        //}
         public IList<Tag> GetBlogTags(int blogId)
         {
             var blogTagMappers = _blogTagMapperEfRepository.Table.Where(x => x.BlogId == blogId).ToList();
