@@ -26,9 +26,9 @@
             @if (Model.Editable)
             {
                 <div>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Edit", "Edit","Blog", new { id=item.Id }) |
+                    @Html.ActionLink("Details", "Details", "Blog",new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", "Blog",new { id = item.Id })
                 </div>
             }
         </div>

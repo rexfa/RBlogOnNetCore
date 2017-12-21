@@ -84,7 +84,7 @@ namespace RBlogOnNetCore.Controllers
         public ActionResult Edit(int id)
         {
             var blog = _blogRepository.Table.Where(b => b.Id == id).First();
-            if (blog != null)
+            if (blog == null)
                 return View();
             var tagList = _tagService.GetBlogTags(blog.Id);
             string tags = string.Join(",", tagList.Select(t => { return t.TagName; }).ToArray());
@@ -104,7 +104,19 @@ namespace RBlogOnNetCore.Controllers
         [HttpPost]
         public ActionResult Edit(BlogModel model)
         {
-            return View();
+            if (model == null)
+            {
+                return View();
+            }
+            int Id = model.Id;
+            var blog = _blogRepository.Table.Where(b => b.Id == Id).First();
+            if (blog == null)
+                return View();
+            blog.Content = model.Content;
+            blog.Title = model.Title;
+            _tagService.SetTagsToBlog(Id, model.Tags);
+            _blogRepository.Update(blog);
+            return View(model);
         }
         [HttpGet,HttpPost]
         public ActionResult BlogList()
