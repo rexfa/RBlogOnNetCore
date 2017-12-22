@@ -110,6 +110,7 @@ namespace RBlogOnNetCore.ViewComponents
             model.ReleasedOn = blog.ReleasedOn;
             model.Title = blog.Title;
         }
+        [NonAction]
         protected virtual void PrepareBlogPagingModel(BlogPagingModel model,int pageIndex = 0)
         {
             if(model == null)

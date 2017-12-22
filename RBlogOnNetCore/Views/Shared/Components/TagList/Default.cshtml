@@ -1,0 +1,23 @@
+﻿@model IEnumerable<RBlogOnNetCore.Models.TagModel>
+
+
+
+<table class="table">
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TagName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sort)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
