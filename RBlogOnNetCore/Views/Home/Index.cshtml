@@ -66,9 +66,13 @@
 </div>
 
 <div class="row">
-    <div>
+    <div class="left">
         @await Component.InvokeAsync("BlogList")      
-    </div>   
+    </div>
+    <div class="right">
+        @await Component.InvokeAsync("TagList")
+    </div>
 </div>
+
 
 

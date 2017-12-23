@@ -13,13 +13,13 @@ namespace RBlogOnNetCore.ViewComponents
 {
     public class TagListViewComponent : ViewComponent
     {
-        private readonly MysqlContext _context;
-        private readonly IRepository<Tag> _tagRepository;
-        private readonly TagService _tagService;
-        public TagListViewComponent(MysqlContext context, TagService tagService)
+        //private readonly MysqlContext _context;
+        //private readonly IRepository<Tag> _tagRepository;
+        private readonly ITagService _tagService;
+        public TagListViewComponent(ITagService tagService)
         {
-            this._context = context;
-            this._tagRepository = new EfRepository<Tag>(this._context);
+            //this._context = context;
+            //this._tagRepository = new EfRepository<Tag>(this._context);
             this._tagService = tagService;
         }
         public IViewComponentResult Invoke()
