@@ -1,4 +1,5 @@
 ﻿blog {
+
 }
 .title {
     margin-top: 10px;
@@ -8,14 +9,26 @@
     font-weight:500;
 }
 .content {
-    display: table;
-    vertical-align: middle;
+    
 }
-.publishedOn{
-    display:inline;
-    width:200px;
+.publishedOn {
+    float: right;
+    display: inline;
 }
 .author {
+    float: left;
     display: inline;
     width: 200px;
+}
+.tagList {
+    position: absolute;
+    left: 10px;
+    width: 150px;
+    font-size: 10px;
+    font-family: 'Microsoft YaHei';
+    top:inherit;
+}
+.blogList {
+    margin-left: 160px;
+    padding: 10px;
 }

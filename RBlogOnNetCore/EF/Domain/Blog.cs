@@ -16,7 +16,6 @@ namespace RBlogOnNetCore.EF.Domain
         public DateTime ReleasedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public string ImageIds { get; set; }
-        public string TagIds { get; set; }
         public Customer Customer { set; get; }
         public virtual ICollection<BlogTagMapper> BlogTagMappers { get; set; }
     }

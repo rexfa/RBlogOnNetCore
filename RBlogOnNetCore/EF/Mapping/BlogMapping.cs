@@ -12,7 +12,6 @@ namespace RBlogOnNetCore.EF.Mapping
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
             builder.Property(x => x.ImageIds).IsRequired().HasMaxLength(300);
-            builder.Property(x => x.TagIds).IsRequired().HasMaxLength(300);
             builder.Property(x => x.Content).IsRequired();
             builder.Property(x => x.CustomerId).IsRequired();
             builder.Property(x => x.IsDeleted).IsRequired();
