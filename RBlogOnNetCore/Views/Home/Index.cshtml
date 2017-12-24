@@ -69,8 +69,13 @@
     <div class="blogList">
         @await Component.InvokeAsync("BlogList")      
     </div>
-    <div class="tagList">
-        @await Component.InvokeAsync("TagList")
+    <div class="leftList">
+        <div>
+            Rex的私人博客。 
+        </div>
+        <div class="tagList">
+            @await Component.InvokeAsync("TagList")
+        </div>
     </div>
 </div>
 

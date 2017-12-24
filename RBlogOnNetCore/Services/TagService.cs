@@ -57,10 +57,13 @@ namespace RBlogOnNetCore.Services
 
         public void SetTagsToBlog(int blogId, string tagNameString)
         {
+            if (string.IsNullOrEmpty(tagNameString))
+                return;
             if (string.IsNullOrEmpty(tagNameString.Trim()))
                 return;
-
             var tagNames = tagNameString.Split(',');
+            if (tagNames.Count() <= 0)
+                return;
 
             var existenceTags = _tagEfRepository.Table.Where(t => tagNames.Contains(t.TagName)).ToList();
             var exitebceTagNames = existenceTags.Select(t => { return t.TagName; }).ToArray();

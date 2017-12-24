@@ -1,12 +1,16 @@
 ﻿blog {
 
 }
+.blogListItem{
+    position:static;
+}
 .title {
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 18px;
     font-family:'Microsoft YaHei';
     font-weight:500;
+    background-color:ivory;
 }
 .content {
     
@@ -16,17 +20,18 @@
     display: inline;
 }
 .author {
-    float: left;
     display: inline;
     width: 200px;
 }
 .tagList {
+
+}
+.leftList {
     position: absolute;
-    left: 10px;
     width: 150px;
     font-size: 10px;
     font-family: 'Microsoft YaHei';
-    top:inherit;
+    top: inherit;
 }
 .blogList {
     margin-left: 160px;
