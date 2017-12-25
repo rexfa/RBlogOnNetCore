@@ -27,13 +27,13 @@
 
 }
 .leftList {
-    position: absolute;
+    float:left;
     width: 150px;
     font-size: 10px;
     font-family: 'Microsoft YaHei';
     top: inherit;
+    height:inherit;
 }
 .blogList {
-    margin-left: 160px;
-    padding: 10px;
+    margin-left: 180px;
 }

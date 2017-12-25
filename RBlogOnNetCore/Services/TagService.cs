@@ -51,7 +51,7 @@ namespace RBlogOnNetCore.Services
 
         public Tag GetTagByName(string tagName)
         {
-            var tag = _tagEfRepository.Table.Where(t => t.TagName == tagName).First();
+            var tag = _tagEfRepository.Table.Where(t => t.TagName == tagName).FirstOrDefault();
             return tag;
         }
 
@@ -107,7 +107,7 @@ namespace RBlogOnNetCore.Services
         public Tag CreatTag(string tagName)
         {
             var tag = GetTagByName(tagName);
-            if (tag != null)
+            if (tag == null)
             {
                 var now = DateTime.Now;
                 tag = new Tag()

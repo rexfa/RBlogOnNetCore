@@ -65,19 +65,19 @@
     </a>
 </div>
 
-<div>
-    <div class="blogList">
-        @await Component.InvokeAsync("BlogList")      
-    </div>
+
     <div class="leftList">
         <div>
-            Rex的私人博客。 
+            <p>Rex的博客</p>
         </div>
         <div class="tagList">
             @await Component.InvokeAsync("TagList")
         </div>
     </div>
-</div>
+    <div class="blogList">
+        @await Component.InvokeAsync("BlogList")      
+    </div>
+
 
 
 

@@ -1,21 +1,12 @@
 ﻿@model IEnumerable<RBlogOnNetCore.Models.TagModel>
-
-
-
 <table class="table">
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.ActionLink(item.TagName, "List","Blog", new { TagId = item.Id }, new { target = "_blank" })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TagName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sort)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
+                @Html.DisplayFor(modelItem => item.ReferenceNum)
             </td>
         </tr>
 }
