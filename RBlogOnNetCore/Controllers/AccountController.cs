@@ -62,7 +62,7 @@ namespace RBlogOnNetCore.Controllers
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
                         {
-                            ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                            ExpiresUtc = DateTime.UtcNow.AddMinutes(45),//登录过期分钟数量
                             IsPersistent = false,
                             AllowRefresh = false
                         });

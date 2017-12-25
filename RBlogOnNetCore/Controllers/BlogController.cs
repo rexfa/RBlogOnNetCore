@@ -70,6 +70,7 @@ namespace RBlogOnNetCore.Controllers
                 };
                 _blogRepository.Insert(blog);
                 _context.SaveChanges();
+                _tagService.SetTagsToBlog(blog.Id, model.Tags);
                 model.Id = blog.Id;
                 model.CreatedOn = blog.CreatedOn;
                 model.ReleasedOn = blog.ReleasedOn;

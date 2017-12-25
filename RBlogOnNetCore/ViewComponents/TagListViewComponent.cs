@@ -31,7 +31,8 @@ namespace RBlogOnNetCore.ViewComponents
                 TagModel tm = new TagModel()
                 {
                     Id = t.Id,
-                    TagName = t.TagName
+                    TagName = t.TagName,
+                    ReferenceNum = t.ReferenceNum                    
                 };
                 tms.Add(tm);
             }
