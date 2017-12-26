@@ -12,10 +12,14 @@
             <div class="title">
                     @Html.DisplayFor(modelItem => item.Title)
             </div>
-            <div class="content">
-                @Html.Raw(item.Content)
+            <div class="content-cover">
+                <div class="content-scroll">
+                    <div class="content">
+                        @Html.Raw(item.Content)
+                    </div>
+                </div>
             </div>
-            <div>
+            <div class="info">
                 <div class="author">
                     @Html.DisplayFor(modelItem => item.CustomerName)
                 </div>
@@ -23,14 +27,15 @@
                     @Html.DisplayFor(modelItem => item.ReleasedOn)
                 </div>
             </div>
-            @if (Model.Editable)
-            {
-                <div>
-                    @Html.ActionLink("Edit", "Edit","Blog", new { id=item.Id }) |
-                    @Html.ActionLink("Details", "Details", "Blog",new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", "Blog",new { id = item.Id })
-                </div>
-            }
+
+            <div class="info">
+                @Html.ActionLink("详细", "Details", "Blog", new { id = item.Id }) ;
+                @if (Model.Editable)
+                {
+                    @Html.ActionLink("编辑", "Edit", "Blog", new { id = item.Id }) ;
+                    @Html.ActionLink("删除", "Delete", "Blog", new { id = item.Id });
+                }
+            </div>
         </div>
     }
 </div>

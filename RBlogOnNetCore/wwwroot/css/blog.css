@@ -13,7 +13,20 @@
     background-color:ivory;
 }
 .content {
-    
+    position: relative;
+    overflow-x: visible;
+    white-space: nowrap;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+.content-scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.content-cover {
+    max-height: 200px;
+    overflow: hidden;
+    background-size: cover;
 }
 .publishedOn {
     float: right;
@@ -36,4 +49,7 @@
 }
 .blogList {
     margin-left: 180px;
+}
+.info{
+    background-color:azure;
 }
