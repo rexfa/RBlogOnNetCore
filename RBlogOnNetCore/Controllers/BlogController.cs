@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace RBlogOnNetCore.Controllers
 {
-    [Authorize]
     public class BlogController : Controller
     {
         private readonly MysqlContext _context;
@@ -40,6 +39,7 @@ namespace RBlogOnNetCore.Controllers
         {
             return View();
         }
+        [Authorize]
         [HttpGet]
         public ActionResult Add()
         {
@@ -47,6 +47,7 @@ namespace RBlogOnNetCore.Controllers
             this.HttpContext.Response.Headers.Add("Expires", new[] { DateTime.UtcNow.AddYears(1).ToString("R") }); // Format RFC1123        }
             return View();
         }
+        [Authorize]
         [HttpPost]
         public ActionResult Add(BlogModel model)
         {
@@ -81,6 +82,7 @@ namespace RBlogOnNetCore.Controllers
             }            
             return View(model);
         }
+        [Authorize]
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -102,6 +104,7 @@ namespace RBlogOnNetCore.Controllers
             };
             return View(model);
         }
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(BlogModel model)
         {
@@ -110,7 +113,7 @@ namespace RBlogOnNetCore.Controllers
                 return View();
             }
             int Id = model.Id;
-            var blog = _blogRepository.Table.Where(b => b.Id == Id).First();
+            var blog = _blogRepository.Table.Where(b => b.Id == Id).FirstOrDefault();
             if (blog == null)
                 return View();
             blog.Content = model.Content;
@@ -147,6 +150,28 @@ namespace RBlogOnNetCore.Controllers
             //    return Content("还没有博客");
             //}
             return Content("还没有博客");
+        }
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var blog = _blogRepository.Table.Where(b => b.Id == id).FirstOrDefault();
+            if (blog == null)
+                return View();
+            var model = new BlogModel()
+            {
+                Id = blog.Id,
+                Title = blog.Title,
+                Content = blog.Content,
+                CreatedOn = blog.CreatedOn,
+                ReleasedOn = blog.ReleasedOn,
+                Tags =string.Join(",",_tagService.GetBlogTags(id).Select(t=> { return t.TagName; }).ToList())
+            };
+            var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+            if (isAuthenticated)
+            {
+                model.Editable = true;
+            }
+            return View(model);
         }
     }
 }

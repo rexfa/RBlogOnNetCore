@@ -1,0 +1,55 @@
+﻿@model RBlogOnNetCore.Models.BlogModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div>
+    <h3>@Html.DisplayFor(model => model.Title)</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+        </dt>
+        <dd>
+            @Html.Raw(Model.Content)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReleasedOn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReleasedOn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.Editable)
+    {
+        @Html.ActionLink("编辑", "Edit", "Blog", new { id = Model.Id })
+    }
+    | <a href="#" onclick="javascript:window.history.back();"> 回退 </a>
+</div >

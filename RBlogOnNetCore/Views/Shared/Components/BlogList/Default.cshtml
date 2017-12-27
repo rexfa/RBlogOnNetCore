@@ -5,7 +5,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 }
-<div>
+<div id="blogContent">
     @foreach (var item in Model.Blogs)
     {
         <div class="blogListItem">
@@ -13,10 +13,22 @@
                     @Html.DisplayFor(modelItem => item.Title)
             </div>
             <div class="content-cover">
-                <div class="content-scroll">
+
                     <div class="content">
                         @Html.Raw(item.Content)
                     </div>
+            </div>
+            <div id="@Html.Raw("cover"+item.Id)"  class="operational">
+                <div class="operational-btn">
+                   <!-- <a href="#" onclick="Expand(@Html.Raw(item.Id));">展开</a>|-->
+                    @Html.ActionLink("详细", "Details", "Blog", new { id = item.Id }) 
+                    @if (Model.Editable)
+                    {
+                        @Html.Raw("|")                            
+                        @Html.ActionLink("编辑", "Edit", "Blog", new { id = item.Id }) 
+                        @Html.Raw("|")  
+                        @Html.ActionLink("删除", "Delete", "Blog", new { id = item.Id })
+                    }
                 </div>
             </div>
             <div class="info">
@@ -26,15 +38,6 @@
                 <div class="publishedOn">
                     @Html.DisplayFor(modelItem => item.ReleasedOn)
                 </div>
-            </div>
-
-            <div class="info">
-                @Html.ActionLink("详细", "Details", "Blog", new { id = item.Id }) ;
-                @if (Model.Editable)
-                {
-                    @Html.ActionLink("编辑", "Edit", "Blog", new { id = item.Id }) ;
-                    @Html.ActionLink("删除", "Delete", "Blog", new { id = item.Id });
-                }
             </div>
         </div>
     }
@@ -46,3 +49,18 @@
     @Html.Raw(Model.BeginTime)--
     @Html.Raw(Model.EndTime)
 </div>
+<script language="javascript" type="text/javascript" src="~/js/jquery-3.2.1.min.js"></script>
+<script language="javascript" type="text/javascript">
+    $(function () {
+        $("#blogContent operational").bind("click", function () {
+            //$(this).css("border", "3px solid red").siblings().css("border", "1px solid #cccccc");
+            //$(this).removeClass("imgsrc").addClass("selected_imgsrc").siblings().removeClass("selected_imgsrc").addClass("imgsrc");
+            $(this).removeClass("operational").addClass("operational-displaynone").siblings().removeClass("operational-displaynone").addClass("operational");
+        })
+    });
+    function Expand(id) {
+        //$("#blogContent").siblings(".operational-displaynone").removeClass("operational-displaynone").addClass("operational");
+        $("#cover" + id).removeClass("operational").addClass("operational-displaynone").siblings().removeClass("operational-displaynone").addClass("operational");
+       
+     }
+</script>

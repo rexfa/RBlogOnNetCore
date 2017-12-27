@@ -15,5 +15,6 @@ namespace RBlogOnNetCore.Models
         public int CustomerId { get; set; }
         public string CustomerName { set; get; }
         public string Tags { set; get; }
+        public bool Editable { get; set; }
     }
 }

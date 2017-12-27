@@ -15,18 +15,12 @@
 .content {
     position: relative;
     overflow-x: visible;
-    white-space: nowrap;
-    padding-top: 10vh;
-    padding-bottom: 10vh;
-}
-.content-scroll {
-    overflow-y: scroll;
-    overflow-x: hidden;
 }
 .content-cover {
-    max-height: 200px;
+    max-height: 220px;
     overflow: hidden;
     background-size: cover;
+    background-color: rgba(0, 0, 0, .1);
 }
 .publishedOn {
     float: right;
@@ -50,6 +44,35 @@
 .blogList {
     margin-left: 180px;
 }
-.info{
-    background-color:azure;
+.info {
+    background-color: rgba(0, 0, 0, .1);
+}
+.operational {
+    text-align: center;
+    position: relative;
+    z-index: 9999;
+    margin-top: -40px;
+    height: 40px;
+    background: -moz-linear-gradient(bottom,rgba(255,255,255,.1),rgba(255,255,255,0));
+    background: -webkit-gradient(linear,0 top,0 bottom,from(rgba(255,255,255,0)),to(#fff));
+    background: -o-linear-gradient(bottom,rgba(255,255,255,.1),rgba(255,255,255,0));
+}
+.operational-displaynone {
+    display:none;
+}
+.operational-btn {
+    font-size: 12px;
+    color: #de686d;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #3f82ca;
+    line-height: 25px;
+    min-width: 100px;
+    text-align: center;
+    padding: 0 20px;
+    display: inline-block;
+    height: 28px;
+    white-space: nowrap;
+    vertical-align: middle;
+    margin: 0 auto;
 }
