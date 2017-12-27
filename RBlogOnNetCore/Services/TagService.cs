@@ -45,7 +45,7 @@ namespace RBlogOnNetCore.Services
 
         public IList<Tag> GetHotTags()
         {
-            var hotTags = _tagEfRepository.Table.OrderByDescending(t => t.ReferenceNum).Take(5).ToList();
+            var hotTags = _tagEfRepository.Table.OrderByDescending(t => t.ReferenceNum).Take(20).ToList();
             return hotTags;
         }
 

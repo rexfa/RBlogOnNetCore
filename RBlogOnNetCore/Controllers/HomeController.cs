@@ -72,7 +72,7 @@ namespace RBlogOnNetCore.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "开发当个产品经理怎么样？";
+            ViewData["Message"] = "开发当个产品经理怎么样？服务器时间"+DateTime.Now.ToString();
 
             return View();
         }
