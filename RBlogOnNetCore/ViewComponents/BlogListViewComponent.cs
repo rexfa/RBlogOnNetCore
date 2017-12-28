@@ -23,7 +23,7 @@ namespace RBlogOnNetCore.ViewComponents
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._blogRepository = new EfRepository<Blog>(this._context);
         }
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(List<Blog> blogs)
         {
             // async Task<IViewComponentResult> 
             //ContentViewComponentResult
@@ -33,20 +33,23 @@ namespace RBlogOnNetCore.ViewComponents
             //http://www.cnblogs.com/shenba/p/6629212.html
 
             //var blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).TakeLast(10);
-            List<Blog> blogs = null;
-            try
+            if (blogs == null)
             {
-                blogs = _blogRepository.Table.OrderByDescending(b => b.ReleasedOn).Take(10).ToList();
-            }
-            catch (Exception ex)
-            {
-                return View("NoData",ex.Message);
+                try
+                {
+                    blogs = _blogRepository.Table.OrderByDescending(b => b.ReleasedOn).Take(10).ToList();
+                }
+                catch (Exception ex)
+                {
+                    return View("NoData", ex.Message);
+                }
             }
             if (blogs.Count>0)
             {
                 var cs = _customerRepository.Table.FirstOrDefault();//执行过一次就可以在以下b.Customer里呼出了，奇怪
                 BlogPagingModel model = new BlogPagingModel();
-                PrepareBlogPagingModel(model);
+                IPagedList<Blog> pagedBlogs = new PagedList<Blog>(blogs, 0, 10);
+                PrepareBlogPagingModel(model,pagedBlogs);
                 //model.Blogs = new List<BlogModel>();
                 //foreach (Blog b in blogs)
                 //{
@@ -111,11 +114,14 @@ namespace RBlogOnNetCore.ViewComponents
             model.Title = blog.Title;
         }
         [NonAction]
-        protected virtual void PrepareBlogPagingModel(BlogPagingModel model,int pageIndex = 0)
+        protected virtual void PrepareBlogPagingModel(BlogPagingModel model, IPagedList<Blog> blogs, int pageIndex = 0)
         {
-            if(model == null)
+            if (model == null)
                 throw new Exception("model is null!");
-            IPagedList<Blog> blogs = GetBlogs(pageIndex,10);
+            if (blogs == null)
+            { 
+                blogs = GetBlogs(pageIndex, 10);
+            }
             model.TotalPages = blogs.TotalPages;
             model.Index = blogs.PageIndex;
             model.PageSize = blogs.PageSize;

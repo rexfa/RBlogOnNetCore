@@ -47,6 +47,7 @@ namespace RBlogOnNetCore
                     options.LoginPath = new PathString("/login");
                     options.AccessDeniedPath = new PathString("/denied");
                 });
+            services.AddMemoryCache();
             services.AddMvc();
             services.AddOptions();
             //services.AddScoped
@@ -54,6 +55,7 @@ namespace RBlogOnNetCore
 
             services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IBlogService, BlogService>();
             //services.AddScoped<IRepository<T>where T:BaseEnt,EfRepository<T>>();
         }
 

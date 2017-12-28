@@ -21,13 +21,15 @@ namespace RBlogOnNetCore.Controllers
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Blog> _blogRepository;
         private readonly ITagService _tagService;
+        private readonly IBlogService _blogService;
 
-        public BlogController(MysqlContext context,ITagService tagService)
+        public BlogController(MysqlContext context,ITagService tagService,IBlogService blogService)
         {
             this._context = context;
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._blogRepository = new EfRepository<Blog>(this._context);
             this._tagService = tagService;
+            this._blogService = blogService;
             //var services = new ServiceCollection();
             //var provider = services.BuildServiceProvider();
             //this._tagService = provider.GetService<ITagService>();
@@ -123,33 +125,21 @@ namespace RBlogOnNetCore.Controllers
             return View(model);
         }
         [HttpGet,HttpPost]
-        public ActionResult BlogList()
+        public ActionResult List(int TagId)
         {
             //http://www.cnblogs.com/sanshi/p/7750497.html
-            List<Blog> blogs = _blogRepository.Table.OrderByDescending(b => b.ReleasedOn).TakeLast(10).ToList();
-            //if (blogs.Count > 0)
+            var tag = _tagService.GetTagById(TagId);
+            ViewData["tagName"] = tag.TagName;
+            var blogs = _blogService.GetBlogsByTagId(TagId);
+            if(blogs==null)
+                return Content("还没有博客");
+            if(blogs.Count==0)
+                return Content("还没有博客");
+            //foreach (var blog in blogs)
             //{
-            //    BasePageableModel model = new BasePageableModel();
-            //    model.Blogs = new List<BlogModel>();
-            //    foreach (Blog b in blogs)
-            //    {
-            //        var blogModel = new BlogModel()
-            //        {
-            //            id = b.id,
-            //            content = b.content,
-            //            createdOn = b.createdOn,
-            //            releasedOn = b.releasedOn,
-            //            customerName = b.Customer.name
-            //        };
-            //        model.Blogs.Add(blogModel);
-            //    }
-            //    return PartialView("_BlogList", model);
+
             //}
-            //else
-            //{
-            //    return Content("还没有博客");
-            //}
-            return Content("还没有博客");
+            return View(blogs.ToList());
         }
         [HttpGet]
         public ActionResult Details(int id)

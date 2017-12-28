@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
+using RBlogOnNetCore.Configuration;
 using RBlogOnNetCore.Models;
 using RBlogOnNetCore.EF;
 using RBlogOnNetCore.EF.Domain;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 
 namespace RBlogOnNetCore.Services
 {
@@ -15,12 +17,14 @@ namespace RBlogOnNetCore.Services
         private readonly MysqlContext _mysqlContext;
         private readonly EfRepository<Tag> _tagEfRepository;
         private readonly EfRepository<BlogTagMapper> _blogTagMapperEfRepository;
+        private readonly IMemoryCache _memoryCache;
 
-        public TagService(MysqlContext mysqlContext)
+        public TagService(MysqlContext mysqlContext, IMemoryCache memoryCache)
         {
             _mysqlContext = mysqlContext;
             _tagEfRepository = new EfRepository<Tag>(this._mysqlContext);
             _blogTagMapperEfRepository = new EfRepository<BlogTagMapper>(this._mysqlContext);
+            _memoryCache = memoryCache;
         }
         //public void DBInitialization(MysqlContext mysqlContext)
         //{
@@ -45,7 +49,14 @@ namespace RBlogOnNetCore.Services
 
         public IList<Tag> GetHotTags()
         {
-            var hotTags = _tagEfRepository.Table.OrderByDescending(t => t.ReferenceNum).Take(20).ToList();
+            var hotTags = _memoryCache.GetOrCreate(RBMemCacheKeys.HOTTAGSKEY, entry => {
+                var query = _tagEfRepository.Table.OrderByDescending(t => t.ReferenceNum).Take(20);
+                var tags = query.ToList();
+                SetTagReferenceNum(tags);
+                return tags;
+
+            });
+           
             return hotTags;
         }
 
@@ -135,5 +146,24 @@ namespace RBlogOnNetCore.Services
             }
             
         }
+        public Tag GetTagById(int Id)
+        {
+            return _tagEfRepository.GetById(Id);
+        }
+        #region Internal function
+        private void SetTagReferenceNum(List<Tag> tags)
+        {
+            if(tags!=null)
+            {
+                foreach (var tag in tags)
+                {
+                    int num = _blogTagMapperEfRepository.Table.Where(tb => tb.TagId == tag.Id).Count();
+                    tag.ReferenceNum = num;
+                    _tagEfRepository.Update(tag);
+                }
+                _mysqlContext.SaveChanges();
+            }
+        }
+        #endregion
     }
 }

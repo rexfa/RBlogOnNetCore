@@ -1,0 +1,11 @@
+﻿@model IEnumerable<RBlogOnNetCore.EF.Domain.Blog>
+
+@{
+    ViewData["Title"] = "标签<"+ViewData["tagName"]+">的文章";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="blogList">
+    @await Component.InvokeAsync("BlogList", Model)
+</div>

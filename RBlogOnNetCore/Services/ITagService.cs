@@ -14,5 +14,6 @@ namespace RBlogOnNetCore.Services
         void SetTagsToBlog(int blogId, string tags);
         Tag GetTagByName(string tagName);
         Tag CreatTag(string tagName);
+        Tag GetTagById(int Id);
     }
 }
