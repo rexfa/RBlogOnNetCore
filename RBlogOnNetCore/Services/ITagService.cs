@@ -15,5 +15,6 @@ namespace RBlogOnNetCore.Services
         Tag GetTagByName(string tagName);
         Tag CreatTag(string tagName);
         Tag GetTagById(int Id);
+        void ClearTagsCache(string key = null);
     }
 }

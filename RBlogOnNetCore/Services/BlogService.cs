@@ -13,30 +13,52 @@ namespace RBlogOnNetCore.Services
     public class BlogService : IBlogService
     {
         private readonly MysqlContext _mysqlContext;
-        private readonly EfRepository<Blog> _blogEfRepository;
-        private readonly EfRepository<BlogTagMapper> _blogTagMapperEfRepository;
+        private readonly EfRepository<Blog> _blogRepository;
+        private readonly EfRepository<BlogTagMapper> _blogTagMapperRepository;
         private readonly IMemoryCache _memoryCache;
-        public BlogService(MysqlContext mysqlContext, IMemoryCache memoryCache)
+        private readonly ITagService _tagService;
+        public BlogService(MysqlContext mysqlContext, IMemoryCache memoryCache, ITagService tagService)
         {
             _mysqlContext = mysqlContext;
-            _blogEfRepository = new EfRepository<Blog>(this._mysqlContext);
-            _blogTagMapperEfRepository = new EfRepository<BlogTagMapper>(this._mysqlContext);
+            _blogRepository = new EfRepository<Blog>(this._mysqlContext);
+            _blogTagMapperRepository = new EfRepository<BlogTagMapper>(this._mysqlContext);
             _memoryCache = memoryCache;
+            _tagService = tagService;
         }
 
         public IList<Blog> GetBlogsByTagId(int tagId)
         {
-            var blogTagMappers = _blogTagMapperEfRepository.Table.Where(x => x.TagId == tagId).ToList();
+            var blogTagMappers = _blogTagMapperRepository.Table.Where(x => x.TagId == tagId).ToList();
             if (blogTagMappers != null)
             {
                 var blogIds = blogTagMappers.Select(bt => { return bt.BlogId; }).ToArray();
-                var blogs = _blogEfRepository.Table.Where(b => blogIds.Contains(b.Id)).OrderByDescending(b=>b.ReleasedOn).ToList();
+                var blogs = _blogRepository.Table.Where(b => blogIds.Contains(b.Id)).OrderByDescending(b=>b.ReleasedOn).ToList();
                 return blogs;
             }
             else
             {
                 return null;
             }
+        }
+
+        public Blog InsertBlog(BlogModel blogModel)
+        {
+            DateTime now = DateTime.Now;
+            var blog = new Blog()
+            {
+                Title = blogModel.Title,
+                CustomerId = blogModel.CustomerId,
+                Content = blogModel.Content,
+                CreatedOn = now,
+                UpdatedOn = now,
+                ReleasedOn = now,
+                IsDeleted = false,
+                IsReleased = true
+            };
+            _blogRepository.Insert(blog);
+            _mysqlContext.SaveChanges();
+            _tagService.SetTagsToBlog(blog.Id, blogModel.Tags);
+            return blog;
         }
     }
 }

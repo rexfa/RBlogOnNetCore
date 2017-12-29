@@ -60,20 +60,8 @@ namespace RBlogOnNetCore.Controllers
                 var now = DateTime.Now;
                 //用户Id
                 var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
-                var blog = new Blog()
-                {
-                    Title = model.Title,
-                    CustomerId = int.Parse(CustomerId),
-                    Content = model.Content,
-                    CreatedOn = now,
-                    UpdatedOn = now,
-                    ReleasedOn = now,
-                    IsDeleted = false,
-                    IsReleased = true
-                };
-                _blogRepository.Insert(blog);
-                _context.SaveChanges();
-                _tagService.SetTagsToBlog(blog.Id, model.Tags);
+                model.CustomerId = int.Parse(CustomerId);
+                var blog = _blogService.InsertBlog(model);
                 model.Id = blog.Id;
                 model.CreatedOn = blog.CreatedOn;
                 model.ReleasedOn = blog.ReleasedOn;

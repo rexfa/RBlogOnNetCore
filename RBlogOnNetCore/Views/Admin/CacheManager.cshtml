@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewData["Title"] = "高速缓存管理";
+}
+
+<h2>高速缓存管理</h2>
+<h3>@ViewData["result"]</h3>
+<form asp-action="CacheManager">
+    <input id="command" name="command" type="submit" value="ClearAll"/>
+</form>

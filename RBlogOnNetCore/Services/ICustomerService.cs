@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.EF;
-using RBlogOnNetCore.Models;
+
 
 namespace RBlogOnNetCore.Services
 {
-    public interface IBlogService
+    public interface ICustomerService
     {
-        IList<Blog> GetBlogsByTagId(int tagId);
-        Blog InsertBlog(BlogModel blogModel);
+        Customer GetCustomerById(int id);
+
     }
 }

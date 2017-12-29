@@ -114,6 +114,7 @@ namespace RBlogOnNetCore.Services
             DeleteBlogTagByBlogId(blogId);
             _blogTagMapperEfRepository.InsertList(newBts);
             _mysqlContext.SaveChanges();
+            ClearTagsCache(RBMemCacheKeys.HOTTAGSKEY);
         }
         public Tag CreatTag(string tagName)
         {
@@ -139,6 +140,7 @@ namespace RBlogOnNetCore.Services
             {
                 var bts = _blogTagMapperEfRepository.Table.Where(bt => bt.BlogId == blogId).ToList();
                 _blogTagMapperEfRepository.DeleteList(bts);
+                ClearTagsCache(RBMemCacheKeys.HOTTAGSKEY);
             }
             catch (Exception ex)
             {
@@ -162,6 +164,18 @@ namespace RBlogOnNetCore.Services
                     _tagEfRepository.Update(tag);
                 }
                 _mysqlContext.SaveChanges();
+            }
+        }
+
+        public void ClearTagsCache(string key = null)
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                _memoryCache.Remove(RBMemCacheKeys.HOTTAGSKEY);
+            }
+            else
+            {
+                _memoryCache.Remove(key);
             }
         }
         #endregion
