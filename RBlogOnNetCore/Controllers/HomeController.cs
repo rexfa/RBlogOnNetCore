@@ -52,11 +52,12 @@ namespace RBlogOnNetCore.Controllers
             }
             */
             //var firstCustomer = _customerRepository.Table.FirstOrDefault();
-            
+
             //if (firstCustomer != null)
             //{
             //    ViewData["fristCustomerName"] = firstCustomer.Name;
             //}
+            ViewData["Title"] = "Rex的博客";
             return View();
         }
 
