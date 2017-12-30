@@ -57,7 +57,7 @@ namespace RBlogOnNetCore.Controllers
             //{
             //    ViewData["fristCustomerName"] = firstCustomer.Name;
             //}
-            ViewData["Title"] = "Rex的博客";
+
             return View();
         }
 

@@ -98,21 +98,21 @@ namespace RBlogOnNetCore
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-        public void CheckBaseData()
-        {
-            var options = new DbContextOptions<MysqlContext>();
-            MysqlContext _context = new MysqlContext(options);
-            IRepository<Customer> _customerRepository = new EfRepository<Customer>(_context);
-            var firstCustomer = _customerRepository.Table.FirstOrDefault();
-            if (firstCustomer == null)
-            {
-                Guid guid = new Guid();
-                string salt = "1234";
-                string password = SecurityTools.MD5Hash("123qwe" + salt);
-                Customer customer = new Customer() { Name = "Blogowner", CreatedOn = DateTime.Now,Password = password,Salt =salt,Guid = guid.ToByteArray() };
-                _customerRepository.Insert(customer);
-                _context.SaveChanges();
-            }
-        }
+        //public void CheckBaseData()
+        //{
+        //    var options = new DbContextOptions<MysqlContext>();
+        //    MysqlContext _context = new MysqlContext(options);
+        //    IRepository<Customer> _customerRepository = new EfRepository<Customer>(_context);
+        //    var firstCustomer = _customerRepository.Table.FirstOrDefault();
+        //    if (firstCustomer == null)
+        //    {
+        //        Guid guid = new Guid();
+        //        string salt = "1234";
+        //        string password = SecurityTools.MD5Hash("123" + salt);
+        //        Customer customer = new Customer() { Name = "admin", CreatedOn = DateTime.Now,Password = password,Salt =salt,Guid = guid.ToByteArray() };
+        //        _customerRepository.Insert(customer);
+        //        _context.SaveChanges();
+        //    }
+        //}
     }
 }
