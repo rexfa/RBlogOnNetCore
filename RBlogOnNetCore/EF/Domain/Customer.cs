@@ -24,6 +24,8 @@ namespace RBlogOnNetCore.EF.Domain
         //}
         public virtual ICollection<Picture> Pictures { get; set; }
 
+        public virtual ICollection<CustomerRoleMapper> CustomerRoleMapper { get; set; }
+
         #endregion
     }
 }

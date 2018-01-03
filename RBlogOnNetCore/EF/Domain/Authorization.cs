@@ -10,5 +10,6 @@ namespace RBlogOnNetCore.EF.Domain
         public string URLAction { get; set; }
         public bool IsNeedAuthorization { get; set; }
         public string UnauthorizedJump { get; set; }
+        public virtual ICollection<RoleAuthorizationMapper> RoleAuthorizationMapper { get; set; }
     }
 }

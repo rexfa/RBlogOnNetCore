@@ -8,5 +8,7 @@ namespace RBlogOnNetCore.EF.Domain
         public bool IsSystem { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
+        public virtual ICollection<CustomerRoleMapper> CustomerRoleMapper { get; set; }
+        public virtual ICollection<RoleAuthorizationMapper> RoleAuthorizationMapper { get; set; }
     }
 }
