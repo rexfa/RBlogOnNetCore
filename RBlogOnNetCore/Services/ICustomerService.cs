@@ -11,6 +11,7 @@ namespace RBlogOnNetCore.Services
         Customer GetCustomerById(int id);
         IList<Role> GetCustomerRols(Customer customer);
         IList<Authorization> GetCustomerAuthorization(Customer customer);
+        IList<Authorization> GetRoleAuthorization(Role role);
 
     }
 }

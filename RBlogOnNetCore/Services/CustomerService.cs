@@ -31,17 +31,44 @@ namespace RBlogOnNetCore.Services
         }
         public IList<Authorization> GetCustomerAuthorization(Customer customer)
         {
-            throw new NotImplementedException();
+            var roles = GetCustomerRols(customer);
+            List<Authorization> authorizations = new List<Authorization>();
+            foreach (var role in roles)
+            {
+                var ats = GetRoleAuthorization(role);
+                authorizations.AddRange(ats);
+            }
+            return authorizations;
         }
 
         public Customer GetCustomerById(int id)
         {
-            throw new NotImplementedException();
+            var customer = _customerRepository.GetById(id);
+            return customer;
         }
-
+        public IList<Authorization> GetRoleAuthorization(Role role)
+        {
+            List<RoleAuthorizationMapper> roleAuthorizationMappers = _roleAuthorizationMapperRepository.Table.Where(ra => ra.RoleId == role.Id).ToList();
+            List<Authorization> authorizations = new List<Authorization>();
+            foreach (var roleAuthorizationMapper in roleAuthorizationMappers)
+            {
+                var authorization = _authorizationRepository.GetById(roleAuthorizationMapper.AuthorizationId);
+                if (authorization == null)
+                    authorizations.Add(authorization);
+            }
+            return authorizations;
+        }
         public IList<Role> GetCustomerRols(Customer customer)
         {
-            throw new NotImplementedException();
+            List<CustomerRoleMapper> customerRoleMappers = _customerRoleMapperRepository.Table.Where(cr => cr.CustomerId == customer.Id).ToList();
+            List<Role> roles = new List<Role>();
+            foreach (var customerRoleMapper in customerRoleMappers)
+            {
+                var role = _roleRepository.GetById(customerRoleMapper.RoleId);
+                if (role == null)
+                    roles.Add(role);
+            }
+            return roles;
         }
     }
 }
