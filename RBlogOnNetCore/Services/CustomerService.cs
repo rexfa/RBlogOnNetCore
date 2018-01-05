@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RBlogOnNetCore.EF.Domain;
 using RBlogOnNetCore.EF;
+using RBlogOnNetCore.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 namespace RBlogOnNetCore.Services
 {
@@ -29,15 +30,21 @@ namespace RBlogOnNetCore.Services
             _roleRepository = new EfRepository<Role>(this._mysqlContext);
 
         }
-        public IList<Authorization> GetCustomerAuthorization(Customer customer)
+        public IList<Authorization> GetCustomerAuthorization(Customer customer,bool recache)
         {
-            var roles = GetCustomerRols(customer);
-            List<Authorization> authorizations = new List<Authorization>();
-            foreach (var role in roles)
-            {
-                var ats = GetRoleAuthorization(role);
-                authorizations.AddRange(ats);
-            }
+            string cacheKey = RBMemCacheKeys.CUSTOMERAUTHORIZATIONKEY + customer.Id.ToString();
+            if (recache)
+                ClearCustomersCache(cacheKey);
+            var authorizations = _memoryCache.GetOrCreate(cacheKey, entry => {
+                var roles = GetCustomerRols(customer);
+                List<Authorization> aus = new List<Authorization>();
+                foreach (var role in roles)
+                {
+                    var ats = GetRoleAuthorization(role);
+                    aus.AddRange(ats);
+                }
+                return aus; 
+            });
             return authorizations;
         }
 
@@ -69,6 +76,21 @@ namespace RBlogOnNetCore.Services
                     roles.Add(role);
             }
             return roles;
+        }
+        public void ClearCustomersCache(string key = null)
+        {
+            if (string.IsNullOrEmpty(key))
+            {
+                var ids = _customerRepository.Table.Select(x => x.Id).ToList();
+                foreach (int id in ids)
+                {
+                    _memoryCache.Remove(RBMemCacheKeys.CUSTOMERAUTHORIZATIONKEY+id.ToString());
+                }
+            }
+            else
+            {
+                _memoryCache.Remove(key);
+            }
         }
     }
 }

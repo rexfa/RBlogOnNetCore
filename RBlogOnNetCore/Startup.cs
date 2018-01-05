@@ -56,6 +56,7 @@ namespace RBlogOnNetCore
             services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IMemCacheService, MemCacheService>();
             //services.AddScoped<IRepository<T>where T:BaseEnt,EfRepository<T>>();
         }

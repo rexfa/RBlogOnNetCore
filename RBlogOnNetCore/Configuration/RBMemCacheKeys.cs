@@ -8,5 +8,6 @@ namespace RBlogOnNetCore.Configuration
     public struct RBMemCacheKeys
     {
         public static string HOTTAGSKEY = "memcachekey.tags.hottags";
+        public static string CUSTOMERAUTHORIZATIONKEY = "memcachekey.customers.authorization.";
     }
 }

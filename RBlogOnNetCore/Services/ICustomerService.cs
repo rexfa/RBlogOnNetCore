@@ -10,8 +10,9 @@ namespace RBlogOnNetCore.Services
     {
         Customer GetCustomerById(int id);
         IList<Role> GetCustomerRols(Customer customer);
-        IList<Authorization> GetCustomerAuthorization(Customer customer);
+        IList<Authorization> GetCustomerAuthorization(Customer customer, bool recache);
         IList<Authorization> GetRoleAuthorization(Role role);
+        void ClearCustomersCache(string key = null);
 
     }
 }
