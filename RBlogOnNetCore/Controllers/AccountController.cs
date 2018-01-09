@@ -66,6 +66,7 @@ namespace RBlogOnNetCore.Controllers
                             IsPersistent = false,
                             AllowRefresh = false
                         });
+                        
                         var user = HttpContext.User;
                         return Redirect("/blog/add");
                     }
