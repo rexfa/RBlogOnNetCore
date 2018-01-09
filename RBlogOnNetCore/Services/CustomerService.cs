@@ -30,13 +30,13 @@ namespace RBlogOnNetCore.Services
             _roleRepository = new EfRepository<Role>(this._mysqlContext);
 
         }
-        public IList<Authorization> GetCustomerAuthorization(Customer customer,bool recache)
+        public IList<Authorization> GetCustomerAuthorization(Customer customer,bool recache = false)
         {
             string cacheKey = RBMemCacheKeys.CUSTOMERAUTHORIZATIONKEY + customer.Id.ToString();
             if (recache)
                 ClearCustomersCache(cacheKey);
             var authorizations = _memoryCache.GetOrCreate(cacheKey, entry => {
-                var roles = GetCustomerRols(customer);
+                var roles = GetCustomerRoles(customer);
                 List<Authorization> aus = new List<Authorization>();
                 foreach (var role in roles)
                 {
@@ -65,17 +65,29 @@ namespace RBlogOnNetCore.Services
             }
             return authorizations;
         }
-        public IList<Role> GetCustomerRols(Customer customer)
+        public IList<Role> GetCustomerRoles(Customer customer, bool recache = false)
         {
-            List<CustomerRoleMapper> customerRoleMappers = _customerRoleMapperRepository.Table.Where(cr => cr.CustomerId == customer.Id).ToList();
-            List<Role> roles = new List<Role>();
-            foreach (var customerRoleMapper in customerRoleMappers)
+            string cacheKey = RBMemCacheKeys.CUSTOMERROLEKEY + customer.Id.ToString();
+            if (recache)
+                ClearCustomersCache(cacheKey);
+            List<Role> rs =  _memoryCache.GetOrCreate(cacheKey, entry => 
             {
-                var role = _roleRepository.GetById(customerRoleMapper.RoleId);
-                if (role == null)
-                    roles.Add(role);
-            }
-            return roles;
+                List<CustomerRoleMapper> customerRoleMappers = _customerRoleMapperRepository.Table.Where(cr => cr.CustomerId == customer.Id).ToList();
+                List<Role> roles = new List<Role>();
+                foreach (var customerRoleMapper in customerRoleMappers)
+                {
+                    var role = _roleRepository.GetById(customerRoleMapper.RoleId);
+                    if (role == null)
+                        roles.Add(role);
+                }
+                return roles;
+            });
+
+            return rs;
+        }
+        public bool IsAdmin(Role role)
+        {
+            return role.RoleName.Equals("sysadmin");
         }
         public void ClearCustomersCache(string key = null)
         {
@@ -85,6 +97,7 @@ namespace RBlogOnNetCore.Services
                 foreach (int id in ids)
                 {
                     _memoryCache.Remove(RBMemCacheKeys.CUSTOMERAUTHORIZATIONKEY+id.ToString());
+                    _memoryCache.Remove(RBMemCacheKeys.CUSTOMERROLEKEY + id.ToString());
                 }
             }
             else

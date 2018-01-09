@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
+using RBlogOnNetCore.Services;
 
 namespace RBlogOnNetCore.Middleware
 {
@@ -23,17 +24,20 @@ namespace RBlogOnNetCore.Middleware
         /// </summary>
         internal static List<UserPermission> _userPermissions;
 
+        private readonly ICustomerService _customerService;
+
         /// <summary>
         /// 权限中间件构造
         /// </summary>
         /// <param name="next">管道代理对象</param>
         /// <param name="permissionResitory">权限仓储对象</param>
         /// <param name="option">权限中间件配置选项</param>
-        public PermissionMiddleware(RequestDelegate next, PermissionMiddlewareOption option)
+        public PermissionMiddleware(RequestDelegate next, PermissionMiddlewareOption option, ICustomerService customerService)
         {
             _option = option;
             _next = next;
             _userPermissions = option.UserPerssions;
+            _customerService = customerService;
         }
         /// <summary>
         /// 调用管道
@@ -48,6 +52,21 @@ namespace RBlogOnNetCore.Middleware
             var isAuthenticated = context.User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
+                int customerId = int.Parse(context.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value);
+                var customer = _customerService.GetCustomerById(customerId);
+                var roles = _customerService.GetCustomerRoles(customer);
+                foreach (var r in roles)
+                {
+                    if (_customerService.IsAdmin(r))
+                    {
+                        return this._next(context);
+                    }
+                    else
+                    {
+                        //无权限跳转到拒绝页面
+                        context.Response.Redirect(_option.NoPermissionAction);
+                    }
+                }
                 if (_userPermissions.GroupBy(g => g.Url).Where(w => w.Key.ToLower() == questUrl).Count() > 0)
                 {
                     //用户名

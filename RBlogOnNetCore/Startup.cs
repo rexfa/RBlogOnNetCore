@@ -47,6 +47,10 @@ namespace RBlogOnNetCore
                     options.LoginPath = new PathString("/login");
                     options.AccessDeniedPath = new PathString("/denied");
                 });
+            //services.AddAuthorization(option=> {
+            //    option.DefaultPolicy=;
+            //    option.AddPolicy("");
+            //});
             services.AddMemoryCache();
             services.AddMvc();
             services.AddOptions();
