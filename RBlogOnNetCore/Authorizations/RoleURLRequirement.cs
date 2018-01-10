@@ -8,5 +8,10 @@ namespace RBlogOnNetCore.Authorizations
 {
     public class RoleURLRequirement : IAuthorizationRequirement
     {
+        public RoleURLRequirement(string roleName)
+        {
+            RoleName = roleName;
+        }
+        public string RoleName { get; set; }
     }
 }
