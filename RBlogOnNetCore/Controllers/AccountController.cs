@@ -13,6 +13,7 @@ using RBlogOnNetCore.Utils;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using RBlogOnNetCore.Services;
 
 namespace RBlogOnNetCore.Controllers
 {
@@ -20,11 +21,13 @@ namespace RBlogOnNetCore.Controllers
     {
         private readonly MysqlContext _context;
         private readonly IRepository<Customer> _customerRepository;
+        private readonly ICustomerService _customerService;
 
-        public AccountController(MysqlContext context)
+        public AccountController(MysqlContext context,ICustomerService customerService)
         {
             _context = context;
             this._customerRepository = new EfRepository<Customer>(this._context);
+            this._customerService = customerService;
         }
         public IActionResult Index()
         {
@@ -42,42 +45,46 @@ namespace RBlogOnNetCore.Controllers
             if (ModelState.IsValid)
             {
 
-                //LoginHandle loginHandle = new LoginHandle(_context, this.HttpContext);
-                //bool isLogin = await loginHandle.LoginByPassword(model.Name, model.password);
+                LoginHandle loginHandle = new LoginHandle(_context, this.HttpContext, _customerService);
+                bool isLogin = await loginHandle.LoginByPassword(model);
                 //
-                var customer = _customerRepository.Table.Where(u => u.Name == model.Name).First();
-                if (customer != null)
-                {
-                    string pwd_org = customer.Password;
-                    string pwd_input = SecurityTools.MD5Hash(model.password + customer.Salt);
-                    if (pwd_input == pwd_org)
-                    {
-                        List<Claim> customerClaims = new List<Claim>()
-                        {
-                            new Claim(ClaimTypes.Name, customer.Name),
-                            new Claim(ClaimTypes.Sid, customer.Id.ToString()),
-                            new Claim(ClaimTypes.Role, "Admin")
-                        };
-                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
-                        {
-                            ExpiresUtc = DateTime.UtcNow.AddMinutes(45),//登录过期分钟数量
-                            IsPersistent = false,
-                            AllowRefresh = false
-                        });
-                        
-                        var user = HttpContext.User;
-                        return Redirect("/blog/add");
-                    }
-                 }
-                 //
-
-                //    if (isLogin)
+                //var customer = _customerRepository.Table.Where(u => u.Name == model.Name).First();
+                //if (customer != null)
                 //{
-                //    var user = HttpContext.User;
-                //    return Redirect("/blog/add");
-                //}
+                //    string pwd_org = customer.Password;
+                //    string pwd_input = SecurityTools.MD5Hash(model.password + customer.Salt);
+                //    if (pwd_input == pwd_org)
+                //    {
+
+                //        List<Claim> customerClaims = new List<Claim>()
+                //        {
+                //            new Claim(ClaimTypes.NameIdentifier,  customer.Id.ToString()),
+                //            new Claim(ClaimTypes.Name, customer.Name),
+                //            new Claim(ClaimTypes.Sid, customer.Id.ToString()),
+                //            new Claim(ClaimTypes.Role, "Admin")
+                //        };
+
+                //        ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                //        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                //        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
+                //        {
+                //            ExpiresUtc = DateTime.UtcNow.AddMinutes(45),//登录过期分钟数量
+                //            IsPersistent = false,
+                //            AllowRefresh = false
+                //        });
+                        
+                //        var user = HttpContext.User;
+                //        return Redirect("/blog/add");
+                //    }
+                // }
+                //
+
+                if (isLogin)
+                {
+                    var user = HttpContext.User;
+                    return Redirect("/blog/add");
+                }
             }
             return View();
         }

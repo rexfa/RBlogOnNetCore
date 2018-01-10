@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using RBlogOnNetCore.Utils;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using RBlogOnNetCore.Services;
 
 namespace RBlogOnNetCore.Handles
 {
@@ -19,23 +20,25 @@ namespace RBlogOnNetCore.Handles
         private readonly MysqlContext _context;
         private readonly IRepository<Customer> _customerRepository;
         private readonly HttpContext _httpContext;
-        public LoginHandle(MysqlContext context, HttpContext httpContext)
+        private readonly ICustomerService _customerService;
+        public LoginHandle(MysqlContext context, HttpContext httpContext,ICustomerService customerService)
         {
             this._context = context;
             this._httpContext = httpContext;
             this._customerRepository = new EfRepository<Customer>(this._context);
+            this._customerService = customerService;
         }
-        public virtual async Task<bool> LoginByPassword(string username, string password)
+        public virtual async Task<bool> LoginByPassword(LoginModel model)
         {
 
-            var customer =  _customerRepository.Table.Where(u => u.Name == username).First();
+            var customer =  _customerRepository.Table.Where(u => u.Name == model.Name).First();
             if (customer != null)
             {
                 string pwd_org = customer.Password;
-                string pwd_input = SecurityTools.MD5Hash(password + customer.Salt);
+                string pwd_input = SecurityTools.MD5Hash(model.password + customer.Salt);
                 if (pwd_input == pwd_org)
                 {
-                    await Login(customer, true);
+                    await Login(customer, model, true);
                     return true;
                 }
                 else
@@ -48,35 +51,41 @@ namespace RBlogOnNetCore.Handles
                 return false;
             }
         }
-        public virtual async Task<bool> Login(Customer customer, bool createPersistentCookie)
+        public virtual async Task<bool> Login(Customer customer, LoginModel model,bool createPersistentCookie)
         {
-            var nowUtc = DateTime.UtcNow;
-            List<Claim> customerClaims = new List<Claim>()
+            if (customer != null)
             {
-                new Claim(ClaimTypes.Name, customer.Name),
-                new Claim(ClaimTypes.Sid, customer.Id.ToString()),
-                new Claim(ClaimTypes.Role, "Admin")
-            };
-            //ClaimsIdentity claimsIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-            //ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims,"identityCookies");
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-            //claimsIdentity
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            //var authProperties = new Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties
-            //{
-            //    IssuedUtc = nowUtc,
-            //    ExpiresUtc = nowUtc.AddDays(30)
-            //};
-            //var ticket = new AuthenticationTicket(claimsPrincipal, CookieAuthenticationDefaults.AuthenticationScheme);
-            //Cookies 登录 20分钟过期 ，非持久，不可刷新
-            await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,claimsPrincipal, new AuthenticationProperties
-            {
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                IsPersistent = false,
-                AllowRefresh = false
-            });
-            var user =  _httpContext.User;
-            return true;
+                string pwd_org = customer.Password;
+                string pwd_input = SecurityTools.MD5Hash(model.password + customer.Salt);
+                var roles = _customerService.GetCustomerRoles(customer);
+                if (pwd_input == pwd_org)
+                {
+                    List<Claim> customerClaims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier,  customer.Id.ToString()),
+                        new Claim(ClaimTypes.Name, customer.Name),
+                        new Claim(ClaimTypes.Sid, customer.Id.ToString())
+                    };
+                    foreach (var r in roles)
+                    {
+                        customerClaims.Add(new Claim(ClaimTypes.Role, r.RoleName));
+                    }
+
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(45),//登录过期分钟数量
+                        IsPersistent = createPersistentCookie,
+                        AllowRefresh = false
+                    });
+
+                    var user = _httpContext.User;
+                    return true;
+                }
+            }
+            return false;
         }
         public virtual async void Logout()
         {
