@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace RBlogOnNetCore.Authorizations
 {
-    public class RoleURLRequirement : IAuthorizationRequirement
+    public class URLRequirement : IAuthorizationRequirement
     {
-        public RoleURLRequirement(string roleName)
+        public URLRequirement(string urlName)
         {
-            RoleName = roleName;
+            URLName = urlName;
         }
-        public string RoleName { get; set; }
+        public string URLName { get; set; }
     }
 }

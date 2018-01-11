@@ -19,6 +19,8 @@ using RBlogOnNetCore.Middleware;
 using Microsoft.AspNetCore.Http;
 using RBlogOnNetCore.Configuration;
 using RBlogOnNetCore.Services;
+using RBlogOnNetCore.Authorizations;
+using System.Security.Claims;
 
 namespace RBlogOnNetCore
 {
@@ -47,10 +49,14 @@ namespace RBlogOnNetCore
                     options.LoginPath = new PathString("/login");
                     options.AccessDeniedPath = new PathString("/denied");
                 });
-            //services.AddAuthorization(option=> {
-            //    option.DefaultPolicy=;
-            //    option.AddPolicy("");
-            //});
+            services.AddAuthorization(option =>
+            {
+                //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/secure-data
+                //option.DefaultPolicy = new AuthorizationPolicyBuilder(OAuthBearerAuthenticationDefaults.AuthenticationScheme).RequireAuthenticatedUser()
+                //    .AddRequirements(new TenantRequirement()).Build();
+                option.DefaultPolicy = new AuthorizationPolicyBuilder(new DefaultPolicy({ new URLRequirement() )).RequireClaim(ClaimTypes.Role).AddAuthenticationSchemes().Build();
+                //    options.AddPolicy(Permissions.UserCreate, policy => policy.AddRequirements(new PermissionAuthorizationRequirement(Permissions.UserCreate)));
+            });
             services.AddMemoryCache();
             services.AddMvc();
             services.AddOptions();
@@ -62,7 +68,7 @@ namespace RBlogOnNetCore
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IMemCacheService, MemCacheService>();
-            //services.AddScoped<IRepository<T>where T:BaseEnt,EfRepository<T>>();
+            services.AddScoped<IAuthorizationHandler, URLRoleAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,20 +87,20 @@ namespace RBlogOnNetCore
             app.UseStaticFiles();
             //添加权限中间件, 一定要放在app.UseAuthentication后
             app.UseAuthentication();
-            app.UsePermission(new PermissionMiddlewareOption()
-            {
-                LoginAction = new PathString("/login"),
-                NoPermissionAction = new PathString("/denied"),
-                //这个集合从数据库中查出所有用户的全部权限
-                UserPerssions = new List<UserPermission>()
-                {
-                    new UserPermission { Url = "/blog/add", UserName = "Blogowner" },
-                    new UserPermission { Url = "/blog/edit",UserName = "Blogowner"}
-                    //new UserPermission { Url = "/home/contact", UserName = "gsw" },
-                    //new UserPermission { Url = "/home/about", UserName = "aaa" },
-                    //new UserPermission { Url = "/", UserName = "aaa" }
-                }
-            });
+            //app.UsePermission(new PermissionMiddlewareOption()
+            //{
+            //    LoginAction = new PathString("/login"),
+            //    NoPermissionAction = new PathString("/denied"),
+            //    //这个集合从数据库中查出所有用户的全部权限
+            //    UserPerssions = new List<UserPermission>()
+            //    {
+            //        new UserPermission { Url = "/blog/add", UserName = "Blogowner" },
+            //        new UserPermission { Url = "/blog/edit",UserName = "Blogowner"}
+            //        //new UserPermission { Url = "/home/contact", UserName = "gsw" },
+            //        //new UserPermission { Url = "/home/about", UserName = "aaa" },
+            //        //new UserPermission { Url = "/", UserName = "aaa" }
+            //    }
+            //});
 
             app.UseMvc(routes =>
             {
