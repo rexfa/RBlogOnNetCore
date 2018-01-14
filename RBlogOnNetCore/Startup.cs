@@ -81,20 +81,20 @@ namespace RBlogOnNetCore
             app.UseStaticFiles();
             //添加权限中间件, 一定要放在app.UseAuthentication后
             app.UseAuthentication();
-            app.UsePermission(new PermissionMiddlewareOption()
-            {
-                LoginAction = new PathString("/login"),
-                NoPermissionAction = new PathString("/denied"),
-                //这个集合从数据库中查出所有用户的全部权限
-                UserPerssions = new List<UserPermission>()
-                {
-                    new UserPermission { Url = "/blog/add", UserName = "Blogowner" },
-                    new UserPermission { Url = "/blog/edit",UserName = "Blogowner"}
-                    //new UserPermission { Url = "/home/contact", UserName = "gsw" },
-                    //new UserPermission { Url = "/home/about", UserName = "aaa" },
-                    //new UserPermission { Url = "/", UserName = "aaa" }
-                }
-            });
+            //app.UsePermission(new PermissionMiddlewareOption()
+            //{
+            //    LoginAction = new PathString("/login"),
+            //    NoPermissionAction = new PathString("/denied"),
+            //    //这个集合从数据库中查出所有用户的全部权限
+            //    UserPerssions = new List<UserPermission>()
+            //    {
+            //        new UserPermission { Url = "/blog/add", UserName = "Blogowner" },
+            //        new UserPermission { Url = "/blog/edit",UserName = "Blogowner"}
+            //        //new UserPermission { Url = "/home/contact", UserName = "gsw" },
+            //        //new UserPermission { Url = "/home/about", UserName = "aaa" },
+            //        //new UserPermission { Url = "/", UserName = "aaa" }
+            //    }
+            //});
 
             app.UseMvc(routes =>
             {

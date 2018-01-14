@@ -47,38 +47,6 @@ namespace RBlogOnNetCore.Controllers
 
                 LoginHandle loginHandle = new LoginHandle(_context, this.HttpContext, _customerService);
                 bool isLogin = await loginHandle.LoginByPassword(model);
-                //
-                //var customer = _customerRepository.Table.Where(u => u.Name == model.Name).First();
-                //if (customer != null)
-                //{
-                //    string pwd_org = customer.Password;
-                //    string pwd_input = SecurityTools.MD5Hash(model.password + customer.Salt);
-                //    if (pwd_input == pwd_org)
-                //    {
-
-                //        List<Claim> customerClaims = new List<Claim>()
-                //        {
-                //            new Claim(ClaimTypes.NameIdentifier,  customer.Id.ToString()),
-                //            new Claim(ClaimTypes.Name, customer.Name),
-                //            new Claim(ClaimTypes.Sid, customer.Id.ToString()),
-                //            new Claim(ClaimTypes.Role, "Admin")
-                //        };
-
-                //        ClaimsIdentity claimsIdentity = new ClaimsIdentity(customerClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                //        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                //        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
-                //        {
-                //            ExpiresUtc = DateTime.UtcNow.AddMinutes(45),//登录过期分钟数量
-                //            IsPersistent = false,
-                //            AllowRefresh = false
-                //        });
-                        
-                //        var user = HttpContext.User;
-                //        return Redirect("/blog/add");
-                //    }
-                // }
-                //
 
                 if (isLogin)
                 {
@@ -88,7 +56,7 @@ namespace RBlogOnNetCore.Controllers
             }
             return View();
         }
- 
+        [HttpGet("logout")]
         public ActionResult Logout()
         {
             return View();
