@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 using RBlogOnNetCore.Configuration;
 using RBlogOnNetCore.Models;
 using RBlogOnNetCore.EF;
+using Microsoft.Extensions.Options;
 
 namespace RBlogOnNetCore.Services
 {
@@ -17,13 +18,15 @@ namespace RBlogOnNetCore.Services
         private readonly EfRepository<BlogTagMapper> _blogTagMapperRepository;
         private readonly IMemoryCache _memoryCache;
         private readonly ITagService _tagService;
-        public BlogService(MysqlContext mysqlContext, IMemoryCache memoryCache, ITagService tagService)
+        private readonly PageSettings _pageSettings;
+        public BlogService(MysqlContext mysqlContext, IMemoryCache memoryCache, ITagService tagService, IOptions<PageSettings> option)
         {
             _mysqlContext = mysqlContext;
             _blogRepository = new EfRepository<Blog>(this._mysqlContext);
             _blogTagMapperRepository = new EfRepository<BlogTagMapper>(this._mysqlContext);
             _memoryCache = memoryCache;
             _tagService = tagService;
+            _pageSettings = option.Value;
         }
 
         public IList<Blog> GetBlogsByTagId(int tagId)

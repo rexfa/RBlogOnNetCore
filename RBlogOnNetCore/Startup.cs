@@ -49,14 +49,14 @@ namespace RBlogOnNetCore
                     options.LoginPath = new PathString("/login");
                     options.AccessDeniedPath = new PathString("/denied");
                 });
-            services.AddAuthorization(option =>
-            {
+            //services.AddAuthorization(option =>
+            //{
                 //https://docs.microsoft.com/en-us/aspnet/core/security/authorization/secure-data
                 //option.DefaultPolicy = new AuthorizationPolicyBuilder(OAuthBearerAuthenticationDefaults.AuthenticationScheme).RequireAuthenticatedUser()
                 //    .AddRequirements(new TenantRequirement()).Build();
-                option.DefaultPolicy = new AuthorizationPolicyBuilder(new DefaultPolicy({ new URLRequirement() )).RequireClaim(ClaimTypes.Role).AddAuthenticationSchemes().Build();
+                //option.DefaultPolicy = new AuthorizationPolicyBuilder(new DefaultPolicy({ new URLRequirement() )).RequireClaim(ClaimTypes.Role).AddAuthenticationSchemes().Build();
                 //    options.AddPolicy(Permissions.UserCreate, policy => policy.AddRequirements(new PermissionAuthorizationRequirement(Permissions.UserCreate)));
-            });
+            //});
             services.AddMemoryCache();
             services.AddMvc();
             services.AddOptions();
@@ -64,6 +64,7 @@ namespace RBlogOnNetCore
             //services.Add
 
             services.Configure<LocalDir>(Configuration.GetSection("LocalDir"));
+            services.Configure<PageSettings>(Configuration.GetSection("PageSettings"));
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<ICustomerService, CustomerService>();
