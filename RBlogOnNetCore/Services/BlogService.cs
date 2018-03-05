@@ -63,5 +63,20 @@ namespace RBlogOnNetCore.Services
             _tagService.SetTagsToBlog(blog.Id, blogModel.Tags);
             return blog;
         }
+
+        IList<Blog> IBlogService.GetBlogsByTagId(int tagId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBlogService.GetPagedBlogsByTagId(int tagId, int PageIndex, int SegmentIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        Blog IBlogService.InsertBlog(BlogModel blogModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
