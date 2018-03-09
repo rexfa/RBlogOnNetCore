@@ -64,19 +64,17 @@ namespace RBlogOnNetCore.Services
             return blog;
         }
 
-        IList<Blog> IBlogService.GetBlogsByTagId(int tagId)
+        /// <summary>
+        /// 带翻页的获取
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <param name="PageIndex"></param>
+        /// <param name="SegmentIndex"></param>
+        public void GetPagedBlogsByTagId(int tagId, int PageIndex, int SegmentIndex)
         {
             throw new NotImplementedException();
         }
 
-        void IBlogService.GetPagedBlogsByTagId(int tagId, int PageIndex, int SegmentIndex)
-        {
-            throw new NotImplementedException();
-        }
 
-        Blog IBlogService.InsertBlog(BlogModel blogModel)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
