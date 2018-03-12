@@ -10,7 +10,7 @@ namespace RBlogOnNetCore.Services
     {
         IList<Blog> GetBlogsByTagId(int tagId);
         Blog InsertBlog(BlogModel blogModel);
-        void GetPagedBlogsByTagId(int tagId,int PageIndex,int SegmentIndex);
+        BlogPagingModel GetPagedBlogsByTagId(int tagId,int pageIndex,int SegmentIndex,int pageSize);
 
     }
 }

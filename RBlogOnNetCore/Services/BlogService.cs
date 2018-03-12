@@ -70,8 +70,23 @@ namespace RBlogOnNetCore.Services
         /// <param name="tagId"></param>
         /// <param name="PageIndex"></param>
         /// <param name="SegmentIndex"></param>
-        public void GetPagedBlogsByTagId(int tagId, int PageIndex, int SegmentIndex)
+        public BlogPagingModel GetPagedBlogsByTagId(int tagId, int pageIndex, int SegmentIndex, int pageSize)
         {
+            BlogPagingModel model = new BlogPagingModel();
+
+            var query = _blogTagMapperRepository.Table;
+
+            var blogTagMappers = _blogTagMapperRepository.Table.Where(x => x.TagId == tagId).ToList();
+            if (blogTagMappers != null)
+            {
+                var blogIds = blogTagMappers.Select(bt => { return bt.BlogId; }).ToArray();
+                var blogs = _blogRepository.Table.Where(b => blogIds.Contains(b.Id)).OrderByDescending(b => b.ReleasedOn).ToList();
+                return blogs;
+            }
+            else
+            {
+                return null;
+            }
             throw new NotImplementedException();
         }
 
