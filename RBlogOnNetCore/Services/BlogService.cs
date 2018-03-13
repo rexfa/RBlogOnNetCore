@@ -75,7 +75,7 @@ namespace RBlogOnNetCore.Services
             BlogPagingModel model = new BlogPagingModel();
 
             var query = _blogTagMapperRepository.Table;
-
+            query = query.Skip((pageIndex - 2) * pageSize).Take(pageSize);
             var blogTagMappers = _blogTagMapperRepository.Table.Where(x => x.TagId == tagId).ToList();
             if (blogTagMappers != null)
             {
