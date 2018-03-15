@@ -74,19 +74,20 @@ namespace RBlogOnNetCore.Services
         {
             BlogPagingModel model = new BlogPagingModel();
 
-            var query = _blogTagMapperRepository.Table;
-            query = query.Skip((pageIndex - 2) * pageSize).Take(pageSize);
-            var blogTagMappers = _blogTagMapperRepository.Table.Where(x => x.TagId == tagId).ToList();
-            if (blogTagMappers != null)
+            var query = _blogRepository.Table;
+            if (tagId != 0)
             {
-                var blogIds = blogTagMappers.Select(bt => { return bt.BlogId; }).ToArray();
-                var blogs = _blogRepository.Table.Where(b => blogIds.Contains(b.Id)).OrderByDescending(b => b.ReleasedOn).ToList();
-                return blogs;
+                var blogTagMappers = _blogTagMapperRepository.Table.Where(x => x.TagId == tagId).ToList();
+                if (blogTagMappers != null)
+                {
+                    var blogIds = blogTagMappers.Select(bt => { return bt.BlogId; }).ToArray();
+                    query = query.Where(b => blogIds.Contains(b.Id));
+                }
             }
-            else
-            {
-                return null;
-            }
+            query = query.OrderByDescending(b => b.CreatedOn).Skip(pageIndex * pageSize).Take(pageSize);
+
+
+
             throw new NotImplementedException();
         }
 
