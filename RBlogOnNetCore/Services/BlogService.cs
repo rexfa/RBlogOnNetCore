@@ -86,7 +86,13 @@ namespace RBlogOnNetCore.Services
             }
             query = query.OrderByDescending(b => b.CreatedOn).Skip(pageIndex * pageSize).Take(pageSize);
 
-
+            var blogs = query.ToList();
+            
+            model.PageSize = pageSize;
+            model.PageNumber = pageIndex+1;
+            model.TotalItems = blogs.Count;
+            //model.TotalPages
+            model.Blogs = new List<BlogModel>();
 
             throw new NotImplementedException();
         }
