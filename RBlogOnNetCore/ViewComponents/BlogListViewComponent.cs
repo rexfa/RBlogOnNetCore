@@ -9,6 +9,7 @@ using RBlogOnNetCore.EF.Domain;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using System.Security.Claims;
 using RBlogOnNetCore.Infrastructures;
+using RBlogOnNetCore.Services;
 
 namespace RBlogOnNetCore.ViewComponents
 {
@@ -17,9 +18,11 @@ namespace RBlogOnNetCore.ViewComponents
         private readonly MysqlContext _context;
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Blog> _blogRepository;
-        public BlogListViewComponent(MysqlContext context)
+        private readonly IBlogService _blogService;
+        public BlogListViewComponent(MysqlContext context,IBlogService blogService)
         {
             this._context = context;
+            this._blogService = blogService;
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._blogRepository = new EfRepository<Blog>(this._context);
         }
@@ -35,51 +38,61 @@ namespace RBlogOnNetCore.ViewComponents
             //var blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).TakeLast(10);
             if (blogs == null)
             {
-                try
+                var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+                int CustomerId = -1;
+                if (isAuthenticated)
                 {
-                    blogs = _blogRepository.Table.OrderByDescending(b => b.ReleasedOn).Take(10).ToList();
+                    CustomerId =int.Parse( HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value);
                 }
-                catch (Exception ex)
-                {
-                    return View("NoData", ex.Message);
-                }
-            }
-            if (blogs.Count>0)
-            {
-                var cs = _customerRepository.Table.FirstOrDefault();//执行过一次就可以在以下b.Customer里呼出了，奇怪
-                BlogPagingModel model = new BlogPagingModel();
-                IPagedList<Blog> pagedBlogs = new PagedList<Blog>(blogs, 0, 10);
-                PrepareBlogPagingModel(model,pagedBlogs);
-                //model.Blogs = new List<BlogModel>();
-                //foreach (Blog b in blogs)
+                var model = _blogService.GetPagedBlogsByTagId(0, 1, 10, CustomerId);
+                if(model.Blogs.Count>0)
+                    return View(model);
+                else
+                    return View("NoData", "0数据");
+                //try
                 //{
-                //    var blogModel = new BlogModel()
-                //    {
-                //        Id = b.Id,
-                //        Title = b.Title,
-                //        Content = b.Content,
-                //        CreatedOn = b.CreatedOn,
-                //        ReleasedOn = b.ReleasedOn,
-                //        CustomerName = b.Customer.CustomerName
-                //    };
-                //    model.Blogs.Add(blogModel);
+                //    blogs = _blogRepository.Table.OrderByDescending(b => b.ReleasedOn).Take(10).ToList();
                 //}
-                //var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
-                //if (isAuthenticated)
+                //catch (Exception ex)
                 //{
-                //    var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
-                //    int id = int.Parse(CustomerId);
-                //    if (id == 1)
-                //    {
-                //        model.Editable = true;
-                //    }
+                //    return View("NoData", ex.Message);
                 //}
-                return View(model);
             }
+            //if (blogs.Count>0)
+            //{
+            //    var cs = _customerRepository.Table.FirstOrDefault();//执行过一次就可以在以下b.Customer里呼出了，因为没有lazyload 可能core做了缓存
+            //    BlogPagingModel model = new BlogPagingModel();
+            //    IPagedList<Blog> pagedBlogs = new PagedList<Blog>(blogs, 0, 10);
+            //    PrepareBlogPagingModel(model,pagedBlogs);
+            //    //model.Blogs = new List<BlogModel>();
+            //    //foreach (Blog b in blogs)
+            //    //{
+            //    //    var blogModel = new BlogModel()
+            //    //    {
+            //    //        Id = b.Id,
+            //    //        Title = b.Title,
+            //    //        Content = b.Content,
+            //    //        CreatedOn = b.CreatedOn,
+            //    //        ReleasedOn = b.ReleasedOn,
+            //    //        CustomerName = b.Customer.CustomerName
+            //    //    };
+            //    //    model.Blogs.Add(blogModel);
+            //    //}
+            //    //var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+            //    //if (isAuthenticated)
+            //    //{
+            //    //    var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
+            //    //    int id = int.Parse(CustomerId);
+            //    //    if (id == 1)
+            //    //    {
+            //    //        model.Editable = true;
+            //    //    }
+            //    //}
+            //    return View(model);
+            //}
             else
             {
-                return View("NoData","0数据");
-
+                return View("NoData","还未实现");
             }
         }
         [NonAction]

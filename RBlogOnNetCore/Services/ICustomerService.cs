@@ -8,7 +8,7 @@ namespace RBlogOnNetCore.Services
 {
     public interface ICustomerService
     {
-        Customer GetCustomerById(int id);
+        Customer GetCustomerById(int id , bool recache = false);
         IList<Role> GetCustomerRoles(Customer customer, bool recache = false);
         IList<Authorization> GetCustomerAuthorization(Customer customer, bool recache = false);
         IList<Authorization> GetRoleAuthorization(Role role);

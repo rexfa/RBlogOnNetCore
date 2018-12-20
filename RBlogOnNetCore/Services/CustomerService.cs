@@ -48,9 +48,23 @@ namespace RBlogOnNetCore.Services
             return authorizations;
         }
 
-        public Customer GetCustomerById(int id)
+        public Customer GetCustomerById(int id, bool recache = false)
         {
+            string cacheKey = RBMemCacheKeys.CUSTOMERINFOKEY + id.ToString();
             var customer = _customerRepository.GetById(id);
+            //没有 lazyload 用这个方法简单一点，效率也可也高一点
+            if (_memoryCache.Get(cacheKey) != null)
+            {
+                if (!recache)
+                {
+                    _memoryCache.Remove(cacheKey);
+                    _memoryCache.Set(cacheKey, customer);
+                }
+            }
+            else
+            {
+                _memoryCache.Set(cacheKey, customer);
+            }
             return customer;
         }
         public IList<Authorization> GetRoleAuthorization(Role role)

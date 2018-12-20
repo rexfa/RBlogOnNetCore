@@ -70,7 +70,7 @@ namespace RBlogOnNetCore.Services
         /// <param name="tagId"></param>
         /// <param name="PageIndex"></param>
         /// <param name="SegmentIndex"></param>
-        public BlogPagingModel GetPagedBlogsByTagId(int tagId, int pageIndex, int SegmentIndex, int pageSize)
+        public BlogPagingModel GetPagedBlogsByTagId(int tagId, int pageIndex, int pageSize,int customerId)
         {
             BlogPagingModel model = new BlogPagingModel();
 
@@ -84,17 +84,39 @@ namespace RBlogOnNetCore.Services
                     query = query.Where(b => blogIds.Contains(b.Id));
                 }
             }
-            query = query.OrderByDescending(b => b.CreatedOn).Skip(pageIndex * pageSize).Take(pageSize);
-
             var blogs = query.ToList();
+            model.TotalItems = blogs.Count;
+
+            blogs = blogs.OrderByDescending(b => b.CreatedOn).Skip(pageIndex * pageSize).Take(pageSize).ToList();
+
+            //var blogs = query.ToList();
             
             model.PageSize = pageSize;
             model.PageNumber = pageIndex+1;
-            model.TotalItems = blogs.Count;
+            
             //model.TotalPages
             model.Blogs = new List<BlogModel>();
+            foreach (var b in blogs)
+            {
+                string cacheKey = RBMemCacheKeys.CUSTOMERINFOKEY + b.CustomerId.ToString();
+                Customer customer = (Customer)_memoryCache.Get(cacheKey);
+                BlogModel m = new BlogModel()
+                {
+                    Content = b.Content,
+                    CreatedOn = b.CreatedOn,
+                    CustomerId = b.CustomerId,
+                    Id = b.Id,
+                    ReleasedOn = b.ReleasedOn,
+                    Title = b.Title,
+                    CustomerName = customer != null ? customer.Name : "",
+                    Editable = b.CustomerId==customerId?true : false,
+                    Tags = string.Join(",", _tagService.GetBlogTags(b.Id).Select(t => { return t.TagName; }).ToList())
+                };
+                //if(customer!=null)
 
-            throw new NotImplementedException();
+                model.Blogs.Add(m);
+            }
+            return model;
         }
 
 
