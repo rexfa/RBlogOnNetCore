@@ -93,7 +93,8 @@ namespace RBlogOnNetCore.Services
             
             model.PageSize = pageSize;
             model.PageNumber = pageIndex+1;
-            
+            model.TotalPages = model.TotalItems / model.PageSize;
+
             //model.TotalPages
             model.Blogs = new List<BlogModel>();
             foreach (var b in blogs)
