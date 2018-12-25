@@ -19,14 +19,16 @@ namespace RBlogOnNetCore.ViewComponents
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<Blog> _blogRepository;
         private readonly IBlogService _blogService;
-        public BlogListViewComponent(MysqlContext context,IBlogService blogService)
+        private readonly ICustomerService _customerService;
+        public BlogListViewComponent(MysqlContext context,IBlogService blogService,ICustomerService customerService)
         {
             this._context = context;
             this._blogService = blogService;
+            this._customerService = customerService;
             this._customerRepository = new EfRepository<Customer>(this._context);
             this._blogRepository = new EfRepository<Blog>(this._context);
         }
-        public IViewComponentResult Invoke(List<Blog> blogs)
+        public async Task<IViewComponentResult> InvokeAsync(BlogPagingModel model)
         {
             // async Task<IViewComponentResult> 
             //ContentViewComponentResult
@@ -34,9 +36,11 @@ namespace RBlogOnNetCore.ViewComponents
             //HtmlContentViewComponentResult
             //http://www.cnblogs.com/sanshi/p/7750497.html
             //http://www.cnblogs.com/shenba/p/6629212.html
-
+            const int size = 10;
             //var blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).TakeLast(10);
-            if (blogs == null)
+            if (model == null)
+                model = new BlogPagingModel();
+            if (model.Blogs == null)
             {
                 var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
                 int CustomerId = -1;
@@ -44,7 +48,8 @@ namespace RBlogOnNetCore.ViewComponents
                 {
                     CustomerId =int.Parse( HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value);
                 }
-                var model = _blogService.GetPagedBlogsByTagId(0, 1, 10, CustomerId);
+                int index = model.PageNumber == 0 ? 0 : model.PageNumber - 1;
+                model = _blogService.GetPagedBlogsByTagId(0, index, size, CustomerId);
                 if(model.Blogs.Count>0)
                     return View(model);
                 else
@@ -92,7 +97,10 @@ namespace RBlogOnNetCore.ViewComponents
             //}
             else
             {
-                return View("NoData","还未实现");
+                //BlogPagingModel model = new BlogPagingModel();
+                //IPagedList<Blog> blogPaged = new PagedList<Blog>(blogs, 0, 10);
+                //PrepareBlogPagingModel(model, blogPaged, 0);
+                return View(model);
             }
         }
         [NonAction]
@@ -118,11 +126,12 @@ namespace RBlogOnNetCore.ViewComponents
         {
             if (model == null)
                 throw new Exception("model is null!");
+            var customer = _customerService.GetCustomerById(blog.CustomerId);
             model.Id = blog.Id;
             model.Content = blog.Content;
             model.CreatedOn = blog.CreatedOn;
             model.CustomerId = blog.CustomerId;
-            model.CustomerName = blog.Customer.CustomerName;
+            model.CustomerName = customer==null?"Uname":customer.Name;
             model.ReleasedOn = blog.ReleasedOn;
             model.Title = blog.Title;
         }

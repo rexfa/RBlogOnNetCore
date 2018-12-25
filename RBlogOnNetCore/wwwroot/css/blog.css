@@ -76,3 +76,9 @@
     vertical-align: middle;
     margin: 0 auto;
 }
+.page-item{
+}
+.page-item.active{
+    color:#ff0000;
+    font-weight:bold;
+}

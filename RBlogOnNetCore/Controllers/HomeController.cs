@@ -30,6 +30,7 @@ namespace RBlogOnNetCore.Controllers
             this._context = context;
             this._customerRepository = new EfRepository<Customer>(this._context);
         }
+        [HttpGet]
         public IActionResult Index()
         {
             /*
@@ -60,7 +61,13 @@ namespace RBlogOnNetCore.Controllers
 
             return View();
         }
-
+        [HttpPost]
+        public IActionResult Index(int index)
+        {
+            BlogPagingModel blogPagingModel = new BlogPagingModel();
+            blogPagingModel.PageNumber = index;
+            return View(blogPagingModel);
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "RBlogOnNetCore 是一个基于ASP.net Core 2.0的练习项目，从零开始部署开发。"
@@ -73,7 +80,7 @@ namespace RBlogOnNetCore.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "开发当个产品经理怎么样？服务器时间"+DateTime.Now.ToString();
+            ViewData["Message"] = "有个PM心的Coder很辛苦。服务器时间"+DateTime.Now.ToString();
 
             return View();
         }

@@ -113,21 +113,33 @@ namespace RBlogOnNetCore.Controllers
             return View(model);
         }
         [HttpGet,HttpPost]
-        public ActionResult List(int TagId)
+        public ActionResult List(int TagId,int index)
         {
             //http://www.cnblogs.com/sanshi/p/7750497.html
+
             var tag = _tagService.GetTagById(TagId);
             ViewData["tagName"] = tag.TagName;
-            var blogs = _blogService.GetBlogsByTagId(TagId);
-            if(blogs==null)
+            int id = 0;
+            bool editable = false;
+            var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+            if (isAuthenticated)
+            {
+                var CustomerId = HttpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Sid).Value;
+                id = int.Parse(CustomerId);
+                
+                if (id == 1)
+                {
+                    editable = true;
+                }
+            }
+            index = index == 0 ? 0 : index - 1;
+            var model = _blogService.GetPagedBlogsByTagId(TagId, index, 2, id);
+            model.Editable = editable;
+            if (model.Blogs == null)
                 return Content("还没有博客");
-            if(blogs.Count==0)
+            if(model.TotalItems<=0)
                 return Content("还没有博客");
-            //foreach (var blog in blogs)
-            //{
-
-            //}
-            return View(blogs.ToList());
+            return View(model);
         }
         [HttpGet]
         public ActionResult Details(int id)

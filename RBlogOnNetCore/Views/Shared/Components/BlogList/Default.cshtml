@@ -1,112 +1,85 @@
 ﻿@model RBlogOnNetCore.Models.BlogPagingModel
 @if (Model.Editable)
 {
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
 }
-<div id="blogContent">
-    @foreach (var item in Model.Blogs)
-    {
-        <div class="blogListItem">
-            <div class="title">
+    <div id="blogContent">
+        @foreach (var item in Model.Blogs)
+        {
+            <div class="blogListItem">
+                <div class="title">
                     @Html.DisplayFor(modelItem => item.Title)
-            </div>
-            <div class="content-cover">
+                </div>
+                <div class="content-cover">
 
                     <div class="content">
                         @Html.Raw(item.Content)
                     </div>
-            </div>
-            <div id="@Html.Raw("cover"+item.Id)"  class="operational">
-                <div class="operational-btn">
-                   <!-- <a href="#" onclick="Expand(@Html.Raw(item.Id));">展开</a>|-->
-                    @Html.ActionLink("详细", "Details", "Blog", new { id = item.Id }) 
-                    @if (Model.Editable)
-                    {
-                        @Html.Raw("|")                            
-                        @Html.ActionLink("编辑", "Edit", "Blog", new { id = item.Id }) 
-                        @Html.Raw("|")  
-                        @Html.ActionLink("删除", "Delete", "Blog", new { id = item.Id })
-                    }
+                </div>
+                <div id="@Html.Raw("cover" + item.Id)" class="operational">
+                    <div class="operational-btn">
+                        <!-- <a href="#" onclick="Expand(@Html.Raw(item.Id));">展开</a>|-->
+                        @Html.ActionLink("详细", "Details", "Blog", new { id = item.Id })
+                        @if (Model.Editable)
+                        {
+                            @Html.Raw("|")
+                            @Html.ActionLink("编辑", "Edit", "Blog", new { id = item.Id })
+                            @Html.Raw("|")
+                            @Html.ActionLink("删除", "Delete", "Blog", new { id = item.Id })
+                        }
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="author">
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </div>
+                    <div class="publishedOn">
+                        @Html.DisplayFor(modelItem => item.ReleasedOn)
+                    </div>
                 </div>
             </div>
-            <div class="info">
-                <div class="author">
-                    @Html.DisplayFor(modelItem => item.CustomerName)
-                </div>
-                <div class="publishedOn">
-                    @Html.DisplayFor(modelItem => item.ReleasedOn)
-                </div>
-            </div>
-        </div>
-    }
-</div>
-<div>
-    <nav>
-        <ul class="pagination">
-            @{
-                const int pageIncrement = 2;
-                const int pageTrailing = 5;
-                var TotalPages = Model.TotalPages == 0 ? 1 : Model.TotalPages;
-                if (TotalPages > 1)
-                {
-                    var pageIndex = Model.PageIndex == 0 ? 1 : Model.PageIndex;
+        }
+    </div>
+    <div>
+        <form method="post">
+            <nav>
+                <ul class="pagination">
+                    @{
+                    int pageSize = Model.PageSize;
+                    int pageNum = Model.TotalPages;
+                    int pageIndex = Model.PageNumber;
 
-                    var pageRangeStart = pageIndex <= pageIncrement ? 1 : pageIndex - pageIncrement;
-                    var pageRangeEnd = pageIndex + pageIncrement <= TotalPages ? (TotalPages > pageTrailing && pageIndex + pageIncrement < pageTrailing ? pageTrailing : pageIndex + pageIncrement) : TotalPages;
-                    if (pageRangeStart > 1)
+                    for (int i = 0; i < pageNum; i++)
                     {
-                        <li class="page-item">
-                            <input name="id" type="submit" class="page-link" style="cursor: pointer;" value="1" />
+                        int show = i+1;
+                        <li class="page-item @(pageIndex == show ? "active" : null)">
+                            <input name="index" type="submit" class="page-link" style="cursor: pointer;" value="@show" />
                         </li>
-                        if (pageRangeStart > 2)
-                        {
-                            <li class="page-item disabled">
-                                <input name="id" type="submit" class="page-link" style="cursor: pointer;" value="..." />
-                            </li>
-                        }
-                    }
-                    for (var i = pageRangeStart; i <= pageRangeEnd; i++)
-                    {
-                        <li class="page-item @(pageIndex == i ? "active" : null)">
-                            <input name="id" type="submit" class="page-link" style="cursor: pointer;" value="@i" />
-                        </li>
-                    }
-                    if (pageRangeEnd < TotalPages)
-                    {
-                        if (pageRangeEnd + 1 < TotalPages)
-                        {
-                            <li class="page-item disabled">
-                                <input name="id" type="submit" class="page-link" style="cursor: pointer;" value="..." />
-                            </li>
-                        }
-                        <li class="page-item">
-                            <input name="id" type="submit" class="page-link" style="cursor: pointer;" value="@TotalPages" />
-                        </li>
-                    }
                 }
-            }
-        </ul>
-    </nav>
-    @Html.Raw(Model.PageIndex)--
-    @Html.Raw(Model.Index)--
-    @Html.Raw(Model.SearchKeyword)--
-    @Html.Raw(Model.BeginTime)--
-    @Html.Raw(Model.EndTime)
-</div>
-<script language="javascript" type="text/javascript" src="~/js/jquery-3.2.1.min.js"></script>
-<script language="javascript" type="text/javascript">
-    $(function () {
-        $("#blogContent operational").bind("click", function () {
-            //$(this).css("border", "3px solid red").siblings().css("border", "1px solid #cccccc");
-            //$(this).removeClass("imgsrc").addClass("selected_imgsrc").siblings().removeClass("selected_imgsrc").addClass("imgsrc");
-            $(this).removeClass("operational").addClass("operational-displaynone").siblings().removeClass("operational-displaynone").addClass("operational");
-        })
-    });
-    function Expand(id) {
-        //$("#blogContent").siblings(".operational-displaynone").removeClass("operational-displaynone").addClass("operational");
-        $("#cover" + id).removeClass("operational").addClass("operational-displaynone").siblings().removeClass("operational-displaynone").addClass("operational");
-       
-     }
-</script>
+
+                    }
+                </ul>
+            </nav>
+        </form>
+    </div>
+    <script language="javascript" type="text/javascript" src="~/js/jquery-3.2.1.min.js"></script>
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $("#blogContent operational").bind("click", function () {
+                //$(this).css("border", "3px solid red").siblings().css("border", "1px solid #cccccc");
+                //$(this).removeClass("imgsrc").addClass("selected_imgsrc").siblings().removeClass("selected_imgsrc").addClass("imgsrc");
+                $(this).removeClass("operational").addClass("operational-displaynone").siblings().removeClass("operational-displaynone").addClass("operational");
+            })
+        });
+        function Expand(id) {
+            //$("#blogContent").siblings(".operational-displaynone").removeClass("operational-displaynone").addClass("operational");
+            $("#cover" + id).removeClass("operational").addClass("operational-displaynone").siblings().removeClass("operational-displaynone").addClass("operational");
+
+        }
+        function Paged(id) {
+
+
+        }
+    </script>

@@ -56,7 +56,8 @@ namespace RBlogOnNetCore.Services
                 UpdatedOn = now,
                 ReleasedOn = now,
                 IsDeleted = false,
-                IsReleased = true
+                IsReleased = true,
+                ImageIds=""
             };
             _blogRepository.Insert(blog);
             _mysqlContext.SaveChanges();
@@ -93,7 +94,8 @@ namespace RBlogOnNetCore.Services
             
             model.PageSize = pageSize;
             model.PageNumber = pageIndex+1;
-            model.TotalPages = model.TotalItems / model.PageSize;
+            //model.PageIndex = pageIndex;
+            model.TotalPages = (int)Math.Ceiling( (double)model.TotalItems / (double)model.PageSize);
 
             //model.TotalPages
             model.Blogs = new List<BlogModel>();
