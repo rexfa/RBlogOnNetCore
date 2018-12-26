@@ -65,21 +65,18 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-
-
     <div class="leftList">
-        <div class="declaration">
-            <p>Rex的博客</p>
-            <p>本站所有文章不得转载。</p>
-            <p>All articles must not be reproduced.</p>
-        </div>
         <div class="tagList">
-            @await Component.InvokeAsync("TagList")
+            @await Component.InvokeAsync("TagList",0)
         </div>
     </div>
     <div class="blogList">
-        @await Component.InvokeAsync("BlogList",Model)      
+        @await Component.InvokeAsync("BlogList", Model)
+        <div class="taglistselect">
+            @await Component.InvokeAsync("TagList", 1)
+        </div>
     </div>
+
 
 
 

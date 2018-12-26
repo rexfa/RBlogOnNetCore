@@ -22,7 +22,7 @@ namespace RBlogOnNetCore.ViewComponents
             //this._tagRepository = new EfRepository<Tag>(this._context);
             this._tagService = tagService;
         }
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(int type=0)
         {
             var hotTags = _tagService.GetHotTags();
             List<TagModel> tms = new List<TagModel>();
@@ -36,8 +36,15 @@ namespace RBlogOnNetCore.ViewComponents
                 };
                 tms.Add(tm);
             }
-            return View(tms);
-
+            switch (type)
+            {
+                case 0:
+                    return View(tms);
+                case 1:
+                    return View("Selectlist", tms);
+                default:
+                    return View(tms);
+            }
         }
     }
 }

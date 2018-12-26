@@ -133,7 +133,7 @@ namespace RBlogOnNetCore.Controllers
                 }
             }
             index = index == 0 ? 0 : index - 1;
-            var model = _blogService.GetPagedBlogsByTagId(TagId, index, 2, id);
+            var model = _blogService.GetPagedBlogsByTagId(TagId, index, 5, id);
             model.Editable = editable;
             if (model.Blogs == null)
                 return Content("还没有博客");

@@ -70,7 +70,7 @@ namespace RBlogOnNetCore.Controllers
         }
         public IActionResult About()
         {
-            ViewData["Message"] = "RBlogOnNetCore 是一个基于ASP.net Core 2.0的练习项目，从零开始部署开发。"
+            ViewData["Message"] = "RBlogOnNetCore 是一个基于ASP.net Core 2.0-2.2的练习项目，从零开始部署开发。"
                 +"运行环境在CentOS 7.3 Docker 1.12.6上，数据库使用Mysql 5.6。"
                 +"引用了一些开源代码和工程，比如CKEditor开源。"
                 +"因为是工作之外的练习工程，代码略粗糙。";

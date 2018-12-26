@@ -1,0 +1,10 @@
+﻿@model IEnumerable<RBlogOnNetCore.Models.TagModel>
+<form asp-controller="Blog" asp-action="List" method="get">
+标签选择
+<select name="TagId" id="TagId" onchange='submit();'>
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.TagName -- @item.ReferenceNum</option>
+    }
+</select>
+</form>

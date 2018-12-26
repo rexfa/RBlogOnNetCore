@@ -59,6 +59,11 @@ namespace RBlogOnNetCore.Controllers
         [HttpGet("logout")]
         public ActionResult Logout()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                LoginHandle loginHandle = new LoginHandle(_context, this.HttpContext, _customerService);
+                loginHandle.Logout();
+            }
             return View();
         }
         [HttpGet("denied")]

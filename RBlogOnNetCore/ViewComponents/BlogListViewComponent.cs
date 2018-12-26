@@ -36,13 +36,14 @@ namespace RBlogOnNetCore.ViewComponents
             //HtmlContentViewComponentResult
             //http://www.cnblogs.com/sanshi/p/7750497.html
             //http://www.cnblogs.com/shenba/p/6629212.html
-            const int size = 10;
+            const int size = 5;
+            bool isAuthenticated = false;
             //var blogs = _blogRepository.Table.OrderByDescending(b => b.releasedOn).TakeLast(10);
             if (model == null)
                 model = new BlogPagingModel();
             if (model.Blogs == null)
             {
-                var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+                isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
                 int CustomerId = -1;
                 if (isAuthenticated)
                 {
@@ -50,7 +51,8 @@ namespace RBlogOnNetCore.ViewComponents
                 }
                 int index = model.PageNumber == 0 ? 0 : model.PageNumber - 1;
                 model = _blogService.GetPagedBlogsByTagId(0, index, size, CustomerId);
-                if(model.Blogs.Count>0)
+                model.Editable = isAuthenticated;
+                if (model.Blogs.Count>0)
                     return View(model);
                 else
                     return View("NoData", "0数据");

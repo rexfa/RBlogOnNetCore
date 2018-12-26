@@ -30,8 +30,27 @@
     display: inline;
     width: 200px;
 }
-.tagList {
-
+@media screen and (max-width: 767px) {
+    .tagList {
+        display:none;
+    }
+    .blogList {
+        margin-left: 1px;
+    }
+    .taglistselect{
+        display:normal;
+    }
+}
+@media screen and (min-width: 768px) {
+    .tagList {
+        display:normal;
+    }
+    .blogList {
+        margin-left: 180px;
+    }
+    .taglistselect{
+        display:none;
+    }
 }
 .leftList {
     float:left;
@@ -41,9 +60,7 @@
     top: inherit;
     height:inherit;
 }
-.blogList {
-    margin-left: 180px;
-}
+
 .info {
     background-color: rgba(0, 0, 0, .1);
 }
@@ -81,4 +98,7 @@
 .page-item.active{
     color:#ff0000;
     font-weight:bold;
+}
+.blogtagslist{
+    color:#3f82ca
 }
