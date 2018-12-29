@@ -31,10 +31,12 @@
         </dd>
     </dl>
 </div>
-<div id="mainboard">
+<div class="picList" id="mainboard">
         @foreach (var m in Model.Pictures)
         {
-            <img height="200" src="@Html.Raw(m.Url)" class="imgsrc" />
+    <div class="picList-item">
+        <img src="@Html.Raw(m.Url)" class="imgsrc" />
+    </div>
         }
 </div>
 }
