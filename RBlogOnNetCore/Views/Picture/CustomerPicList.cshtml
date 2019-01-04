@@ -5,7 +5,7 @@
 }
 
 <h2>CustomerPicListView</h2>
-@if(Model!=null)
+@if (Model != null)
 {
 <div>
     <h4>PictureListModel</h4>
@@ -32,12 +32,24 @@
     </dl>
 </div>
 <div class="picList" id="mainboard">
-        @foreach (var m in Model.Pictures)
+    @{int i = 0;
+    }
+    @foreach (var m in Model.Pictures)
+    {
+        if (i % 2 == 0)
         {
-    <div class="picList-item">
-        <img src="@Html.Raw(m.Url)" class="imgsrc" />
-    </div>
+            <div class="picList-item-left">
+                <img src="@Html.Raw(m.Url)" class="imgsrc" />
+            </div> }
+        else
+        {
+            <div class="picList-item-right">
+                <img src="@Html.Raw(m.Url)" class="imgsrc" />
+            </div>
         }
+        i++;
+
+    }
 </div>
 }
 <div>
@@ -59,8 +71,8 @@
 <script language="javascript" type="text/javascript" src="~/js/jquery-3.2.1.min.js"></script> 
 <script language="javascript" type="text/javascript">
     $(function () {
-        $("#mainboard img").bind("click", function () {
-            $(this).css("border", "3px solid red").siblings().css("border", "1px solid #cccccc");
+        $("#mainboard div").bind("click", function () {
+            //$(this).css("border", "3px solid red").siblings().css("border", "1px solid #cccccc");
             $(this).removeClass("imgsrc").addClass("selected_imgsrc").siblings().removeClass("selected_imgsrc").addClass("imgsrc");
         })
     })

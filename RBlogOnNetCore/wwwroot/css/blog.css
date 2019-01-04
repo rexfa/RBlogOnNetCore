@@ -105,7 +105,28 @@
 .picList{
 
 }
-.picList-item {
+.picList-item-left {
     height: 200px;
     width: 300px;
+    float: left;
+    margin-right: 10px
+}
+    .picList-item-left img {
+        height: 100%;
+        width: 100%;
+    }
+.picList-item-right {
+    height: 200px;
+    width: 300px;
+    float: left;
+}
+    .picList-item-right img {
+        height: 100%;
+        width: 100%;
+    }
+.selected_imgsrc {
+    border: 3px solid red;
+}
+.imgsrc {
+    border: 0px solid black;
 }
