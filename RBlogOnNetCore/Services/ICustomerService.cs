@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RBlogOnNetCore.EF.Domain;
-using RBlogOnNetCore.EF;
-
 
 namespace RBlogOnNetCore.Services
 {

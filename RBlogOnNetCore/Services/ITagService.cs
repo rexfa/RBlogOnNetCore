@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using RBlogOnNetCore.EF.Domain;
-using RBlogOnNetCore.EF;
 
 namespace RBlogOnNetCore.Services
 {
