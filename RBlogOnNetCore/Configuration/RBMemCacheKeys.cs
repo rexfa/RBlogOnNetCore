@@ -11,5 +11,6 @@ namespace RBlogOnNetCore.Configuration
         public static string CUSTOMERAUTHORIZATIONKEY = "memcachekey.customers.authorizations.";
         public static string CUSTOMERROLEKEY = "memcachekey.customers.roles.";
         public static string CUSTOMERINFOKEY = "memcachekey.customers.info.";
+        public static string NORMALCOMMENTKEY = "memcachekey.normalcomment.list.";
     }
 }

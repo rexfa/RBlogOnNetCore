@@ -23,14 +23,22 @@ namespace RBlogOnNetCore.Services
             _memoryCache = memoryCache;
         }
 
-        public IList<NormalComment> GetNormalComments(int BlogId, int size)
+        public IList<NormalComment> GetNormalComments(int blogId, int size)
         {
-            throw new NotImplementedException();
+            var comments = _memoryCache.GetOrCreate(RBMemCacheKeys.NORMALCOMMENTKEY + blogId.ToString(),entry=> {
+                var query = _normalCommentRepository.Table.Where(c=> blogId != 0 ? c.BlogId == blogId : c.BlogId != -1 & c.IsDeleted==false)
+                    .OrderByDescending(c => c.CreatedOn).Take(size);
+                var cs = query.ToList();
+                return cs;
+            });
+            return comments;
         }
 
-        public NormalComment Insert(NormalComment normalComment)
+        public NormalComment CreateNormalComment(NormalComment normalComment)
         {
-            throw new NotImplementedException();
+            _normalCommentRepository.Insert(normalComment);
+            _mysqlContext.SaveChanges();
+            return normalComment;
         }
     }
 }

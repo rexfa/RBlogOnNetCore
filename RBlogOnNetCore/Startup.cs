@@ -68,6 +68,7 @@ namespace RBlogOnNetCore
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<INormalCommentService, NormalCommentService>();
             services.AddScoped<IMemCacheService, MemCacheService>();
             services.AddScoped<IAuthorizationHandler, URLRoleAuthorizationHandler>();
         }

@@ -84,7 +84,7 @@ namespace RBlogOnNetCore.Services
             int sort = 100;
             foreach (var newTag in non_existentTagNames)
             {
-                var tag = CreatTag(newTag);
+                var tag = CreateTag(newTag);
                 if (tag.TagName == tagNames[0])
                     sort = 10;
                 else
@@ -116,7 +116,7 @@ namespace RBlogOnNetCore.Services
             _mysqlContext.SaveChanges();
             ClearTagsCache(RBMemCacheKeys.HOTTAGSKEY);
         }
-        public Tag CreatTag(string tagName)
+        public Tag CreateTag(string tagName)
         {
             var tag = GetTagByName(tagName);
             if (tag == null)

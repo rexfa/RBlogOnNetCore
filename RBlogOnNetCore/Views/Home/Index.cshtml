@@ -65,9 +65,10 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
+<div>
     <div class="leftList">
         <div class="tagList">
-            @await Component.InvokeAsync("TagList",0)
+            @await Component.InvokeAsync("TagList", 0)
         </div>
     </div>
     <div class="blogList">
@@ -76,6 +77,10 @@
             @await Component.InvokeAsync("TagList", 1)
         </div>
     </div>
+</div>
+<div class="normalcommment">
+    @await Component.InvokeAsync("CommentList", 0)
+</div>
 
 
 

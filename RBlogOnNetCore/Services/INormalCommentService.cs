@@ -3,9 +3,9 @@ using RBlogOnNetCore.EF.Domain;
 
 namespace RBlogOnNetCore.Services
 {
-    interface INormalCommentService
+    public interface INormalCommentService
     {
-        NormalComment Insert(NormalComment normalComment);
-        IList<NormalComment> GetNormalComments(int BlogId, int size);
+        NormalComment CreateNormalComment(NormalComment normalComment);
+        IList<NormalComment> GetNormalComments(int blogId, int size);
     }
 }

@@ -9,7 +9,7 @@ namespace RBlogOnNetCore.Services
         IList<Tag> GetBlogTags(int blogId);
         void SetTagsToBlog(int blogId, string tags);
         Tag GetTagByName(string tagName);
-        Tag CreatTag(string tagName);
+        Tag CreateTag(string tagName);
         Tag GetTagById(int Id);
         void ClearTagsCache(string key = null);
     }
