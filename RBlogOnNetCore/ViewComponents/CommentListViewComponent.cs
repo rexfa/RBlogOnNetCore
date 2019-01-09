@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using RBlogOnNetCore.Models;
-
 using RBlogOnNetCore.Services;
 
 namespace RBlogOnNetCore.ViewComponents
