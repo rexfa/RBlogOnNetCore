@@ -6,14 +6,53 @@
         @Html.TextBoxFor(m => m.Email,new { @class = "commenttextbox", size = "10", required = "ture", placeholder = "E-mail*" })
         &nbsp
         @Html.TextBoxFor(m => m.HomepageUrl,new { @class = "commenttextbox", size = "12", placeholder = "主页" })
+        @Html.HiddenFor(m=>m.BlogId)
     </div>
     <div class="commentdiv">
         <div>
             @Html.TextAreaFor(m => m.CommentText, new { @class = "commenttextarea", rows = "3", cols = "45", required = "ture", placeholder = "请输入你的评论*" })
         </div>
         <div class="form-group">
-            <input type="submit" value="提交" class="btn btn-default" />
+            <input type="button" value="提交" class="btn btn-default" onclick="submitComment()" />
         </div>
     </div>
 </div>
+<script language="javascript">
+    function submitComment() {
+        var nikename = document.getElementById("Nikename").value;
+        var email = document.getElementById("Email").value;
+        var homepageUrl = document.getElementById("HomepageUrl").value;
+        var commentText = document.getElementById("CommentText").value;
+        var blogId = document.getElementById("BlogId").value;
+        if (nikename.replace(/\s+/g, "").length < 1 || email.replace(/\s+/g, "").length < 1 || commentText.replace(/\s+/g, "").length < 1)
+        {
+            alert("请填写完整，谢谢");
+        }
+        else{
+            $.ajax({
+                //参数
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/Comment/AddApi",//url
+                data: {
+                    "nikename": nikename,
+                    "email": email,
+                    "homepageUrl": homepageUrl,
+                    "commentText": commentText,
+                    "blogId": blogId
+                },
+                success: function (result) {
+                    console.log(result);//打印服务端返回的数据(调试用)
+                    if (result.resultCode != "Succuss") {
+                        alert(result);
+                    }
+                    ;
+                },
+                error: function () {
+                    alert("异常！");
+                }
+            });
+        };
+    }
+</script>
 
