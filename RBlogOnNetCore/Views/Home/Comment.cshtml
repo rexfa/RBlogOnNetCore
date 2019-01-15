@@ -1,3 +1,8 @@
 ﻿@{
     ViewData["Title"] = "评论";
 }
+<form id="index-post" method="post">
+    <div id="comment" class="normalcommment">
+        @await Component.InvokeAsync("CommentList", 0)
+    </div>
+ </form>
