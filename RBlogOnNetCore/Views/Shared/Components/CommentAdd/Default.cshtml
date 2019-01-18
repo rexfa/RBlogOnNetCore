@@ -44,7 +44,7 @@
                 success: function (result) {
                     console.log(result);//打印服务端返回的数据(调试用)
                     if (result.resultCode != "Succuss") {
-                        alert(result);
+                        $("#allBody").html(data);//刷新
                     }
                     ;
                 },
