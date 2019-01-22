@@ -1,4 +1,7 @@
 ﻿@model List<NormalCommentModel>
+<div id="commentAdd">
+    @await Component.InvokeAsync("CommentAdd")
+</div>
 <div id="commentList">
     @foreach (var m in Model)
     {
@@ -12,7 +15,4 @@
         @Html.DisplayFor(modelItem => m.CommentText)
     </div>
     }
-</div>
-<div id="commentAdd">
-    @await Component.InvokeAsync("CommentAdd")
 </div>

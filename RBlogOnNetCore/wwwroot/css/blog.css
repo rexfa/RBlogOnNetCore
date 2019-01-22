@@ -130,8 +130,11 @@
 .imgsrc {
     border: 0px solid black;
 }
-.normalcommment{
-    text-align:center;
+.commentList {
+    margin: 10px;
+}
+.normalcommment {
+    text-align: center;
 }
 .commentdiv {
     margin-bottom:10px;

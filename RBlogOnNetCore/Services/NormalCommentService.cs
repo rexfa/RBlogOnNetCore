@@ -38,6 +38,8 @@ namespace RBlogOnNetCore.Services
         {
             _normalCommentRepository.Insert(normalComment);
             _mysqlContext.SaveChanges();
+            _memoryCache.Remove(RBMemCacheKeys.NORMALCOMMENTKEY + normalComment.BlogId.ToString());
+            _memoryCache.Remove(RBMemCacheKeys.NORMALCOMMENTKEY + "0");
             return normalComment;
         }
     }
