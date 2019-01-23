@@ -71,6 +71,7 @@ namespace RBlogOnNetCore
             services.AddScoped<INormalCommentService, NormalCommentService>();
             services.AddScoped<IMemCacheService, MemCacheService>();
             services.AddScoped<IAuthorizationHandler, URLRoleAuthorizationHandler>();
+            services.AddSingleton<IPostTokenManagerService, PostTokenManagerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

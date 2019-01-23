@@ -11,5 +11,7 @@
         public int BlogId { get; set; }
         public string CreatedOnStr { get; set; }
         public bool IsDeleted { get; set; }
+        public string PostToken { get; set; }
+        public string ServerMsg { get; set; }
     }
 }

@@ -20,10 +20,13 @@ namespace RBlogOnNetCore.Controllers
             this._normalCommentService = normalCommentService;
         }
         // GET: /<controller>/
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
+
+
         public IActionResult AddApi(string nikename,string email,string homepageUrl,string commentText,int blogId)
         {
             if (string.IsNullOrEmpty(nikename) || string.IsNullOrEmpty(email)|| string.IsNullOrEmpty(commentText))

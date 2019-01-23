@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using RBlogOnNetCore.Services;
 
 
 namespace RBlogOnNetCore.Controllers
@@ -22,13 +23,15 @@ namespace RBlogOnNetCore.Controllers
     {
         private readonly MysqlContext _context;
         private readonly IRepository<Customer> _customerRepository;
-        public HomeController(MysqlContext context)
+        private readonly INormalCommentService _normalCommentService;
+        public HomeController(MysqlContext context, INormalCommentService normalCommentService)
         {
             //var options = new DbContextOptions<MysqlContext>();
 
             //this._context = new MysqlContext(options);
             this._context = context;
             this._customerRepository = new EfRepository<Customer>(this._context);
+            this._normalCommentService = normalCommentService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -92,6 +95,23 @@ namespace RBlogOnNetCore.Controllers
 
         public IActionResult Comment()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Comment(NormalCommentModel model)
+        {
+            NormalComment normalComment = new NormalComment()
+            {
+                BlogId = model.BlogId,
+                CreatedOn = DateTime.Now,
+                CommentText = model.CommentText,
+                Email = model.Email,
+                Nikename = model.Nikename,
+                IsDeleted = false,
+                HomepageUrl = string.IsNullOrEmpty(model.HomepageUrl) ? "" : model.HomepageUrl,
+                PreIds = ""
+            };
+            normalComment = _normalCommentService.CreateNormalComment(normalComment);
             return View();
         }
     }

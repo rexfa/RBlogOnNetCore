@@ -7,13 +7,15 @@
         &nbsp
         @Html.TextBoxFor(m => m.HomepageUrl,new { @class = "commenttextbox", size = "12", placeholder = "主页" })
         @Html.HiddenFor(m=>m.BlogId)
+        @Html.HiddenFor(m=>m.PostToken)
     </div>
     <div class="commentdiv">
         <div>
             @Html.TextAreaFor(m => m.CommentText, new { @class = "commenttextarea", rows = "3", cols = "45", required = "ture", placeholder = "请输入你的评论*" })
         </div>
         <div class="form-group">
-            <input type="button" value="提交" class="btn btn-default" onclick="submitComment()" />
+            <!--<input type="button" value="提交" class="btn btn-default"  onclick="submitComment()" />-->
+            <input type="submit" value="提交" class="btn btn-default" />
         </div>
     </div>
 </div>
@@ -33,7 +35,7 @@
                 //参数
                 type: "POST",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: "/Comment/AddApi",//url
+                url: "",//url
                 data: {
                     "nikename": nikename,
                     "email": email,
