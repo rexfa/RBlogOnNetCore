@@ -1,0 +1,33 @@
+﻿@model RBlogOnNetCore.Models.NormalCommentModel
+@{
+    ViewData["Title"] = "评论";
+}
+<form id="index-post" method="post">
+    <div id="comment" class="normalcommment">
+        @await Component.InvokeAsync("CommentList", Model)
+        <div id="Msg" class="commentMsg">
+            请谨慎留言，谢谢！
+            </P>
+            @Html.DisplayFor(m => m.ServerMsg)
+        </div>
+    </div>
+</form>
+<script language="javascript">
+    window.onload = function () {
+        var secondsToSleep = 3;
+        var msgDiv = document.getElementById("Msg")
+        fadeout(msgDiv);
+        setTimeout(function () {            
+            msgDiv.style.display="none";
+        }, secondsToSleep * 1000);
+
+    }
+    function fadeout(element) {
+        var num = 10;
+        var st = setInterval(function () {
+            num--;
+            element.style.opacity = num/10;
+            if (num <= 0) { clearInterval(st); }
+        }, 300);
+    }
+</script>

@@ -97,22 +97,6 @@ namespace RBlogOnNetCore.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult Comment(NormalCommentModel model)
-        {
-            NormalComment normalComment = new NormalComment()
-            {
-                BlogId = model.BlogId,
-                CreatedOn = DateTime.Now,
-                CommentText = model.CommentText,
-                Email = model.Email,
-                Nikename = model.Nikename,
-                IsDeleted = false,
-                HomepageUrl = string.IsNullOrEmpty(model.HomepageUrl) ? "" : model.HomepageUrl,
-                PreIds = ""
-            };
-            normalComment = _normalCommentService.CreateNormalComment(normalComment);
-            return View();
-        }
+
     }
 }

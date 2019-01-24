@@ -15,15 +15,47 @@ namespace RBlogOnNetCore.Controllers
     public class CommentController : Controller
     {
         private readonly INormalCommentService _normalCommentService;
-        public CommentController(INormalCommentService normalCommentService)
+        private readonly IPostTokenManagerService _postTokenManagerService;
+        public CommentController(INormalCommentService normalCommentService, IPostTokenManagerService postTokenManagerService)
         {
             this._normalCommentService = normalCommentService;
+            this._postTokenManagerService = postTokenManagerService;
         }
         // GET: /<controller>/
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            NormalCommentModel model = new NormalCommentModel()
+            {
+                PostToken = _postTokenManagerService.GetNewPostToken(DateTime.Now.ToShortTimeString()),
+                ServerMsg = "谢谢访问"
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Index(NormalCommentModel model)
+        {
+            bool check = _postTokenManagerService.CheckAndDelPostToken(model.PostToken);
+            if (check)
+            {
+                NormalComment normalComment = new NormalComment()
+                {
+                    BlogId = model.BlogId,
+                    CreatedOn = DateTime.Now,
+                    CommentText = model.CommentText,
+                    Email = model.Email,
+                    Nikename = model.Nikename,
+                    IsDeleted = false,
+                    HomepageUrl = string.IsNullOrEmpty(model.HomepageUrl) ? "" : model.HomepageUrl,
+                    PreIds = ""
+                };
+                normalComment = _normalCommentService.CreateNormalComment(normalComment);
+            }
+            model = new NormalCommentModel()
+            {
+                ServerMsg = check?"提交成功":"Token丢失"    
+            };
+            return View(model);
         }
 
 
