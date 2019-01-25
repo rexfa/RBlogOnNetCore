@@ -4,7 +4,8 @@
 }
 <form id="index-post" method="post">
     <div id="comment" class="normalcommment">
-        @await Component.InvokeAsync("CommentList", Model)
+        @await Component.InvokeAsync("CommentList", 0)
+        @Html.HiddenFor(m => m.PostToken)
         <div id="Msg" class="commentMsg">
             请谨慎留言，谢谢！
             </P>

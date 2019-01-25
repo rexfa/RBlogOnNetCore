@@ -131,13 +131,24 @@
     border: 0px solid black;
 }
 .commentList {
-    margin: 10px;
+    margin: 20px;
+    width: 400px;
+    font-family: 'Microsoft YaHei';
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
 }
 .normalcommment {
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
 }
 .commentdiv {
-    margin-bottom:10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
 }
 .commenttextarea{
     
@@ -147,11 +158,20 @@
 }
 .commentMsg {
     background-color: aliceblue;
-    width: 200px;
+    width: 300px;
     height: 80px;
-    position:absolute;
-    z-index:999;
-    left:300px;
-    top:100px;
-    border:inherit 1px black;
+    position: absolute;
+    z-index: 999;
+    left: 300px;
+    top: 100px;
+    border: inherit 1px black;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
+.commentAdd {
+    vertical-align: middle;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }

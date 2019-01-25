@@ -38,11 +38,21 @@ namespace RBlogOnNetCore.Controllers
             bool check = _postTokenManagerService.CheckAndDelPostToken(model.PostToken);
             if (check)
             {
+                if (string.IsNullOrEmpty(model.CommentText)|| string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Nikename))
+                {
+                    NormalCommentModel modelR = new NormalCommentModel()
+                    {
+                        PostToken = model.PostToken,
+                        ServerMsg = "数据不完整"
+                    };
+                    return View(modelR);
+                }
+                string content = _normalCommentService.ReplacementFilter(model.CommentText);
                 NormalComment normalComment = new NormalComment()
                 {
                     BlogId = model.BlogId,
                     CreatedOn = DateTime.Now,
-                    CommentText = model.CommentText,
+                    CommentText = content,
                     Email = model.Email,
                     Nikename = model.Nikename,
                     IsDeleted = false,
@@ -53,7 +63,7 @@ namespace RBlogOnNetCore.Controllers
             }
             model = new NormalCommentModel()
             {
-                ServerMsg = check?"提交成功":"Token丢失"    
+                ServerMsg = check?"提交成功":"Token丢失，提交失败,请尝试点击顶部留言连接"    
             };
             return View(model);
         }
