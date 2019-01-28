@@ -1,10 +1,21 @@
 ﻿@model IEnumerable<RBlogOnNetCore.Models.TagModel>
-<form asp-controller="Blog" asp-action="List" method="get">
 标签选择
-<select name="TagId" id="TagId" onchange='submit();'>
+<select name="TagId" id="TagId">
     @foreach (var item in Model)
     {
         <option value="@item.Id">@item.TagName -- @item.ReferenceNum</option>
     }
 </select>
-</form>
+<script language="javascript">
+    $('#TagId').on('change', function () {
+        var tagid = $('#TagId').val();
+        var data = { TagId: tagid, index: 1 }; // < added test values
+        //obj.target = '_self';
+        //window.location.href = '/Blog/List?TagId=' + tagid + '&index=1';
+        window.open('Blog/List?TagId=' + tagid + '&index=1');
+        //$.post('Blog/List', data, function (responseData) {
+        //callback function
+        //}
+        //);
+    });
+</script>
