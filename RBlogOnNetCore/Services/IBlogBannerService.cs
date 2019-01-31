@@ -15,5 +15,6 @@ namespace RBlogOnNetCore.Services
     {
         IList<BlogBanner> GetBlogBanners();
         BlogBanner AddBlogBanner(BlogBanner blogBanner);
+        BlogBanner UpdateBlogBanner(BlogBanner blogBanner);
     }
 }

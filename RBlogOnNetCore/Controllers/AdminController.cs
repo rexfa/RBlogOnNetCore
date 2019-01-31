@@ -41,6 +41,10 @@ namespace RBlogOnNetCore.Controllers
             }
             return View();
         }
+        public IActionResult BannerManger()
+        {
+            return View();
+        }
 
     }
 }

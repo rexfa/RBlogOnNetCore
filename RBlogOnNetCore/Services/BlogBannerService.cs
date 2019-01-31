@@ -17,6 +17,7 @@ namespace RBlogOnNetCore.Services
         private readonly EfRepository<BlogBanner> _blogBannerRepository;
         private readonly EfRepository<BlogTagMapper> _blogTagMapperRepository;
         private readonly IMemoryCache _memoryCache;
+        private readonly string BBMEMKey = RBMemCacheKeys.BANNERMEMKEY;
 
         public BlogBannerService(MysqlContext mysqlContext, IMemoryCache memoryCache)
         {
@@ -26,12 +27,24 @@ namespace RBlogOnNetCore.Services
         public BlogBanner AddBlogBanner(BlogBanner blogBanner)
         {
             _blogBannerRepository.Insert(blogBanner);
+            _memoryCache.Remove(BBMEMKey);
             return blogBanner;
         }
 
         public IList<BlogBanner> GetBlogBanners()
         {
-            return _blogBannerRepository.Table.Where(bb => bb.RetiredOn < DateTime.Now || bb.Type == 1).OrderBy(bb => bb.SortNum).ToList();
+            List<BlogBanner> bbList = _memoryCache.GetOrCreate(BBMEMKey, entry => {
+                return _blogBannerRepository.Table
+                .Where(bb => bb.RetiredOn < DateTime.Now || bb.Type == 1)
+                .OrderBy(bb => bb.SortNum).ToList();
+            });
+            return bbList;
+        }
+        public BlogBanner UpdateBlogBanner(BlogBanner blogBanner)
+        {
+            _blogBannerRepository.Update(blogBanner);
+            _memoryCache.Remove(BBMEMKey);
+            return blogBanner;
         }
     }
 }
