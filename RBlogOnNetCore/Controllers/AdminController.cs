@@ -17,9 +17,11 @@ namespace RBlogOnNetCore.Controllers
     public class AdminController : Controller
     {
         private readonly IMemCacheService _memCacheService;
-        public AdminController(IMemCacheService memCacheService)
+        private readonly IBlogBannerService _blogBannerService;
+        public AdminController(IMemCacheService memCacheService,IBlogBannerService blogBannerService)
         {
             _memCacheService = memCacheService;
+            _blogBannerService = blogBannerService;
         }
 
         public IActionResult Index()
