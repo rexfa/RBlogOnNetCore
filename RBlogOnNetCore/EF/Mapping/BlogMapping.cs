@@ -8,7 +8,7 @@ namespace RBlogOnNetCore.EF.Mapping
     {
         public void Configure(EntityTypeBuilder<Blog> builder)
         {
-            builder.ToTable("Blog");
+            //builder.ToTable("Blog");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(200);
             builder.Property(x => x.ImageIds).IsRequired().HasMaxLength(300);

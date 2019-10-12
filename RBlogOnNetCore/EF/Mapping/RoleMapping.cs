@@ -8,7 +8,7 @@ namespace RBlogOnNetCore.EF.Mapping
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.ToTable("Role");
+            //builder.ToTable("Role");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.RoleName).IsRequired().HasMaxLength(100);
             builder.Property(x => x.IsDeleted).IsRequired().HasDefaultValue(false);

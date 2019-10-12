@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("BlogBanner")]
     public class BlogBanner:BaseEntity
     {
         public string Title { set; get; }

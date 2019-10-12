@@ -7,7 +7,7 @@ namespace RBlogOnNetCore.EF.Mapping
     {
         public void Configure(EntityTypeBuilder<Authorization> builder)
         {
-            builder.ToTable("Authorization");
+            //builder.ToTable("Authorization");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.URL).IsRequired(required:false).HasMaxLength(500);
             builder.Property(x => x.URLController).IsRequired(required: false).HasMaxLength(100);

@@ -8,7 +8,7 @@ namespace RBlogOnNetCore.EF.Mapping
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-            builder.ToTable("Tag");
+            //builder.ToTable("Tag", schema: "Tag");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.TagName).IsRequired().HasMaxLength(30);
             builder.Property(x => x.ReferenceNum).IsRequired();

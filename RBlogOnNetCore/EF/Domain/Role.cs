@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("Role")]
     public class Role : BaseEntity
     {
         public string RoleName { get; set; }

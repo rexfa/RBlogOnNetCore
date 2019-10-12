@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("Tag")]
     public class Tag : BaseEntity
     {
         public string TagName { get; set; }

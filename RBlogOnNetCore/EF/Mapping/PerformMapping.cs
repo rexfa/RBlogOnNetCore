@@ -8,7 +8,7 @@ namespace RBlogOnNetCore.EF.Mapping
     {
         public void Configure(EntityTypeBuilder<Perform> builder)
         {
-            builder.ToTable("Perform");
+            //builder.ToTable("Perform");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.BigPicture).IsRequired().HasMaxLength(300);
             builder.Property(x => x.SmallPicture).IsRequired().HasMaxLength(300);

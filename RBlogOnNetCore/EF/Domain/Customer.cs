@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("Customer")]
     public class Customer:BaseEntity
     {
         //private ICollection<Picture> _pictures;

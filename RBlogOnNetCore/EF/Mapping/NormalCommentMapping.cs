@@ -8,7 +8,7 @@ namespace RBlogOnNetCore.EF.Mapping
     {
         public void Configure(EntityTypeBuilder<NormalComment> builder)
         {
-            builder.ToTable("NormalComment");
+            //builder.ToTable("NormalComment");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Nikename).IsRequired().HasMaxLength(100);
             builder.Property(x => x.CommentText).IsRequired().HasMaxLength(1000);

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("Blog")]
     public class Blog:BaseEntity
     {
         public string Title { set; get; }

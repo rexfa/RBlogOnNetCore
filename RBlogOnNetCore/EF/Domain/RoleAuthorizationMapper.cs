@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("RoleAuthorizationMapper")]
     public class RoleAuthorizationMapper : BaseEntity
     {
         public int RoleId { get; set; }

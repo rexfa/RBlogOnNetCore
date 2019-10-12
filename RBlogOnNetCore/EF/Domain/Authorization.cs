@@ -1,8 +1,9 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("Authorization")]
     public class Authorization : BaseEntity
     {
         public string URL { get; set; }

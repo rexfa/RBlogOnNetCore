@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace RBlogOnNetCore.EF.Domain
 {
+    [Table("CustomerRoleMapper")]
     public class CustomerRoleMapper : BaseEntity
     {
         public int CustomerId { get; set; }
