@@ -41,7 +41,7 @@ namespace RBlogOnNetCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MysqlContext>(options => options.UseMySQL(Configuration.GetSection("ConnectionStrings")["MysqlConnection"]));
+            services.AddDbContext<MysqlContext>(options => options.UseMySql(Configuration.GetSection("ConnectionStrings")["MysqlConnection"]));
             //services.AddAuthentication(this._authenticationSchemeSetting).AddCookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,options=>

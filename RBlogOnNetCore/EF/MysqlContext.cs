@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-//using Pomelo.EntityFrameworkCore.MySql;
-//using Pomelo.EntityFrameworkCore;
-using MySql.Data.EntityFrameworkCore;
-using MySql.Data.EntityFrameworkCore.Extensions;
+using Pomelo.EntityFrameworkCore.MySql;
+using Pomelo.EntityFrameworkCore;
+//using MySql.Data.EntityFrameworkCore;
+//using MySql.Data.EntityFrameworkCore.Extensions;
 using RBlogOnNetCore.EF.Domain;
 using System.Reflection;
 
