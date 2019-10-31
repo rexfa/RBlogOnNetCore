@@ -18,10 +18,12 @@
     "RBlogOnNetCore": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "http://localhost:8083/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:8081/"
+      "nativeDebugging": false,
+      "applicationUrl": "http://localhost:8083/"
     }
   }
 }
